@@ -1,5 +1,8 @@
 //TODO: 1 die Reihenfolge soll geaendert werden
 //TODO: 2 die Mischung von Bilder
+/*
+ * Nur um zu zeigen, dass ich was ändern kann.
+ */
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
