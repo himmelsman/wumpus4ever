@@ -99,15 +99,15 @@ public class Wumpus_Panel extends javax.swing.JPanel{
 		array = new WumpusBitmapComponent[anzahl][anzahl];
 		gibmirWert = positioniere.feldPositionerung(anzahl);		
 		
-		// /* initialisierung der istarray
+		// /*initialisierung der array
 		// * 1 als Agend in dem Feld
 		// * 2 als Gold in dem Feld
-		// * 3 als Wumpus in dem Feld
-		// * 4 als Pit in dem Feld
+		// * 3 als Glitter in nahligenden Felder
+		// * 4 als Wumpus in dem Feld
 		// * 5 als Geruch in nahligenden Felder
-		// * 6 als Brize in nahligenden Felder 
-		// * 7 als Glitter in nahligenden Felder */
-		//               
+		// * 6 als Pit in dem Feld		
+		// * 7 als Brize ind nahligenden Felder  */
+		
 		for(int i = 0;i<anzahl;i++){
 			//zahlenreihe nach unten am linken rand
 			this.add(new JLabel(""+(i+1)),new GridBagConstraints(0, i+1, 1, 1, 0.01, 0.01, GridBagConstraints.CENTER,GridBagConstraints.BOTH , new Insets(0, 0, 0, 0), 0, 0));
@@ -130,16 +130,17 @@ public class Wumpus_Panel extends javax.swing.JPanel{
 //						System.out.println("Agent x " + (xx + 1) + " y " + (yy +1));
 					} else if (bestimmeDieErsteZahl(gibmirWert[i][j]) == 2) {
 						array[i][j] = new WumpusBitmapComponent(gold2, anzahl, j, i % anzahl);
-					} else if (bestimmeDieErsteZahl(gibmirWert[i][j]) == 3) {
+					}else if (bestimmeDieErsteZahl(gibmirWert[i][j]) == 3) {
+						array[i][j] = new WumpusBitmapComponent(glitter, anzahl, j, i % anzahl);
+					}else if (bestimmeDieErsteZahl(gibmirWert[i][j]) == 4) {
 						array[i][j] = new WumpusBitmapComponent(wumpus2, anzahl, j, i % anzahl);
-					} else if (bestimmeDieErsteZahl(gibmirWert[i][j]) == 4) {
-						array[i][j] = new WumpusBitmapComponent(pit2, anzahl, j, i % anzahl);
 					}else if (bestimmeDieErsteZahl(gibmirWert[i][j]) == 5) {
 						array[i][j] = new WumpusBitmapComponent(smell, anzahl, j, i % anzahl);
 					}else if (bestimmeDieErsteZahl(gibmirWert[i][j]) == 6) {
-						array[i][j] = new WumpusBitmapComponent(breeze, anzahl, j, i % anzahl);
+						array[i][j] = new WumpusBitmapComponent(pit2, anzahl, j, i % anzahl);					
 					}else if (bestimmeDieErsteZahl(gibmirWert[i][j]) == 7) {
-						array[i][j] = new WumpusBitmapComponent(glitter, anzahl, j, i % anzahl);
+						array[i][j] = new WumpusBitmapComponent(breeze, anzahl, j, i % anzahl);
+					
 					}
 					else
 						array[i][j] = new WumpusBitmapComponent(schwarz2, anzahl, j, i % anzahl);
@@ -185,7 +186,7 @@ public class Wumpus_Panel extends javax.swing.JPanel{
 	/*Die Methode bestimmt die erste Zahl.
 	 * d.h. die erste Teil des Zahl.
 	 * z.B. zahl = 234 nach der Methode zahl = 2 
-	 * MAN KANN NOCH SORTIERUNG EINBAUEN!!!!ES SOLL DIE REIHENFOLGE GEAENDERT WERDEN 2 gold,3 glietter,4 wumpus, 5 stensh,6 pit, 7 breeze!!!!!!!!!!
+	 * MAN KANN NOCH SORTIERUNG EINBAUEN!!!!!!!!!!!!!!
 	 * */
 	//TODO: 
 	public int bestimmeDieErsteZahl(int zahl){		

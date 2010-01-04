@@ -46,11 +46,11 @@ public class FeldPositionierung {
 		// /*initialisierung der istarray
 		// * 1 als Agend in dem Feld
 		// * 2 als Gold in dem Feld
-		// * 3 als Wumpus in dem Feld
-		// * 4 als Pit in dem Feld
+		// * 3 als Glitter in nahligenden Felder
+		// * 4 als Wumpus in dem Feld
 		// * 5 als Geruch in nahligenden Felder
-		// * 6 als Brize ind nahligenden Felder 
-		// * 7 als Glitter in nahligenden Felder */
+		// * 6 als Pit in dem Feld		
+		// * 7 als Brize ind nahligenden Felder  */
 		
 		/* als besserer vorschlag waere switsh */
 		int j = 0, x, y;
@@ -87,7 +87,7 @@ public class FeldPositionierung {
 					istarray[x][y] = istarray[x][y] * 10 + value;
 				}
 				/*Ende von dieses Teil*/
-				setUmfeld(x, y, 7, anzahl, istarray);
+				setUmfeld(x, y, 3, anzahl, istarray);
 				// System.out.println("Element: "+element + " Zahl: 2" +
 				// "istarray: " + istarray[element]);
 			} else if (j == 2) {
@@ -96,11 +96,11 @@ public class FeldPositionierung {
 				// System.out.println("x = " + x + " y = " + y);
 				/* Dieses Teil ist dafür da, um die Zahlen nach eine Reiche hinzufuegen*/
 				if(istarray[x][y] == 0){
-					int value = 3;
+					int value = 4;
 					istarray[x][y] = value;
 				}
 				else {
-					int value = 3;
+					int value = 4;
 					istarray[x][y] = istarray[x][y] * 10 + value;
 				}
 				/*Ende von dieses Teil*/
@@ -115,15 +115,15 @@ public class FeldPositionierung {
 				// System.out.println("x = " + x + " y = " + y);
 				/* Dieses Teil ist dafür da, um die Zahlen nach eine Reiche hinzufuegen*/
 				if(istarray[x][y] == 0){
-					int value = 4;
+					int value = 6;
 					istarray[x][y] = value;
 				}
 				else {
-					int value = 4;
+					int value = 6;
 					istarray[x][y] = istarray[x][y] * 10 + value;
 				}
 				/*Ende von dieses Teil*/
-				setUmfeld(x, y, 6, anzahl, istarray);
+				setUmfeld(x, y, 7, anzahl, istarray);
 				// System.out.println("Element: "+element + " Zahl: 4" +
 				// "istarray: " + istarray[element]);
 			}
