@@ -1,6 +1,4 @@
-//TODO: 1 die Reihenfolge ist geaendert wurde, leider wir haben nicht gedacht ueber mehrere pits...
-// z.B. die erste pit erstellt und direkt die brisse auch, aber beim erstellung der zweite pits wo schon eine brize gibt...
-//TODO: 2 die Mischung von Bilder
+//TODO: die Mischung von Bilder
 /*
  * Nur um zu zeigen, dass ich was ändern kann.
  */

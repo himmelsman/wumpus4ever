@@ -143,25 +143,35 @@ public class FeldPositionierung {
 			if (istarray[x - 1][y] == 0)
 				istarray[x - 1][y] = value;		
 			else
-				istarray[x - 1][y] = istarray[x - 1][y] * 10 + value;
+				istarray[x - 1][y] = checkLast(istarray[x - 1][y],value);
 		if (x != anzahl - 1) {
 			if (istarray[x + 1][y] == 0)
 				istarray[x + 1][y] = value;
 			else
-				istarray[x + 1][y] = istarray[x + 1][y] * 10 + value; 
+				istarray[x + 1][y] = checkLast(istarray[x + 1][y],value); 
 		}
 		if (y != 0){
 			if (istarray[x][y - 1] == 0)
 				istarray[x][y - 1] = value;
 			else
-				istarray[x][y - 1] = istarray[x][y - 1] * 10 + value;
+				istarray[x][y - 1] = checkLast(istarray[x][y - 1],value);
 		}
 		if (y != anzahl - 1){
 			if (istarray[x][y + 1] == 0)
 				istarray[x][y + 1] = value;
 			else
-				istarray[x][y + 1] = istarray[x][y + 1] * 10 + value;
+				istarray[x][y + 1] = checkLast(istarray[x][y + 1],value);
 		}
+	}
+	
+	private int checkLast(int value, int newDigit){
+		int oldDigit = value%10;
+		if(oldDigit==newDigit){
+			return value;
+		}else if(oldDigit>newDigit){
+			return checkLast(value/10, newDigit) * 10 + oldDigit;
+		}
+		return value * 10 + newDigit;
 	}
 //	public static void main(String[] args) {
 //		FeldPositionierung fp = new FeldPositionierung();
