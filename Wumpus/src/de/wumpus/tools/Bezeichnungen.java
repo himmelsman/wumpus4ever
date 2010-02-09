@@ -9,7 +9,7 @@ public class Bezeichnungen {
 	 * 5 als Geruch in nahligenden Felder
 	 * 6 als Pit in dem Feld		
 	 * 7 als Brize ind nahligenden Felder  
-	 * 9 als besuchtes Feld*/
+	 * 9 als besuchtes Feld(also graues Feld*/
 	
 	public static final String AGENT = "AGENT";
 	public static final String GOLD = "GOLD";

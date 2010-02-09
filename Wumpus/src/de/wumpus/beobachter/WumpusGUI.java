@@ -58,7 +58,7 @@ public class WumpusGUI extends javax.swing.JFrame implements Observer {
                 thisLayout.columnWeights = new double[] { 0.1, 0.1, 0.1, 0.1, 0.1 };
                 thisLayout.columnWidths = new int[] { 7, 7, 7, 7, 7 };
                 getContentPane().setLayout(thisLayout);
-                /*ablauf layout*/
+                /*Ablauflayout*/
                 {
                         ablaufScrollPanel = new JScrollPane();
                         getContentPane().add(ablaufScrollPanel, new GridBagConstraints(0, 0, 1, 6, 0.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
@@ -78,7 +78,7 @@ public class WumpusGUI extends javax.swing.JFrame implements Observer {
                 	//WumpusPanel
 					this.add(wumpusPanel, new GridBagConstraints(1, 0, 3, 6, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 				}
-                {       /*statistik layout*/
+                {       /*Statistiklayout*/
                         statistikScrollPanel = new JScrollPane();
                         getContentPane().add(statistikScrollPanel, new GridBagConstraints(4, 0, 1, 6, 0.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
                         statistikScrollPanel.setPreferredSize(new java.awt.Dimension(50, 3));
@@ -91,7 +91,7 @@ public class WumpusGUI extends javax.swing.JFrame implements Observer {
                         statistikTextArea.setSize(160, 180);
                         }
                 }
-                /*menu Initialisierung*/
+                /*Menu Initialisierung*/
                 {
                         jMenuBar = new JMenuBar();
                         setJMenuBar(jMenuBar);
@@ -148,6 +148,8 @@ public class WumpusGUI extends javax.swing.JFrame implements Observer {
 		}
 		this.addKeyListener(new KeyListener() {
 
+			/*Realisierung der Tastarur, ganauer gesagt wird die Weltgrosse ueber 
+			 * Tastatur eingegeben, durch Alt+1 usw.*/
 			@Override
 			public void keyPressed(KeyEvent arg0) {
 				if (arg0.getKeyCode() == KeyEvent.VK_ALT) {

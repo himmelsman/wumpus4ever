@@ -13,24 +13,11 @@ public class FeldPositionieren {
 	}
 
 	public int[][] feldPositionierung(int anzahl) {
-		System.out.println("Wir sind in Feld Positionierung und Anzahl ist " + anzahl);// mackaken
-																						// es
-																						// wird
-																						// schonwieder
-																						// 2
-																						// mal
-																						// aufgerufen!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		System.out.println("Wir sind in Feld Positionierung und Anzahl ist " + anzahl);// mackaken es wird schonwieder 2 mal aufgerufen!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 		/*
-		 * initialisierung der istarray 1 als Agend in dem Feld 2 als Gold in
-		 * dem Feld 3 als Wumpus in dem Feld 4 als Pit in dem Feld 5 als Geruch
-		 * in nahligenden Felder 6 als Brize ind nahligenden Felder
-		 */
-
-		int[][] istarray = new int[anzahl][anzahl];/*
-													 * Initialisierung der
-													 * grosse des Arrays
-													 */
+		 * initialisierung der istarray durch 0 */
+		int[][] istarray = new int[anzahl][anzahl];
 		for (int i = 0; i < anzahl; i++) {
 			for (int j = 0; j < anzahl; j++) {
 				istarray[i][j] = 0;
@@ -51,14 +38,14 @@ public class FeldPositionieren {
 			// sie noch nicht
 			// besteht
 		}
-		// /*initialisierung der istarray
-		// * 1 als Agend in dem Feld
-		// * 2 als Gold in dem Feld
-		// * 3 als Glitter in nahligenden Felder
-		// * 4 als Wumpus in dem Feld
-		// * 5 als Geruch in nahligenden Felder
-		// * 6 als Pit in dem Feld
-		// * 7 als Brize ind nahligenden Felder */
+		 /*initialisierung der istarray
+		 * 1 als Agend in dem Feld
+		 * 2 als Gold in dem Feld
+		 * 3 als Glitter in nahligenden Felder
+		 * 4 als Wumpus in dem Feld
+		 * 5 als Geruch in nahligenden Felder
+		 * 6 als Pit in dem Feld
+		 * 7 als Brize ind nahligenden Felder */
 
 		/* als besserer vorschlag waere switsh */
 		int j = 0, x, y;
@@ -69,10 +56,7 @@ public class FeldPositionieren {
 				x = element % anzahl;
 				y = (element - 1) / anzahl;
 				// System.out.println("x = " + x + " y = " + y);
-				/*
-				 * Dieses Teil ist dafür da, um die Zahlen nach eine Reiche
-				 * hinzufuegen
-				 */
+				/*Dieses Teil ist dafür da, um die Zahlen nach eine Reiche hinzufuegen*/
 				if (istarray[x][y] == 0) {
 					int value = 1;
 					istarray[x][y] = value;
@@ -182,6 +166,8 @@ public class FeldPositionieren {
 		}
 	}
 
+	/*Die Methode prueft was fuer ein Zahl am Ende ist. 
+	 *z.B. 123 diese Methode gibt als Rueckgabe 3*/
 	public int checkLast(int value, int newDigit) {
 		int oldDigit = value % 10;
 		if (oldDigit == newDigit) {
@@ -191,7 +177,10 @@ public class FeldPositionieren {
 		}
 		return value * 10 + newDigit;
 	}
-
+	
+	//TODO: die Name diese Methode soll geaendert werden.
+	/*Diese Methode schneidet den ersten Element(Zahl des Agentes) einer Zahl
+	 *z.B. 0123 nach der Methode 123 */
 	public int checkFirst(int zahl) {
 		int zaehler = 0;
 		int original = zahl;
@@ -207,10 +196,11 @@ public class FeldPositionieren {
 			zahltest = zahltest * 10;
 		}
 		// if(zahl < 0)zahl = 9; zahl == 0; zahl =9;
-
 		return (original - zahltest) <= 0 ? 9 : original - zahltest;
 	}
-
+	//TODO: die Name diese Methode soll geaendert werden.
+	/*Diese Methode schneidet den ersten Element(Zahl des Agentes) einer Zahl
+	 *z.B. 0123 nach der Methode 123 */
 	public int checkFirst(int zahl, int first) {
 		int zaehler = 0;
 		int original = zahl;
@@ -224,11 +214,12 @@ public class FeldPositionieren {
 		for (int i = 0; i < zaehler; i++) {
 			first = first * 10;
 		}
-		// if(zahl < 0)zahl = 9; zahl == 0; zahl =9;
-
+		// if(zahl < 0)zahl = 9; und if(zahl == 0) zahl =9;
 		return (original - first) <= 0 ? 9 : original - first;
 	}
-
+	
+	/*Die Methode bestimmt die erste Zahl, die in der Arrayposition abgespeichert ist.
+	 * d.h. die erste Teil der Zahl. z.B. Zahl = 234 nach der Methode Zahl = 2*/
 	public int bestimmeDieErsteZahl(int zahl) {
 		do {
 			if (zahl < 10)
@@ -239,6 +230,7 @@ public class FeldPositionieren {
 		return zahl;
 	}
 
+	/*Diese Methode uebergibt die einzelne/separate Wahrnechnungen als ein Array an*/
 	public int[] separateWahrnehmungen(int zahl) {
 		int zahlTemp = zahl;
 		int zaehler = 0;

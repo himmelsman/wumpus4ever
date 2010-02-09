@@ -5,28 +5,14 @@ import java.util.Observable;
 import de.wumpus.tools.*;
 
 public class WumpusWelt extends Observable {
-
-	// private int[][] feld = FeldPositionieren.feldPositionerung(0);
-	// public void counter(int period){
-	// for(;period>=0; period--){
-	// setChanged();
-	// notifyObservers(new Integer(period));
-	// try{
-	// Thread.sleep(100);
-	// }catch(InterruptedException e) {
-	// System.out.println("Sleep interrupted");
-	// }
-	// }
-	// }
-
+	
 	FeldPositionieren positioniere = new FeldPositionieren();
 	public int anzahl = 0;
 	int agent_y = 0, agent_x = 0;
 
 	public int[][] weltArray;
-
-	// TODO Es soll die grosse des weltes bekannt werden
-	/* die Methode gibt die anzahl des Feldes(icon) und initialisierung */
+	
+	/* die Methode gibt die Anzahl des Feldes(icon) und initialisiert die WumpusWelt */
 	public void grossedesFeldes(int size) {
 		anzahl = size;
 		System.out.println("anzahl in Welt " + anzahl);
@@ -48,7 +34,7 @@ public class WumpusWelt extends Observable {
 
 		}
 	}
-
+	/*Diese Methode bestimm die Position des Agentes*/
 	public void positiondesAgentes() {
 		setChanged();
 		String information = "AGENT";
@@ -60,19 +46,10 @@ public class WumpusWelt extends Observable {
 		}
 	}
 
-	// TODO wovon die welt besteht(was ueberall plaziert)
-	// TODO d.h. hier wird die welt sich selbs erstellen und an beobachter
-	// abgeschickt
-	// TODO (aufruf array = new WumpusBitmapComponent[anzahl][anzahl];
-	// TODO gibmirWert = positioniere.feldPositionerung(anzahl);
 	// TODO die geschwindigkeit soll uebergeben werden
-
-	/*
-	 * Die Methode bestimmt die erste Zahl. d.h. die erste Teil des Zahl. z.B.
-	 * zahl = 234 nach der Methode zahl = 2 MAN KANN NOCH SORTIERUNG
-	 * EINBAUEN!!!!!!!!!!!!!!
-	 */
-	// TODO:
+	// TODO: Sortierung	
+	/*Die Methode bestimmt die erste Zahl, die in der Arrayposition abgespeichert ist.
+	 * d.h. die erste Teil der Zahl. z.B. Zahl = 234 nach der Methode Zahl = 2*/
 	public int bestimmeDieErsteZahl(int zahl) {
 		do {
 			if (zahl < 10)
@@ -87,7 +64,8 @@ public class WumpusWelt extends Observable {
 	// setChanged();
 	// notifyObservers(new NachrichtenObjekt(x,y,wahrnehmung, information));
 	// }
-
+	
+	/*Durch diese Methode wird die grosse des WumpusWelt festgelegt*/
 	public void neuesSpiel(int weltGroesse) {
 		grossedesFeldes(weltGroesse);
 		System.out.println("Teste vor notifyObservers");
@@ -95,9 +73,10 @@ public class WumpusWelt extends Observable {
 		notifyObservers(new NachrichtenObjekt(0, 0, null, Bezeichnungen.REPAINT));
 		System.out.println("Teste nach notifyObservers");
 	}
-
+	/*Die Methode bewegt den Agen in der WumpusWelt und sendet an der Welt neu Position des Agentes*/
 	public void bewegeAgent(String richtung) {
 		int x_r = 0, y_r = 0;
+		/*Abfrage nach der Richtung */
 		if (richtung.equals(Bezeichnungen.RECHTS)) {
 			x_r = 1;
 			y_r = 0;
@@ -111,6 +90,9 @@ public class WumpusWelt extends Observable {
 			x_r = 0;
 			y_r = 1;
 		}
+		/*Es werden zuerts die Abfragungen gemacht, d.h. wenn der Agent in der 0.0 ist,
+		 * muss er nicht in Auserbereich tretten(in diesem Fall nur rechts oder nach unten).
+		 * */
 		if (agent_y + y_r >= 0 && agent_x + x_r >= 0 && agent_y + y_r < anzahl && agent_x + x_r < anzahl) {
 //			System.out.println("vor Bewegung:" + "X" + agent_x + " Y" + agent_y + " XR" + x_r + " YR" + y_r + " FELD" + weltArray[agent_y][agent_x]);
 			if (weltArray != null) {
@@ -130,6 +112,17 @@ public class WumpusWelt extends Observable {
 		}
 	}
 	
+	/*die Methode sendet die separage Wahrnehmungen an den Agent, sie ist als ein Array realisiert
+	 * initialisierung der array
+	 * 1 als Agend in dem Feld
+	 * 2 als Gold in dem Feld
+	 * 3 als Glitter in nahligenden Felder
+	 * 4 als Wumpus in dem Feld
+	 * 5 als Geruch in nahligenden Felder
+	 * 6 als Pit in dem Feld		
+	 * 7 als Brize ind nahligenden Felder
+	 * 9 als graues Feld als Besucht bezeichnet  */
+		
 	public void sendeWahrnehmungen(int zahl){
 		int[] array = positioniere.separateWahrnehmungen(zahl);
 		setChanged();
