@@ -53,6 +53,7 @@ public class WumpusGUI extends JFrame implements Observer {
 	private JLabel jLabel6;
 	GridBagLayout thisLayout = new GridBagLayout();
 	private boolean ALTPRESSED = false;
+	
 
 	public WumpusGUI(Wumpus_Panel panel, WumpusWelt _wump) {
 		wumpusPanel = panel;

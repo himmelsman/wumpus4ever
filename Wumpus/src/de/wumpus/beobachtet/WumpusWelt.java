@@ -29,7 +29,7 @@ public class WumpusWelt extends Observable {
 					notifyObservers(new NachrichtenObjekt(i, j, new int[] { weltArray[i][j] }, Bezeichnungen.AGENT));
 					agent_y = i;
 					agent_x = j;
-					System.out.println("X" + agent_x + " Y" + agent_y);
+					System.out.println("X " + agent_x + " Y " + agent_y);
 				}
 				// System.out.println("Position " + i + "," + j + " Wert " +
 				// weltArray[i][j]);
@@ -124,6 +124,8 @@ public class WumpusWelt extends Observable {
 				int[] wahrnemungen = positioniere.separateWahrnehmungen(weltArray[agent_y][agent_x]);
 				setChanged();
 				notifyObservers(new NachrichtenObjekt(agent_x, agent_y, wahrnemungen, Bezeichnungen.WAHRNEHMUNGEN));
+				setChanged();
+				notifyObservers(new NachrichtenObjekt(agent_x, agent_y, wahrnemungen, Bezeichnungen.AGENT));
 			}
 		}
 	}

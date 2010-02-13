@@ -1,9 +1,11 @@
 package de.wumpus.beobachter;
  
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Toolkit;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -23,6 +25,9 @@ public class Wumpus_Panel extends JPanel{
 
 	private int anzahl;
 	WumpusBitmapComponent[][] array;
+	
+	Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+	private static int panelGrosse;
 
 	String schwarz2 = "Black.JPG";
 	String grau = "Gray.JPG";
@@ -85,17 +90,17 @@ public class Wumpus_Panel extends JPanel{
 		}
 	}
 
+	
 	private void initGUI() {
 //		int x = 1, y = 1;
 		this.removeAll();
 		GridBagLayout thisLayout = new GridBagLayout();
 		//TODO: statt gridbaglayout eine alternative suchen, welches quadratische felder ermöglicht
 		this.setLayout(thisLayout);
-		this.setPreferredSize(new java.awt.Dimension(100, 100));
+		this.setPreferredSize(new java.awt.Dimension(panelGrosse, panelGrosse));
 		this.setDebugGraphicsOptions(DebugGraphics.BUFFERED_OPTION);
-		this.setAutoscrolls(true);
-		array = new WumpusBitmapComponent[anzahl][anzahl];
-		
+		this.setAutoscrolls(true);		
+		array = new WumpusBitmapComponent[anzahl][anzahl];		
 		System.out.println("Anzahl init= "+ anzahl);
 		zeichnen();
 		this.revalidate();
