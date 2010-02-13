@@ -61,7 +61,7 @@ public class HelpScreen extends JFrame {
 "zu Pits sind “breezy”\n" +
 "- Glitzern bei Gold im gleichen Quadrat\n" +
 "- Pfeilschuss tötet den Wumpus bei direktem Gegenüberstehen\n" +
-"- Nur ein Pfeil steht zur Verfügung";
+"- Nur ein Pfeil steht zur Verfügung"; 
 	
 	
 	

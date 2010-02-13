@@ -40,7 +40,7 @@ public class AboutScreen extends JFrame {
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}
-	
+	 
 	private void initGUI() {
 		try {
 			{

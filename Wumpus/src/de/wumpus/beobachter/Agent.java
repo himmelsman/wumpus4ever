@@ -1,5 +1,5 @@
 package de.wumpus.beobachter;
-
+ 
 import java.util.Observable;
 import java.util.Observer;
 

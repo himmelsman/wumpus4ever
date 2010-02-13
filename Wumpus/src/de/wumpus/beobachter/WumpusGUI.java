@@ -205,7 +205,7 @@ public class WumpusGUI extends JFrame implements Observer {
 				}else if (arg0.getKeyCode() == KeyEvent.VK_A && ALTPRESSED) {
 					System.out.println("ALT + A");
 					setEnabled(false);
-					new AboutScreen(guiFrame);
+					new AboutScreen(guiFrame); 
 				}
 				// Abfage der Tastaturpfeile
 				if (arg0.getKeyCode() == KeyEvent.VK_LEFT) {

@@ -17,7 +17,7 @@ public class WumpusFieldImage extends Image  {
 	private int y;
 	private int width;
 	private int height;
-	
+	 
 	
 	/*durch überschreiben des Konstuktors, kann man die koordinaten zeigen(reinschreiben*/
 

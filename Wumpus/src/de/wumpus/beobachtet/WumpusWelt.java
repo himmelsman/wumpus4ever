@@ -105,7 +105,7 @@ public class WumpusWelt extends Observable {
 		 * Es werden zuerts die Abfragungen gemacht, d.h. wenn der Agent in der
 		 * 0.0 ist, muss er nicht in Auserbereich tretten(in diesem Fall nur
 		 * rechts oder nach unten).
-		 */
+		 */ 
 		if (agent_y + y_r >= 0 && agent_x + x_r >= 0 && agent_y + y_r < anzahl && agent_x + x_r < anzahl) {
 			//System.out.println("vor Bewegung:" + "X" + agent_x + " Y" + agent_y + " XR" + x_r + " YR" + y_r + " FELD" + weltArray[agent_y][agent_x]);
 			if (weltArray != null) {

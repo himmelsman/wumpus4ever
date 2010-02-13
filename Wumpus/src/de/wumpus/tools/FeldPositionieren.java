@@ -11,7 +11,7 @@ public class FeldPositionieren {
 		Zufallszahl = (int) ((Math.random()) * _anzahl + 1);
 		return Zufallszahl;
 	}
-
+ 
 	public int[][] feldPositionierung(int anzahl) {
 		System.out.println("Wir sind in Feld Positionierung und Anzahl ist " + anzahl);// mackaken es wird schonwieder 2 mal aufgerufen!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 

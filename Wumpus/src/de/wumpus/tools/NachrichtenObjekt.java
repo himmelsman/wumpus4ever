@@ -1,5 +1,5 @@
 package de.wumpus.tools;
-
+ 
 public class NachrichtenObjekt {
 	
 	public int x,y;

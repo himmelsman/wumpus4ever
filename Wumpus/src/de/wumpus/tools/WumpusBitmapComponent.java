@@ -2,7 +2,7 @@ package de.wumpus.tools;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+ 
 
 public class WumpusBitmapComponent extends Canvas{
    private Image img;

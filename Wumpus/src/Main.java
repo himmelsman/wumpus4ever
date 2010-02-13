@@ -5,7 +5,7 @@ import de.wumpus.beobachter.WumpusGUI;
 import de.wumpus.beobachter.Wumpus_Panel;
 import de.wumpus.beobachtet.WumpusWelt;
 
-
+ 
 
 class Main{
 	public static void main(String args[]){
