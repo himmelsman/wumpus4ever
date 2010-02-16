@@ -170,8 +170,9 @@ public class Wumpus_Panel extends JPanel{
 		}
 		return schwarz2;
 	}
-	
-	public void wechseleZweiBilder(int alteY, int alteX, int neuX, int neuY){
+	//TODO: die Fokus geht verloren. d.h. wenn man den agent steuert, dann funktioniert nicht alt+1 usw...
+	//TODO: jetzt brauch man nich die uebergabeparameter
+	public void wechseleZweiBilder(/*int alteY, int alteX, int neuX, int neuY*/){
 //		System.out.println("Altes");
 //		System.out.println("ImageX: "+ array[alteX][alteY].getX() + " ImageY: " + array[alteX][alteY].getY() + " Filename: " + array[alteX][alteY].getFileName());
 //		
@@ -192,6 +193,8 @@ public class Wumpus_Panel extends JPanel{
 		removeAll();
 		zeichnen();
 		revalidate();
+//		validate();
+		setVisible (true);
 		repaint();
 	}
 

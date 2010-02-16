@@ -80,11 +80,14 @@ public class WumpusBitmapComponent extends Canvas{
 	   return grosse;
    }
    /*Diese Methode achtet darauf, dass die Bilder quadratisch sind*/
-   public void setImageSize(int sizeW, int sizeH){
-	   if (sizeW < sizeH)
-			img = img.getScaledInstance(sizeW, sizeW, Image.SCALE_DEFAULT);
-	   if (sizeW > sizeH)
-			img = img.getScaledInstance(sizeH, sizeH, Image.SCALE_DEFAULT);
+//   public void setImageSize(int sizeW, int sizeH){
+//	   if (sizeW < sizeH)
+//			img = img.getScaledInstance(sizeW, sizeW, Image.SCALE_DEFAULT);
+//	   if (sizeW > sizeH)
+//			img = img.getScaledInstance(sizeH, sizeH, Image.SCALE_DEFAULT);
+//   }
+   public void setImageSize(int sizeW, int sizeH){	   
+			img = img.getScaledInstance(sizeW, sizeW, Image.SCALE_DEFAULT);	   
    }
 
    public String getFileName(){

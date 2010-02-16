@@ -25,8 +25,8 @@ public class WumpusWelt extends Observable {
 			for (int j = 0; j < anzahl; j++) {
 				// weltArray[i][j] = 0;
 				if (bestimmeDieErsteZahl(weltArray[i][j]) == 1) {
-					setChanged();
-					notifyObservers(new NachrichtenObjekt(i, j, new int[] { weltArray[i][j] }, Bezeichnungen.AGENT));
+//					setChanged();
+//					notifyObservers(new NachrichtenObjekt(i, j, new int[] { weltArray[i][j] }, Bezeichnungen.AGENT));
 					agent_y = i;
 					agent_x = j;
 					System.out.println("X " + agent_x + " Y " + agent_y);

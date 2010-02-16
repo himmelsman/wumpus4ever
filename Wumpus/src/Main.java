@@ -14,7 +14,7 @@ class Main{
 		WumpusGUI observing = new WumpusGUI(panel, observed);//Beobachter
 		observing.setLocationRelativeTo(null);
 		observing.setVisible(true);
-		Agent agent = new Agent();//Beobachter
+		Agent agent = new Agent(observed);//Beobachter
 		
 		observed.addObserver(observing);//add Beobachter WumpusGUI 
 		

@@ -26,6 +26,7 @@ import javax.swing.WindowConstants;
 
 import de.wumpus.beobachtet.WumpusWelt;
 import de.wumpus.tools.AboutScreen;
+import de.wumpus.tools.Benutzerdefiniertes_Feld;
 import de.wumpus.tools.Bezeichnungen;
 import de.wumpus.tools.HelpScreen;
 import de.wumpus.tools.NachrichtenObjekt;
@@ -34,6 +35,7 @@ public class WumpusGUI extends JFrame implements Observer {
 	private JFrame guiFrame;
 	private JMenuBar jMenuBar;
 	private JSeparator jSeparator1;
+	private JSeparator jSeparator2;
 	private JMenu fileMenu;
 	private JMenu optionen;
 	private JTextArea jTextArea1;
@@ -53,6 +55,9 @@ public class WumpusGUI extends JFrame implements Observer {
 	private JLabel jLabel6;
 	GridBagLayout thisLayout = new GridBagLayout();
 	private boolean ALTPRESSED = false;
+	private int agentSchrittZahler = 0;
+	private int gesamtPunktenAnzahl = 10000;
+	private int einSchritt_10 = 10;
 	
 
 	public WumpusGUI(Wumpus_Panel panel, WumpusWelt _wump) {
@@ -109,13 +114,13 @@ public class WumpusGUI extends JFrame implements Observer {
 						statistikLayout.columnWeights = new double[] { 0.01, 0.1, 0.1, 0.01};
 						statistikLayout.columnWidths = new int[] { 7, 7, 7, 7 };
 						statistikTextArea.setLayout(statistikLayout);
-						//TODO: Punkte und Schritte mit Zähler versehen, damit bei bewegung verwendet werden kann.
+						//TODO: Punkte und Schritte mit Zähler versehen, damit bei bewegung verwendet werden kann.ES KANN SEIN DASS DIE AUF DASS SELBE POSITION SIND
 						punkteLabel = new JLabel("Punkte");
-						punkteAnzahlLabel = new JLabel("10000");
+						punkteAnzahlLabel = new JLabel(String.valueOf(gesamtPunktenAnzahl));
 						statistikTextArea.add(punkteLabel, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 						statistikTextArea.add(punkteAnzahlLabel, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0, GridBagConstraints.NORTHEAST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 						schritteLabel = new JLabel("Schritte");
-						schritteAnzahlLabel = new JLabel("0");
+						schritteAnzahlLabel = new JLabel(String.valueOf(agentSchrittZahler));
 						statistikTextArea.add(schritteLabel, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 						statistikTextArea.add(schritteAnzahlLabel, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0, GridBagConstraints.NORTHEAST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 						
@@ -143,7 +148,14 @@ public class WumpusGUI extends JFrame implements Observer {
 
 							jSeparator1 = new JSeparator(); /* Trennlinie */
 							fileMenu.add(jSeparator1);
+							
+							JMenuItem feld4 = new JMenuItem("Def. Feld (Alt+D)");
+							fileMenu.add(feld3);
+							// feld3.addActionListener(this);
 
+							jSeparator2 = new JSeparator(); /* Trennlinie */
+							fileMenu.add(jSeparator2);
+							
 							JMenuItem exit = new JMenuItem("Exit (Alt+x)");
 							fileMenu.add(exit);
 							// exit.addKeyListener(this);
@@ -191,12 +203,26 @@ public class WumpusGUI extends JFrame implements Observer {
 				}
 				if (arg0.getKeyCode() == KeyEvent.VK_1 && ALTPRESSED) {
 					wump.neuesSpiel(4);
+					gesamtPunktenAnzahl = 10000;
+					punkteAnzahlLabel.setText(gesamtPunktenAnzahl + "");
+					agentSchrittZahler = 0;
+					schritteAnzahlLabel.setText(agentSchrittZahler + "");
 					ablaufTextArea.setText("");
 				} else if (arg0.getKeyCode() == KeyEvent.VK_2 && ALTPRESSED) {
 					wump.neuesSpiel(8);
+					gesamtPunktenAnzahl = 10000;
+					punkteAnzahlLabel.setText(gesamtPunktenAnzahl + "");
+					agentSchrittZahler = 0;
+					schritteAnzahlLabel.setText(agentSchrittZahler + "");
 					ablaufTextArea.setText("");
 				} else if (arg0.getKeyCode() == KeyEvent.VK_3 && ALTPRESSED) {
 					// wump.neuesSpiel(16);
+//					ablaufTextArea.setText("");
+				} else if (arg0.getKeyCode() == KeyEvent.VK_D && ALTPRESSED) {
+					setEnabled(false);
+					new Benutzerdefiniertes_Feld(guiFrame);
+					// wump.neuesSpiel(16);
+//					ablaufTextArea.setText("");
 				} else if (arg0.getKeyCode() == KeyEvent.VK_X && ALTPRESSED) {
 					System.exit(0);
 				} else if (arg0.getKeyCode() == KeyEvent.VK_H && ALTPRESSED) {
@@ -264,10 +290,17 @@ public class WumpusGUI extends JFrame implements Observer {
 			wumpusPanel.setzeAnzahl();
 		} else if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.BEWEGE)) {
 			System.out.println(" " + Bezeichnungen.BEWEGE);
-			wumpusPanel.wechseleZweiBilder(((NachrichtenObjekt) arg).y, ((NachrichtenObjekt) arg).x, ((NachrichtenObjekt) arg).wahrnehmung[0], ((NachrichtenObjekt) arg).wahrnehmung[1]);
+			//TODO: jetzt brauch man nicht die uebergabeparameter
+			wumpusPanel.wechseleZweiBilder(/*((NachrichtenObjekt) arg).y, ((NachrichtenObjekt) arg).x, ((NachrichtenObjekt) arg).wahrnehmung[0], ((NachrichtenObjekt) arg).wahrnehmung[1]*/);
+			/*es werden die Schritte gezahlt und die verbrauchte Punkte(-10 pro Schritt) abgezogen*/
+			agentSchrittZahler++;
+			gesamtPunktenAnzahl = gesamtPunktenAnzahl - einSchritt_10;
+//			schritteAnzahlLabel.setText(Integer.toString(agentSchrittZahler));//alternative
+			schritteAnzahlLabel.setText(String.valueOf(agentSchrittZahler));
+			punkteAnzahlLabel.setText(String.valueOf(gesamtPunktenAnzahl));
 		}
 		if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.POSITION)) {
-			ablaufTextArea.setText(ablaufTextArea.getText() + "\n" + "Position (" + (((NachrichtenObjekt) arg).x + 1) + "|" + (((NachrichtenObjekt) arg).y + 1) + ")");
+			ablaufTextArea.setText(ablaufTextArea.getText() + "\n" + "Position (" + (((NachrichtenObjekt) arg).x + 1) + "|" + (((NachrichtenObjekt) arg).y + 1) + ")");			
 		}
 		/*
 		 * 1 als Agend in dem Feld 2 als Gold in dem Feld 3 als Glitter in nahligenden Felder 4 als Wumpus in dem Feld 5 als Geruch in nahligenden Felder 6 als Pit in dem Feld 7 als Brize ind nahligenden Felder 9 als graues Feld als Besucht
@@ -323,8 +356,7 @@ public class WumpusGUI extends JFrame implements Observer {
 	}
 }
 // TODO: Ablauf muss auch bei neuem Spiel resetet werden
-// TODO: Statistik fehlt
-// TODO: Punkte System, bewegung zieht von Guthaben Punkte ab
+// TODO: Punkte System, bewegung zieht von Guthaben Punkte ab(bei neu spiel muss resetet werden)
 // TODO: Schwarze Felder sind noch direkt als besuchte Felder, sollten aber nicht
 // TODO: Ereignisabfrage muss Spielbeinflussen. zB. Agent ist auf Gold, Spiel gewonnen, Agent ist auf Fallgrube, Spiel verloren
 // TODO: About/Help Menu schreiben, bzw Menu fertig integrieren
