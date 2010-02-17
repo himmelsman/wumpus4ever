@@ -25,10 +25,10 @@ public class WumpusWelt extends Observable {
 			for (int j = 0; j < anzahl; j++) {
 				// weltArray[i][j] = 0;
 				if (bestimmeDieErsteZahl(weltArray[i][j]) == 1) {
-//					setChanged();
-//					notifyObservers(new NachrichtenObjekt(i, j, new int[] { weltArray[i][j] }, Bezeichnungen.AGENT));
 					agent_y = i;
 					agent_x = j;
+					setChanged();
+					notifyObservers(new NachrichtenObjekt(agent_x, agent_y, positioniere.separateWahrnehmungen(weltArray[i][j]), Bezeichnungen.NEUES_SPIEL));
 					System.out.println("X " + agent_x + " Y " + agent_y);
 				}
 				// System.out.println("Position " + i + "," + j + " Wert " +
@@ -38,17 +38,17 @@ public class WumpusWelt extends Observable {
 		}
 	}
 
-	/* Diese Methode bestimm die Position des Agentes */
-	public void positiondesAgentes() {
-		setChanged();
-		String information = "AGENT";
-		for (int i = 0; i < anzahl; i++) {
-			for (int j = 0; j < anzahl; j++) {
-				if (bestimmeDieErsteZahl(weltArray[i][j]) == 1)
-					notifyObservers(new NachrichtenObjekt(i, j, new int[] { weltArray[i][j] }, information));
-			}
-		}
-	}
+//	/* Diese Methode bestimm die Position des Agentes */
+//	public void positiondesAgentes() {
+//		setChanged();
+//		String information = "AGENT";
+//		for (int i = 0; i < anzahl; i++) {
+//			for (int j = 0; j < anzahl; j++) {
+//				if (bestimmeDieErsteZahl(weltArray[i][j]) == 1)
+//					notifyObservers(new NachrichtenObjekt(i, j, new int[] { weltArray[i][j] }, information));
+//			}
+//		}
+//	}
 
 	// TODO die geschwindigkeit soll uebergeben werden
 	// TODO: Sortierung

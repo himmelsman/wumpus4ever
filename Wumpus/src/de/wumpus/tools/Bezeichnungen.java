@@ -28,6 +28,7 @@ public class Bezeichnungen {
 	public static final String BEWEGE = "BEWEGE";
 	public static final String ABLAUF = "ABLAUF";
 	public static final String POSITION = "POSITION";
-	public static final String WAHRNEHMUNGEN = "WARHNEHMUNGEN";   
+	public static final String WAHRNEHMUNGEN = "WARHNEHMUNGEN";
+	public static final String NEUES_SPIEL = "NEUES_SPIEL";
 	
 }
