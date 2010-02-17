@@ -11,12 +11,13 @@ public class FeldPositionieren {
 		Zufallszahl = (int) ((Math.random()) * _anzahl + 1);
 		return Zufallszahl;
 	}
- 
+
 	public int[][] feldPositionierung(int anzahl) {
 		System.out.println("Wir sind in Feld Positionierung und Anzahl ist " + anzahl);// mackaken es wird schonwieder 2 mal aufgerufen!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 		/*
-		 * initialisierung der istarray durch 0 */
+		 * initialisierung der istarray durch 0
+		 */
 		int[][] istarray = new int[anzahl][anzahl];
 		for (int i = 0; i < anzahl; i++) {
 			for (int j = 0; j < anzahl; j++) {
@@ -24,56 +25,50 @@ public class FeldPositionieren {
 			}
 		}
 		/*
-		 * heir werden die Zufallzahlen erzeugt und aufgepasst das die doppelte
-		 * Zahlen nicht vorkommen
+		 * heir werden die Zufallzahlen erzeugt und aufgepasst das die doppelte Zahlen nicht vorkommen
 		 */
+		/* Agent wurde extra aus der Set rausgenohmen, um die Abfage zu stellen(d.h. in nahrligenden Felder von Agent duerfen nicht 
+		 * die Gold,Wumpus,Pit plaziert  */
+		int agent = getZuffalszahl(anzahl * anzahl);
 		Set<Integer> numberSet = new HashSet<Integer>();
-		while (numberSet.size() < anzahl) {/*
-											 * die Zahl, die Anzahl der
-											 * generierten Elementen
-											 * gibt(agent,gold,wumpus,pit)
-											 */
-			numberSet.add(getZuffalszahl(anzahl * anzahl)); // die Zahl wird nur
-			// hinzugefügt wenn
-			// sie noch nicht
-			// besteht
+		while (numberSet.size() < anzahl - 1) {/*die Zahl, die Anzahl der generierten Elementen gibt(gold,wumpus,pit)*/
+			int others = getZuffalszahl(anzahl * anzahl);
+			System.err.println("others " + others + " agent" + agent);
+			if (others != agent && others != agent - 1 && others != agent + 1 && others != agent + anzahl && others != agent - anzahl)
+				numberSet.add(others); /* die Zahl wird nur hinzugefügt, wenn sie noch nicht existiert und liegt nicht in Umgebung von Agent*/
 		}
-		 /*initialisierung der istarray
-		 * 1 als Agend in dem Feld
-		 * 2 als Gold in dem Feld
-		 * 3 als Glitter in nahligenden Felder
-		 * 4 als Wumpus in dem Feld
-		 * 5 als Geruch in nahligenden Felder
-		 * 6 als Pit in dem Feld
-		 * 7 als Brize ind nahligenden Felder */
-
-		/* als besserer vorschlag waere switsh */
-		int j = 0, x, y;
+		/*initialisierung der istarray 1 als Agend in dem Feld 2 als Gold in dem Feld 3 als Glitter in nahligenden Felder 4 als Wumpus in dem Feld 5 als Geruch in nahligenden Felder 6 als Pit in dem Feld 7 als Brize ind nahligenden Felder
+		 */
+		/*hier wird der Agent direkt in WumpusWelt platziert*/
+		{
+			int x, y;
+			x = (agent - 1) % anzahl;
+			y = (agent - 1) / anzahl;
+			// System.out.println("x = " + x + " y = " + y);
+			/* Dieses Teil ist dafür da, um die Zahlen nach eine Reiche hinzufuegen */
+			if (istarray[x][y] == 0) {
+				int value = 1;
+				istarray[x][y] = value;
+			} 
+//			else {
+//				int value = 1;
+//				istarray[x][y] = istarray[x][y] + value;
+//			}
+			/* Ende von dieses Teil */
+			// System.out.println("Element: "+element + " Zahl: 1"+
+			// "istarray: " + istarray[element]);
+		}
+		int j = 1, x, y;
 		for (Iterator<Integer> it = numberSet.iterator(); it.hasNext();) {
 			Integer element = it.next();
+			System.err.println("element:" +element);
 			// System.out.println(element.toString());
-			if (j == 0) {
-				x = element % anzahl;
-				y = (element - 1) / anzahl;
-				// System.out.println("x = " + x + " y = " + y);
-				/*Dieses Teil ist dafür da, um die Zahlen nach eine Reiche hinzufuegen*/
-				if (istarray[x][y] == 0) {
-					int value = 1;
-					istarray[x][y] = value;
-				} else {
-					int value = 1;
-					istarray[x][y] = istarray[x][y] + value;
-				}
-				/* Ende von dieses Teil */
-				// System.out.println("Element: "+element + " Zahl: 1"+
-				// "istarray: " + istarray[element]);
-			} else if (j == 1) {
-				x = element % anzahl;
+			if (j == 1) {
+				x = (element - 1) % anzahl;
 				y = (element - 1) / anzahl;
 				// System.out.println("x = " + x + " y = " + y);
 				/*
-				 * Dieses Teil ist dafür da, um die Zahlen nach eine Reiche
-				 * hinzufuegen
+				 * Dieses Teil ist dafür da, um die Zahlen nach eine Reiche hinzufuegen
 				 */
 				if (istarray[x][y] == 0) {
 					int value = 2;
@@ -87,12 +82,11 @@ public class FeldPositionieren {
 				// System.out.println("Element: "+element + " Zahl: 2" +
 				// "istarray: " + istarray[element]);
 			} else if (j == 2) {
-				x = element % anzahl;
+				x = (element - 1) % anzahl;
 				y = (element - 1) / anzahl;
 				// System.out.println("x = " + x + " y = " + y);
 				/*
-				 * Dieses Teil ist dafür da, um die Zahlen nach eine Reiche
-				 * hinzufuegen
+				 * Dieses Teil ist dafür da, um die Zahlen nach eine Reiche hinzufuegen
 				 */
 				if (istarray[x][y] == 0) {
 					int value = 4;
@@ -108,12 +102,11 @@ public class FeldPositionieren {
 			}
 			/* als else machen und heir mehrere loescher einbauen */
 			else {
-				x = element % anzahl;
+				x = (element - 1) % anzahl;
 				y = (element - 1) / anzahl;
 				// System.out.println("x = " + x + " y = " + y);
 				/*
-				 * Dieses Teil ist dafür da, um die Zahlen nach eine Reiche
-				 * hinzufuegen
+				 * Dieses Teil ist dafür da, um die Zahlen nach eine Reiche hinzufuegen
 				 */
 				if (istarray[x][y] == 0) {
 					int value = 6;
@@ -136,9 +129,7 @@ public class FeldPositionieren {
 	}
 
 	/*
-	 * die Methode setzt um den Wumpus und Pits nahligende felder mit Geruchund
-	 * Brize. Man muss achten damit die Felder nicht im außerem Rand plaziert
-	 * werden.
+	 * die Methode setzt um den Wumpus und Pits nahligende felder mit Geruchund Brize. Man muss achten damit die Felder nicht im außerem Rand plaziert werden.
 	 */
 	private void setUmfeld(int x, int y, int value, int anzahl, int[][] istarray) {
 		if (x != 0)
@@ -166,8 +157,9 @@ public class FeldPositionieren {
 		}
 	}
 
-	/*Die Methode prueft was fuer ein Zahl am Ende ist. 
-	 *z.B. 123 diese Methode gibt als Rueckgabe 3*/
+	/*
+	 * Die Methode prueft was fuer ein Zahl am Ende ist.z.B. 123 diese Methode gibt als Rueckgabe 3
+	 */
 	public int checkLast(int value, int newDigit) {
 		int oldDigit = value % 10;
 		if (oldDigit == newDigit) {
@@ -177,10 +169,11 @@ public class FeldPositionieren {
 		}
 		return value * 10 + newDigit;
 	}
-	
-	//TODO: die Name diese Methode soll geaendert werden.
-	/*Diese Methode schneidet den ersten Element(Zahl des Agentes) einer Zahl
-	 *z.B. 0123 nach der Methode 123 */
+
+	// TODO: die Name diese Methode soll geaendert werden.
+	/*
+	 * Diese Methode schneidet den ersten Element(Zahl des Agentes) einer Zahlz.B. 0123 nach der Methode 123
+	 */
 	public int checkFirst(int zahl) {
 		int zaehler = 0;
 		int original = zahl;
@@ -198,9 +191,11 @@ public class FeldPositionieren {
 		// if(zahl < 0)zahl = 9; zahl == 0; zahl =9;
 		return (original - zahltest) <= 0 ? 9 : original - zahltest;
 	}
-	//TODO: die Name diese Methode soll geaendert werden.
-	/*Diese Methode schneidet den ersten Element(Zahl des Agentes) einer Zahl
-	 *z.B. 0123 nach der Methode 123 */
+
+	// TODO: die Name diese Methode soll geaendert werden.
+	/*
+	 * Diese Methode schneidet den ersten Element(Zahl des Agentes) einer Zahlz.B. 0123 nach der Methode 123
+	 */
 	public int checkFirst(int zahl, int first) {
 		int zaehler = 0;
 		int original = zahl;
@@ -217,9 +212,10 @@ public class FeldPositionieren {
 		// if(zahl < 0)zahl = 9; und if(zahl == 0) zahl =9;
 		return (original - first) <= 0 ? 9 : original - first;
 	}
-	
-	/*Die Methode bestimmt die erste Zahl, die in der Arrayposition abgespeichert ist.
-	 * d.h. die erste Teil der Zahl. z.B. Zahl = 234 nach der Methode Zahl = 2*/
+
+	/*
+	 * Die Methode bestimmt die erste Zahl, die in der Arrayposition abgespeichert ist. d.h. die erste Teil der Zahl. z.B. Zahl = 234 nach der Methode Zahl = 2
+	 */
 	public int bestimmeDieErsteZahl(int zahl) {
 		do {
 			if (zahl < 10)
@@ -230,7 +226,7 @@ public class FeldPositionieren {
 		return zahl;
 	}
 
-	/*Diese Methode uebergibt die einzelne/separate Wahrnechnungen als ein Array an*/
+	/* Diese Methode uebergibt die einzelne/separate Wahrnechnungen als ein Array an */
 	public int[] separateWahrnehmungen(int zahl) {
 		int zahlTemp = zahl;
 		int zaehler = 0;
@@ -239,10 +235,10 @@ public class FeldPositionieren {
 			// System.out.println("Zahl " + zahl);
 			zaehler++;
 		} while (zahlTemp > 10);
-		int[] temp = new int[zaehler+1];
+		int[] temp = new int[zaehler + 1];
 		for (int i = 0; i <= zaehler; i++) {
 			temp[i] = bestimmeDieErsteZahl(zahl);
-//			System.out.println("Zahl " + zahl + " temp[i] " + temp[i]);
+			// System.out.println("Zahl " + zahl + " temp[i] " + temp[i]);
 			zahl = checkFirst(zahl, bestimmeDieErsteZahl(zahl));
 		}
 		return temp;
@@ -253,7 +249,7 @@ public class FeldPositionieren {
 		int[] array = fp.separateWahrnehmungen(1230);
 		for (int i = 0; i < array.length; i++) {
 			System.out.println("array " + array[i]);
-			
+
 		}
 		System.out.println("Fertig");
 	}
