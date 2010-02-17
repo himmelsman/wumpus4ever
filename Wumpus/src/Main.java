@@ -9,16 +9,16 @@ import de.wumpus.beobachtet.WumpusWelt;
 
 class Main{
 	public static void main(String args[]){
-		WumpusWelt observed = new WumpusWelt();//beobachbares Objekt/ die Welt
-		Wumpus_Panel panel = new Wumpus_Panel(observed);
-		WumpusGUI observing = new WumpusGUI(panel, observed);//Beobachter
+		WumpusWelt wumpusWeltObserved = new WumpusWelt();//beobachbares Objekt/ die Welt
+		Wumpus_Panel panel = new Wumpus_Panel(wumpusWeltObserved);
+		WumpusGUI observing = new WumpusGUI(panel, wumpusWeltObserved);//Beobachter
 		observing.setLocationRelativeTo(null);
 		observing.setVisible(true);
-		Agent agent = new Agent(observed);//Beobachter
+		Agent agent = new Agent(wumpusWeltObserved);//Beobachter
 		
-		observed.addObserver(observing);//add Beobachter WumpusGUI 
+		wumpusWeltObserved.addObserver(observing);//add Beobachter WumpusGUI 
 		
-		observed.addObserver(agent);//add Beobachter Agent
+		wumpusWeltObserved.addObserver(agent);//add Beobachter Agent
 //		observed.counter(10);
 //		observed.positiondesAgentes();
 //		observed.test(1, 3, 7, "Ich weiss nix");

@@ -34,12 +34,12 @@ public class Benutzerdefiniertes_Feld extends JFrame {
 	private JSpinner pitYKordSpinner;
 	private JLabel yColumnLabel;
 	private JLabel xColumnLabel;
-	private JTextArea positiondesPits;
-	private JTextArea positiondesWumpus;
-	private JTextArea positiondesGoldes;
-	private JTextArea positiondesAgentes;
-	private JTextArea eingabeGroessedesFeldes;
-	private JTextArea groessedesFeldes;
+	private JLabel positiondesPits;
+	private JLabel positiondesWumpus;
+	private JLabel positiondesGoldes;
+	private JLabel positiondesAgentes;
+	private JLabel eingabeGroessedesFeldes;
+	private JLabel groessedesFeldes;
 	private JScrollPane jScrollPane1;
 	private JSpinner pitXKordSpinner;
 	private JSpinner wumpXKordSpinner;
@@ -77,40 +77,34 @@ public class Benutzerdefiniertes_Feld extends JFrame {
 				thisLayout.columnWidths = new int[] { 7, 7, 7 };
 				getContentPane().setLayout(thisLayout);
 				{
-					groessedesFeldes = new JTextArea();
+					groessedesFeldes = new JLabel();
 					getContentPane().add(groessedesFeldes, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 					groessedesFeldes.setText("Groesse des Feldes");
-					groessedesFeldes.setEditable(false);
 				}
 				{
-					eingabeGroessedesFeldes = new JTextArea();
+					eingabeGroessedesFeldes = new JLabel();
 					getContentPane().add(eingabeGroessedesFeldes, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 					eingabeGroessedesFeldes.setText("4x4");
-					eingabeGroessedesFeldes.setEditable(false);
 				}
 				{
-					positiondesAgentes = new JTextArea();
+					positiondesAgentes = new JLabel();
 					getContentPane().add(positiondesAgentes, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 					positiondesAgentes.setText("Position des Agentes:");
-					positiondesAgentes.setEditable(false);
 				}
 				{
-					positiondesGoldes = new JTextArea();
+					positiondesGoldes = new JLabel();
 					getContentPane().add(positiondesGoldes, new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 					positiondesGoldes.setText("Position des Goldes");
-					positiondesGoldes.setEditable(false);
 				}
 				{
-					positiondesWumpus = new JTextArea();
+					positiondesWumpus = new JLabel();
 					getContentPane().add(positiondesWumpus, new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 					positiondesWumpus.setText("Position des Wumpus");
-					positiondesWumpus.setEditable(false);
 				}
 				{
-					positiondesPits = new JTextArea();
+					positiondesPits = new JLabel();
 					getContentPane().add(positiondesPits, new GridBagConstraints(0, 5, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 					positiondesPits.setText("Position des Pits");
-					positiondesPits.setEditable(false);
 				}
 
 				{
@@ -121,6 +115,10 @@ public class Benutzerdefiniertes_Feld extends JFrame {
 						@Override
 						public void mouseClicked(MouseEvent e) {
 							if (e.getClickCount() >= 1) {
+								System.out.println("Agent(" + agentXKordSpinner.getValue() + "|" + agentYKordSpinner.getValue() + ")");
+								System.out.println("Gold(" + goldXKordSpinner.getValue() + "|" + goldYKordSpinner.getValue() + ")");
+								System.out.println("Wumpus(" + wumpXKordSpinner.getValue() + "|" + wumpYKordSpinner.getValue() + ")");
+								System.out.println("Pit(" + pitXKordSpinner.getValue() + "|" + pitYKordSpinner.getValue() + ")");
 								main.setEnabled(true);
 								dispose();
 							}
@@ -156,51 +154,67 @@ public class Benutzerdefiniertes_Feld extends JFrame {
 				}
 				{
 					SpinnerListModel pitYKordSpinnerModel = new SpinnerListModel(spinnerListSmall);
+//					pitYKordSpinnerModel.setValue("0,1,2,3");
 					pitYKordSpinner = new JSpinner();
 					getContentPane().add(pitYKordSpinner, new GridBagConstraints(1, 5, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 					pitYKordSpinner.setModel(pitYKordSpinnerModel);
+					pitYKordSpinner.setPreferredSize(new java.awt.Dimension(45, 21));
 				}
 				{
 					SpinnerListModel wumpYKordSpinnerModel = new SpinnerListModel(spinnerListSmall);
+//					wumpYKordSpinnerModel.setValue("0,1,2,3");
 					wumpYKordSpinner = new JSpinner();
 					getContentPane().add(wumpYKordSpinner, new GridBagConstraints(1, 4, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 					wumpYKordSpinner.setModel(wumpYKordSpinnerModel);
+					wumpYKordSpinner.setPreferredSize(new java.awt.Dimension(45, 21));
 				}
 				{
 					SpinnerListModel goldYKordSpinnerModel = new SpinnerListModel(spinnerListSmall);
+//					goldYKordSpinnerModel.setValue("0,1,2,3");
 					goldYKordSpinner = new JSpinner();
 					getContentPane().add(goldYKordSpinner, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 					goldYKordSpinner.setModel(goldYKordSpinnerModel);
+					goldYKordSpinner.setPreferredSize(new java.awt.Dimension(45, 21));
 				}
 				{
 					SpinnerListModel agentYKordSpinnerModel = new SpinnerListModel(spinnerListSmall);
+//					agentYKordSpinnerModel.setValue("0,1,2,3");
 					agentYKordSpinner = new JSpinner();
 					getContentPane().add(agentYKordSpinner, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 					agentYKordSpinner.setModel(agentYKordSpinnerModel);
+					agentYKordSpinner.setPreferredSize(new java.awt.Dimension(45, 21));
 				}
 				{
 					SpinnerListModel agentXKordSpinnerModel = new SpinnerListModel(spinnerListSmall);
+//					agentXKordSpinnerModel.setValue("0,1,2,3");
 					agentXKordSpinner = new JSpinner();
 					getContentPane().add(agentXKordSpinner, new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 					agentXKordSpinner.setModel(agentXKordSpinnerModel);
+					agentXKordSpinner.setPreferredSize(new java.awt.Dimension(45, 21));
 				}
 				{
 					SpinnerListModel goldXKordSpinnerModel = new SpinnerListModel(spinnerListSmall);
+//					goldXKordSpinnerModel.setValue("0,1,2,3");
 					goldXKordSpinner = new JSpinner();
 					getContentPane().add(goldXKordSpinner, new GridBagConstraints(2, 3, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 					goldXKordSpinner.setModel(goldXKordSpinnerModel);
+					goldXKordSpinner.setPreferredSize(new java.awt.Dimension(45, 21));
 				}
 				{
 					SpinnerListModel wumpXKordSpinnerModel = new SpinnerListModel(spinnerListSmall);
+//					wumpXKordSpinnerModel.setValue("0,1,2,3");
 					wumpXKordSpinner = new JSpinner();
 					getContentPane().add(wumpXKordSpinner, new GridBagConstraints(2, 4, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 					wumpXKordSpinner.setModel(wumpXKordSpinnerModel);
+					wumpXKordSpinner.setPreferredSize(new java.awt.Dimension(45, 21));
 				}
 				{
 					SpinnerListModel pitXKordSpinnerModel = new SpinnerListModel(spinnerListSmall);
+//					pitXKordSpinnerModel.setValue("0,1,2,3");
 					pitXKordSpinner = new JSpinner();
 					getContentPane().add(pitXKordSpinner, new GridBagConstraints(2, 5, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 					pitXKordSpinner.setModel(pitXKordSpinnerModel);
+					pitXKordSpinner.setPreferredSize(new java.awt.Dimension(45, 21));
 				}
 
 			}

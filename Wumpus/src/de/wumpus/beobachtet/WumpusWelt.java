@@ -129,4 +129,9 @@ public class WumpusWelt extends Observable {
 			}
 		}
 	}
+	
+	public void agentIstFertig(){
+		setChanged();
+		notifyObservers(new NachrichtenObjekt(agent_x, agent_y, new int[]{}, Bezeichnungen.FERTIG));
+	}
 }

@@ -30,5 +30,6 @@ public class Bezeichnungen {
 	public static final String POSITION = "POSITION";
 	public static final String WAHRNEHMUNGEN = "WARHNEHMUNGEN";
 	public static final String NEUES_SPIEL = "NEUES_SPIEL";
+	public static final String FERTIG = "FERTIG";
 	
 }

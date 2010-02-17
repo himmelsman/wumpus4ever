@@ -13,7 +13,7 @@ public class FeldPositionieren {
 	}
 
 	public int[][] feldPositionierung(int anzahl) {
-		System.out.println("Wir sind in Feld Positionierung und Anzahl ist " + anzahl);// mackaken es wird schonwieder 2 mal aufgerufen!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//		System.out.println("Wir sind in Feld Positionierung und Anzahl ist " + anzahl);// mackaken es wird schonwieder 2 mal aufgerufen!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 		/*
 		 * initialisierung der istarray durch 0
@@ -33,7 +33,7 @@ public class FeldPositionieren {
 		Set<Integer> numberSet = new HashSet<Integer>();
 		while (numberSet.size() < anzahl - 1) {/*die Zahl, die Anzahl der generierten Elementen gibt(gold,wumpus,pit)*/
 			int others = getZuffalszahl(anzahl * anzahl);
-			System.err.println("others " + others + " agent" + agent);
+//			System.err.println("others " + others + " agent" + agent);
 			if (others != agent && others != agent - 1 && others != agent + 1 && others != agent + anzahl && others != agent - anzahl)
 				numberSet.add(others); /* die Zahl wird nur hinzugefügt, wenn sie noch nicht existiert und liegt nicht in Umgebung von Agent*/
 		}
@@ -61,7 +61,7 @@ public class FeldPositionieren {
 		int j = 1, x, y;
 		for (Iterator<Integer> it = numberSet.iterator(); it.hasNext();) {
 			Integer element = it.next();
-			System.err.println("element:" +element);
+//			System.err.println("element:" +element);
 			// System.out.println(element.toString());
 			if (j == 1) {
 				x = (element - 1) % anzahl;
@@ -122,9 +122,9 @@ public class FeldPositionieren {
 			}
 			j++;
 		}
-		for (int i = 0; i < anzahl; i++)
-			for (int h = 0; h < anzahl; h++)
-				System.out.println("Position: " + i + "," + h + " Wert: " + istarray[h][i]);
+//		for (int i = 0; i < anzahl; i++)
+//			for (int h = 0; h < anzahl; h++)
+//				System.out.println("Position: " + i + "," + h + " Wert: " + istarray[h][i]);
 		return istarray;
 	}
 
@@ -247,10 +247,10 @@ public class FeldPositionieren {
 	public static void main(String[] args) {
 		FeldPositionieren fp = new FeldPositionieren();
 		int[] array = fp.separateWahrnehmungen(1230);
-		for (int i = 0; i < array.length; i++) {
-			System.out.println("array " + array[i]);
-
-		}
-		System.out.println("Fertig");
+//		for (int i = 0; i < array.length; i++) {
+//			System.out.println("array " + array[i]);
+//
+//		}
+//		System.out.println("Fertig");
 	}
 }

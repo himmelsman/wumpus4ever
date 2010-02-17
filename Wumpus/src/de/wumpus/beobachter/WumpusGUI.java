@@ -310,48 +310,53 @@ public class WumpusGUI extends JFrame implements Observer {
 		// Wahrnehmung auswerten
 		// TODO: Überarbeiten der Ablaufausgabe so dass Sätze zusammen kommen.
 		if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.WAHRNEHMUNGEN)) {
-			ablaufTextArea.setText(ablaufTextArea.getText() + "Position (" + (((NachrichtenObjekt) arg).x + 1) + "|" +  (((NachrichtenObjekt) arg).y+1) + ")\n");
+//			System.out.println("Wahrnehmung Position (" + (((NachrichtenObjekt) arg).x + 1) + "|" +  (((NachrichtenObjekt) arg).y+1) + ")\n" + "ABLAUFTEXT " + ablaufTextArea.getText());
+			ablaufTextArea.append("Position (" + (((NachrichtenObjekt) arg).x + 1) + "|" +  (((NachrichtenObjekt) arg).y+1) + ")\n");
 			for (int j = 0, i = 0; i < ((NachrichtenObjekt) arg).wahrnehmung.length; i++) {
 				if (((NachrichtenObjekt) arg).wahrnehmung[i] == 1) {
 					// Agent
 				} else if (((NachrichtenObjekt) arg).wahrnehmung[i] == 2) {
 					// Gold
 					// TODO: Wenn Agent auf Gold, dann ENDE?
-					ablaufTextArea.setText(ablaufTextArea.getText() + "Der Agent sieht das Gold");
+					ablaufTextArea.append("Der Agent sieht das Gold");
 					j = 1;
 					i = ((NachrichtenObjekt) arg).wahrnehmung.length;
 				} else if (((NachrichtenObjekt) arg).wahrnehmung[i] == 3) {
 					// Glitter
-					ablaufTextArea.setText(ablaufTextArea.getText() + "es glitzert");
+					ablaufTextArea.append("es glitzert");
 					j = 1;
 				} else if (((NachrichtenObjekt) arg).wahrnehmung[i] == 4) {
 					// Wumpus
-					ablaufTextArea.setText(ablaufTextArea.getText() + "Der Agent sieht das Wumpus");
+					ablaufTextArea.append("Der Agent sieht das Wumpus");
 					j = 1;
 					i = ((NachrichtenObjekt) arg).wahrnehmung.length;
 				} else if (((NachrichtenObjekt) arg).wahrnehmung[i] == 5) {
 					// Geruch
-					ablaufTextArea.setText(ablaufTextArea.getText() + "es stinkt");
+					ablaufTextArea.append("es stinkt");
 					j = 1;
 				} else if (((NachrichtenObjekt) arg).wahrnehmung[i] == 6) {
 					// Fallgrube
-					ablaufTextArea.setText(ablaufTextArea.getText() + "Der Agent fällt in die Grube");
+					ablaufTextArea.append("Der Agent fällt in die Grube");
 					j = 1;
 					i = ((NachrichtenObjekt) arg).wahrnehmung.length;
 				} else if (((NachrichtenObjekt) arg).wahrnehmung[i] == 7) {
 					// Brise
-					ablaufTextArea.setText(ablaufTextArea.getText() + "es zieht");
+					ablaufTextArea.append("es zieht");
 					j = 1;
 				} else if (((NachrichtenObjekt) arg).wahrnehmung[i] == 9) {
 					// Besuchtes Feld
 				}
 				if (i + 1 < ((NachrichtenObjekt) arg).wahrnehmung.length && ((NachrichtenObjekt) arg).wahrnehmung[i] != 9 && ((NachrichtenObjekt) arg).wahrnehmung[i] != 2 && ((NachrichtenObjekt) arg).wahrnehmung[i] != 4
 						&& ((NachrichtenObjekt) arg).wahrnehmung[i] != 6 && ((NachrichtenObjekt) arg).wahrnehmung[i] != 1) {
-					ablaufTextArea.setText(ablaufTextArea.getText() + " und ");
+					ablaufTextArea.append(" und ");
 				} else if (j != 0) {
-					ablaufTextArea.setText(ablaufTextArea.getText() + ".\n");
+					ablaufTextArea.append(".\n");
 				}
 			}
+		}
+		if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.FERTIG)) {
+			ablaufTextArea.setText(ablaufTextArea.getText());
+//			System.out.println("\n\n\n" + ablaufTextArea.getText());
 		}
 	}
 }
