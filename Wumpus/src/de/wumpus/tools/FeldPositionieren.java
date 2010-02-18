@@ -159,31 +159,83 @@ public class FeldPositionieren {
 		}
 	}
 
-	public int[][] feldPositionierung(int anzahl, int[] positionen) {
+	/* diese Methode wird die benuzerdefiniertes Feld uebegeben, mit Koordinaten von Agent,Gold,Wumpus,Pit */
+	public int[][] myfeldPositionierung(int anzahl, int[] positionen) {
 		int[][] istarray = new int[anzahl][anzahl];
 		for (int i = 0; i < anzahl; i++) {
 			for (int j = 0; j < anzahl; j++) {
 				istarray[i][j] = 0;
 			}
 		}
-		for (int i = 0, j = 1; i < positionen.length; i = i + 2) {
-			if (j == 1) {
-				istarray[positionen[i]][positionen[i+1]] = 1;
-				j++;
-			} else if (j == 1) {
-				istarray[positionen[i]][positionen[i+1]] = 2;
-				setUmfeld(positionen[i+1], positionen[i], 3, anzahl, istarray);
-				j++;
-			} else if (j == 1) {
-				istarray[positionen[i]][positionen[i+1]] = 4;
-				setUmfeld(positionen[i+1], positionen[i], 5, anzahl, istarray);
-				j++;
-			} else {
-				istarray[positionen[i]][positionen[i+1]] = 6;
-				setUmfeld(positionen[i+1], positionen[i], 7, anzahl, istarray);
+//		int[] temparray = new int[positionen.length];
+//		for (int i = 0; i < positionen.length; i++) {
+//			temparray[i] = (positionen[i]-1);
+//		}
+//		for (int i = 0; i < positionen.length; i++) {
+//			positionen[i]= temparray[i];
+//		}
+//		
+//		for (int i = 0; i < positionen.length; i++)
+//			System.out.println("positionen" + positionen[i]);
+		for (int i = 0; i < anzahl; i++) {
+			for (int j = 0; j < anzahl; j++) {
+				if (j == positionen[0] && i == positionen[1])
+					istarray[j][i] = 1;
+				if (j == positionen[2] && i == positionen[3]) {
+					istarray[j][i] = 2;
+//					System.out.println("istarray[j][i] " + istarray[j][i]);
+					setUmfeld(j, i, 3, anzahl, istarray);
+				}
+				if (j == positionen[4] && i == positionen[5]) {
+					istarray[j][i] = 4;
+//					System.out.println("istarray[j][i] " + istarray[j][i]);
+					setUmfeld(j,i, 5, anzahl, istarray);
+				}
+				if (j == positionen[6] && i == positionen[7]) {
+					istarray[j][i] = 6;
+//					System.out.println("istarray[j][i] " + istarray[j][i]);
+					setUmfeld(j, i, 7, anzahl, istarray);
+				}
 			}
 		}
-		return null;
+//		for (int i = 0; i < positionen.length; i++)
+//			System.out.println("positionarray" + positionen[i]);
+//		for (int i = 0, j = 1; i < positionen.length; i = i + 2) {
+//			if (j == 1) {
+//				if (ichBinNichtAuserhalb(anzahl, i, i + 1)) {
+//					istarray[positionen[i]][positionen[i + 1]] = 1;
+//					j++;
+//				} else
+//					System.out.println("es wird auserhalb des vorgegebenes Bereiches zugegriffen ");
+//			} else if (j == 1) {
+//				if (ichBinNichtAuserhalb(anzahl, i, i + 1)) {
+//					istarray[positionen[i]][positionen[i + 1]] = 2;
+//					setUmfeld(positionen[i + 1], positionen[i], 3, anzahl, istarray);
+//					j++;
+//				} else
+//					System.out.println("es wird auserhalb des vorgegebenes Bereiches zugegriffen ");
+//			} else if (j == 1) {
+//				if (ichBinNichtAuserhalb(anzahl, i, i + 1)) {
+//					istarray[positionen[i]][positionen[i + 1]] = 4;
+//					setUmfeld(positionen[i + 1], positionen[i], 5, anzahl, istarray);
+//					j++;
+//				} else
+//					System.out.println("es wird auserhalb des vorgegebenes Bereiches zugegriffen ");
+//			} else {
+//				if (ichBinNichtAuserhalb(anzahl, i, i + 1)) {
+//					istarray[positionen[i]][positionen[i + 1]] = 6;
+//					setUmfeld(positionen[i + 1], positionen[i], 7, anzahl, istarray);
+//				} else
+//					System.out.println("es wird auserhalb des vorgegebenes Bereiches zugegriffen ");
+//			}
+//		}
+//		for (int i = 0; i < anzahl; i++) {
+//			for (int j = 0; j < anzahl; j++) {
+//				System.out.println("uebergebenes Array " + istarray[i][j]);
+//			}
+//			System.out.println();
+//		}
+		return istarray;
 	}
 
 	/*
@@ -281,5 +333,15 @@ public class FeldPositionieren {
 		//
 		// }
 		// System.out.println("Fertig");
+	}
+
+	/* diese Methode prueft, ob man nicht ausserhalb des vor gegebenes Bereiches nicht rausgeht. d.h. vermeidet ArrayIndexOutOfBoundsException */
+	private boolean ichBinNichtAuserhalb(int anzahl, int y, int x) {
+		// System.err.println("Y: " + y + " X: " + x);
+		if (y >= 0 && y < anzahl && x >= 0 && x < anzahl) {
+			// System.err.println("ich bin nicht ausserhalb");
+			return true;
+		} else
+			return false;
 	}
 }

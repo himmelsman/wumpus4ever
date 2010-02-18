@@ -46,11 +46,11 @@ public class WumpusWelt extends Observable {
 	public void grossedesFeldes(int size, int[] positionen) {
 		anzahl = size;
 		System.out.println("anzahl in Welt " + anzahl);
-		weltArray = positioniere.feldPositionierung(anzahl, positionen);
-		// weltArray = new int[anzahl][anzahl];
+		weltArray = positioniere.myfeldPositionierung(anzahl, positionen);		
 		for (int i = 0; i < anzahl; i++) {
 			for (int j = 0; j < anzahl; j++) {
 				// weltArray[i][j] = 0;
+//				System.out.println("weltArray[i][j] " +weltArray[i][j]);
 				if (bestimmeDieErsteZahl(weltArray[i][j]) == 1) {
 					agent_y = i;
 					agent_x = j;
@@ -110,7 +110,7 @@ public class WumpusWelt extends Observable {
 	/*neues Spiel durch von Benutzer festgelegten Positionen*/
 	public void neuesSpiel(int weltGroesse, int[] positionen) {
 		
-		grossedesFeldes(weltGroesse);
+		grossedesFeldes(weltGroesse,positionen);
 		System.out.println("Teste vor notifyObservers");
 		setChanged();
 		notifyObservers(new NachrichtenObjekt(0, 0, null, Bezeichnungen.REPAINT));

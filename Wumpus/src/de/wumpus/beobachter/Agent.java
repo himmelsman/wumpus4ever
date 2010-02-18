@@ -1,5 +1,4 @@
 package de.wumpus.beobachter;
-
 import java.util.Observable;
 import java.util.Observer;
 
@@ -8,15 +7,17 @@ import de.wumpus.tools.Feld;
 import de.wumpus.tools.Bezeichnungen;
 import de.wumpus.tools.FeldPositionieren;
 import de.wumpus.tools.NachrichtenObjekt;
+import de.wumpus.tools.SetzeDieGeschwindigkeit;
 
 public class Agent implements Observer {
 
 	private int agentX, agentY, anzahl;
+	public SetzeDieGeschwindigkeit geschwindigkeit;
 	WumpusWelt wump;
 	Feld feld;
 	Feld[][] arraymitWissenBasis;
 
-	public Agent(WumpusWelt _wump) {
+	public Agent(WumpusWelt _wump/*, SetzeDieGeschwindigkeit geschwindigkeit*/) {
 		wump = _wump;
 	}
 
@@ -98,7 +99,7 @@ public class Agent implements Observer {
 			System.out.println("----------------------------------------------------------------------------------------------------------");
 		}
 	}
-
+	/*diese Methode prueft, ob man nicht ausserhalb des vor gegebenes Bereiches nicht rausgeht. d.h. vermeidet ArrayIndexOutOfBoundsException*/
 	private boolean ichBinNichtAuserhalb(int y, int x) {
 		// System.err.println("Y: " + y + " X: " + x);
 		if (y >= 0 && y < anzahl && x >= 0 && x < anzahl) {

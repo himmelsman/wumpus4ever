@@ -44,7 +44,7 @@ public class Benutzerdefiniertes_Feld extends JFrame {
 	private JLabel positiondesAgentes;
 	private JLabel eingabeGroessedesFeldes;
 	private JLabel groessedesFeldes;
-	private JScrollPane jScrollPane1;
+//	private JScrollPane jScrollPane1;
 	private JSpinner pitXKordSpinner;
 	private JSpinner wumpXKordSpinner;
 	private JSpinner goldXKordSpinner;
@@ -76,6 +76,7 @@ public class Benutzerdefiniertes_Feld extends JFrame {
 				GridBagLayout thisLayout = new GridBagLayout();
 				this.setPreferredSize(new java.awt.Dimension(500, 300));
 				this.setSize(500, 300);
+				this.setTitle("Eingabe für benutzerdefiniertes Feld");
 				thisLayout.rowWeights = new double[] { 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.01 };
 				thisLayout.rowHeights = new int[] { 7, 7, 7, 7, 7, 7, 7 };
 				thisLayout.columnWeights = new double[] { 0.5, 0.3, 0.3 };
@@ -124,10 +125,11 @@ public class Benutzerdefiniertes_Feld extends JFrame {
 								 System.out.println("Gold(" + goldXKordSpinner.getValue() + "|" + goldYKordSpinner.getValue() + ")");
 								 System.out.println("Wumpus(" + wumpXKordSpinner.getValue() + "|" + wumpYKordSpinner.getValue() + ")");
 								 System.out.println("Pit(" + pitXKordSpinner.getValue() + "|" + pitYKordSpinner.getValue() + ")");
-								int[] positionen = new int[] { Integer.valueOf(agentYKordSpinner.getValue().toString()), Integer.valueOf(agentXKordSpinner.getValue().toString()),
-										Integer.valueOf(goldYKordSpinner.getValue().toString()), Integer.valueOf(goldXKordSpinner.getValue().toString()), Integer.valueOf(wumpYKordSpinner.getValue().toString()),
-										Integer.valueOf(wumpXKordSpinner.getValue().toString()), Integer.valueOf(pitYKordSpinner.getValue().toString()), Integer.valueOf(pitXKordSpinner.getValue().toString()) };
+								int[] positionen = new int[] { Integer.valueOf(agentYKordSpinner.getValue().toString()) -1, Integer.valueOf(agentXKordSpinner.getValue().toString()) -1,
+										Integer.valueOf(goldYKordSpinner.getValue().toString()) -1, Integer.valueOf(goldXKordSpinner.getValue().toString()) -1, Integer.valueOf(wumpYKordSpinner.getValue().toString()) -1,
+										Integer.valueOf(wumpXKordSpinner.getValue().toString()) -1, Integer.valueOf(pitYKordSpinner.getValue().toString()) -1, Integer.valueOf(pitXKordSpinner.getValue().toString()) -1 };
 								String pruefung = PositionenPruefen.pruefePositionen(positionen);
+								
 								if (pruefung == "Nichts") {
 									main.wump.neuesSpiel(4, positionen);
 									main.setEnabled(true);

@@ -108,6 +108,7 @@ public class Wumpus_Panel extends JPanel{
 	}
 	
 	public void zeichnen(){
+//		System.out.println(" anzahl in Panel "+anzahl);
 		for (int i = 0; i < anzahl; i++) {
 			// zahlenreihe nach unten am linken rand
 			this.add(new JLabel("" + (i + 1)), new GridBagConstraints(0, i + 1, 1, 1, 0.01, 0.01, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
