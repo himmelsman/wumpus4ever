@@ -13,7 +13,7 @@ public class FeldPositionieren {
 	}
 
 	public int[][] feldPositionierung(int anzahl) {
-//		System.out.println("Wir sind in Feld Positionierung und Anzahl ist " + anzahl);// mackaken es wird schonwieder 2 mal aufgerufen!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		// System.out.println("Wir sind in Feld Positionierung und Anzahl ist " + anzahl);// mackaken es wird schonwieder 2 mal aufgerufen!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 		/*
 		 * initialisierung der istarray durch 0
@@ -27,19 +27,21 @@ public class FeldPositionieren {
 		/*
 		 * heir werden die Zufallzahlen erzeugt und aufgepasst das die doppelte Zahlen nicht vorkommen
 		 */
-		/* Agent wurde extra aus der Set rausgenohmen, um die Abfage zu stellen(d.h. in nahrligenden Felder von Agent duerfen nicht 
-		 * die Gold,Wumpus,Pit plaziert  */
+		/*
+		 * Agent wurde extra aus der Set rausgenohmen, um die Abfage zu stellen(d.h. in nahrligenden Felder von Agent duerfen nicht die Gold,Wumpus,Pit plaziert
+		 */
 		int agent = getZuffalszahl(anzahl * anzahl);
 		Set<Integer> numberSet = new HashSet<Integer>();
-		while (numberSet.size() < anzahl - 1) {/*die Zahl, die Anzahl der generierten Elementen gibt(gold,wumpus,pit)*/
+		while (numberSet.size() < anzahl - 1) {/* die Zahl, die Anzahl der generierten Elementen gibt(gold,wumpus,pit) */
 			int others = getZuffalszahl(anzahl * anzahl);
-//			System.err.println("others " + others + " agent" + agent);
+			// System.err.println("others " + others + " agent" + agent);
 			if (others != agent && others != agent - 1 && others != agent + 1 && others != agent + anzahl && others != agent - anzahl)
-				numberSet.add(others); /* die Zahl wird nur hinzugefügt, wenn sie noch nicht existiert und liegt nicht in Umgebung von Agent*/
+				numberSet.add(others); /* die Zahl wird nur hinzugefügt, wenn sie noch nicht existiert und liegt nicht in Umgebung von Agent */
 		}
-		/*initialisierung der istarray 1 als Agend in dem Feld 2 als Gold in dem Feld 3 als Glitter in nahligenden Felder 4 als Wumpus in dem Feld 5 als Geruch in nahligenden Felder 6 als Pit in dem Feld 7 als Brize ind nahligenden Felder
+		/*
+		 * initialisierung der istarray 1 als Agend in dem Feld 2 als Gold in dem Feld 3 als Glitter in nahligenden Felder 4 als Wumpus in dem Feld 5 als Geruch in nahligenden Felder 6 als Pit in dem Feld 7 als Brize ind nahligenden Felder
 		 */
-		/*hier wird der Agent direkt in WumpusWelt platziert*/
+		/* hier wird der Agent direkt in WumpusWelt platziert */
 		{
 			int x, y;
 			x = (agent - 1) % anzahl;
@@ -49,11 +51,11 @@ public class FeldPositionieren {
 			if (istarray[x][y] == 0) {
 				int value = 1;
 				istarray[x][y] = value;
-			} 
-//			else {
-//				int value = 1;
-//				istarray[x][y] = istarray[x][y] + value;
-//			}
+			}
+			// else {
+			// int value = 1;
+			// istarray[x][y] = istarray[x][y] + value;
+			// }
 			/* Ende von dieses Teil */
 			// System.out.println("Element: "+element + " Zahl: 1"+
 			// "istarray: " + istarray[element]);
@@ -61,7 +63,7 @@ public class FeldPositionieren {
 		int j = 1, x, y;
 		for (Iterator<Integer> it = numberSet.iterator(); it.hasNext();) {
 			Integer element = it.next();
-//			System.err.println("element:" +element);
+			// System.err.println("element:" +element);
 			// System.out.println(element.toString());
 			if (j == 1) {
 				x = (element - 1) % anzahl;
@@ -122,9 +124,9 @@ public class FeldPositionieren {
 			}
 			j++;
 		}
-//		for (int i = 0; i < anzahl; i++)
-//			for (int h = 0; h < anzahl; h++)
-//				System.out.println("Position: " + i + "," + h + " Wert: " + istarray[h][i]);
+		// for (int i = 0; i < anzahl; i++)
+		// for (int h = 0; h < anzahl; h++)
+		// System.out.println("Position: " + i + "," + h + " Wert: " + istarray[h][i]);
 		return istarray;
 	}
 
@@ -155,6 +157,33 @@ public class FeldPositionieren {
 			else
 				istarray[x][y + 1] = checkLast(istarray[x][y + 1], value);
 		}
+	}
+
+	public int[][] feldPositionierung(int anzahl, int[] positionen) {
+		int[][] istarray = new int[anzahl][anzahl];
+		for (int i = 0; i < anzahl; i++) {
+			for (int j = 0; j < anzahl; j++) {
+				istarray[i][j] = 0;
+			}
+		}
+		for (int i = 0, j = 1; i < positionen.length; i = i + 2) {
+			if (j == 1) {
+				istarray[positionen[i]][positionen[i+1]] = 1;
+				j++;
+			} else if (j == 1) {
+				istarray[positionen[i]][positionen[i+1]] = 2;
+				setUmfeld(positionen[i+1], positionen[i], 3, anzahl, istarray);
+				j++;
+			} else if (j == 1) {
+				istarray[positionen[i]][positionen[i+1]] = 4;
+				setUmfeld(positionen[i+1], positionen[i], 5, anzahl, istarray);
+				j++;
+			} else {
+				istarray[positionen[i]][positionen[i+1]] = 6;
+				setUmfeld(positionen[i+1], positionen[i], 7, anzahl, istarray);
+			}
+		}
+		return null;
 	}
 
 	/*
@@ -247,10 +276,10 @@ public class FeldPositionieren {
 	public static void main(String[] args) {
 		FeldPositionieren fp = new FeldPositionieren();
 		int[] array = fp.separateWahrnehmungen(1230);
-//		for (int i = 0; i < array.length; i++) {
-//			System.out.println("array " + array[i]);
-//
-//		}
-//		System.out.println("Fertig");
+		// for (int i = 0; i < array.length; i++) {
+		// System.out.println("array " + array[i]);
+		//
+		// }
+		// System.out.println("Fertig");
 	}
 }

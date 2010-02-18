@@ -32,7 +32,7 @@ import de.wumpus.tools.HelpScreen;
 import de.wumpus.tools.NachrichtenObjekt;
 
 public class WumpusGUI extends JFrame implements Observer {
-	private JFrame guiFrame;
+	private WumpusGUI guiFrame;
 	private JMenuBar jMenuBar;
 	private JSeparator jSeparator1;
 	private JSeparator jSeparator2;
@@ -46,7 +46,7 @@ public class WumpusGUI extends JFrame implements Observer {
 	private JTextArea ablaufTextArea;
 	private JTextArea statistikTextArea;
 	private Wumpus_Panel wumpusPanel;
-	WumpusWelt wump;
+	public WumpusWelt wump;
 	private JLabel punkteLabel;
 	private JLabel punkteAnzahlLabel;
 	private JLabel schritteLabel;

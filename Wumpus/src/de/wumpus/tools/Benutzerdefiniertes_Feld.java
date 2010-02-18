@@ -15,11 +15,14 @@ import javax.swing.JButton;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerListModel;
+
+import de.wumpus.beobachter.WumpusGUI;
 
 /**
  * This code was edited or generated using CloudGarden's Jigloo SWT/Swing GUI Builder, which is free for non-commercial use. If Jigloo is being used commercially (ie, by a corporation, company or business for any purpose whatever) then you should
@@ -28,7 +31,8 @@ import javax.swing.SpinnerListModel;
  */
 public class Benutzerdefiniertes_Feld extends JFrame {
 
-	JFrame main;
+	WumpusGUI main;
+	JFrame bFeld;
 	private JButton schliessenButton;
 	private JSpinner wumpYKordSpinner;
 	private JSpinner pitYKordSpinner;
@@ -50,8 +54,9 @@ public class Benutzerdefiniertes_Feld extends JFrame {
 	private final String[] spinnerListSmall = new String[] { "1", "2", "3", "4" };
 	private final String[] spinnerListMedium = new String[] { "1", "2", "3", "4", "5", "6", "7", "8" };
 
-	public Benutzerdefiniertes_Feld(JFrame _main) {
+	public Benutzerdefiniertes_Feld(WumpusGUI _main) {
 		main = _main;
+		bFeld = this;
 		initGUI();
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -115,12 +120,21 @@ public class Benutzerdefiniertes_Feld extends JFrame {
 						@Override
 						public void mouseClicked(MouseEvent e) {
 							if (e.getClickCount() >= 1) {
-								System.out.println("Agent(" + agentXKordSpinner.getValue() + "|" + agentYKordSpinner.getValue() + ")");
-								System.out.println("Gold(" + goldXKordSpinner.getValue() + "|" + goldYKordSpinner.getValue() + ")");
-								System.out.println("Wumpus(" + wumpXKordSpinner.getValue() + "|" + wumpYKordSpinner.getValue() + ")");
-								System.out.println("Pit(" + pitXKordSpinner.getValue() + "|" + pitYKordSpinner.getValue() + ")");
-								main.setEnabled(true);
-								dispose();
+								 System.out.println("Agent(" + agentXKordSpinner.getValue() + "|" + agentYKordSpinner.getValue() + ")");
+								 System.out.println("Gold(" + goldXKordSpinner.getValue() + "|" + goldYKordSpinner.getValue() + ")");
+								 System.out.println("Wumpus(" + wumpXKordSpinner.getValue() + "|" + wumpYKordSpinner.getValue() + ")");
+								 System.out.println("Pit(" + pitXKordSpinner.getValue() + "|" + pitYKordSpinner.getValue() + ")");
+								int[] positionen = new int[] { Integer.valueOf(agentYKordSpinner.getValue().toString()), Integer.valueOf(agentXKordSpinner.getValue().toString()),
+										Integer.valueOf(goldYKordSpinner.getValue().toString()), Integer.valueOf(goldXKordSpinner.getValue().toString()), Integer.valueOf(wumpYKordSpinner.getValue().toString()),
+										Integer.valueOf(wumpXKordSpinner.getValue().toString()), Integer.valueOf(pitYKordSpinner.getValue().toString()), Integer.valueOf(pitXKordSpinner.getValue().toString()) };
+								String pruefung = PositionenPruefen.pruefePositionen(positionen);
+								if (pruefung == "Nichts") {
+									main.wump.neuesSpiel(4, positionen);
+									main.setEnabled(true);
+									dispose();
+								} else {
+									JOptionPane.showMessageDialog(bFeld, pruefung, "Fehler", JOptionPane.WARNING_MESSAGE);
+								}
 							}
 						}
 
@@ -154,7 +168,7 @@ public class Benutzerdefiniertes_Feld extends JFrame {
 				}
 				{
 					SpinnerListModel pitYKordSpinnerModel = new SpinnerListModel(spinnerListSmall);
-//					pitYKordSpinnerModel.setValue("0,1,2,3");
+					// pitYKordSpinnerModel.setValue("0,1,2,3");
 					pitYKordSpinner = new JSpinner();
 					getContentPane().add(pitYKordSpinner, new GridBagConstraints(1, 5, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 					pitYKordSpinner.setModel(pitYKordSpinnerModel);
@@ -162,7 +176,7 @@ public class Benutzerdefiniertes_Feld extends JFrame {
 				}
 				{
 					SpinnerListModel wumpYKordSpinnerModel = new SpinnerListModel(spinnerListSmall);
-//					wumpYKordSpinnerModel.setValue("0,1,2,3");
+					// wumpYKordSpinnerModel.setValue("0,1,2,3");
 					wumpYKordSpinner = new JSpinner();
 					getContentPane().add(wumpYKordSpinner, new GridBagConstraints(1, 4, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 					wumpYKordSpinner.setModel(wumpYKordSpinnerModel);
@@ -170,7 +184,7 @@ public class Benutzerdefiniertes_Feld extends JFrame {
 				}
 				{
 					SpinnerListModel goldYKordSpinnerModel = new SpinnerListModel(spinnerListSmall);
-//					goldYKordSpinnerModel.setValue("0,1,2,3");
+					// goldYKordSpinnerModel.setValue("0,1,2,3");
 					goldYKordSpinner = new JSpinner();
 					getContentPane().add(goldYKordSpinner, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 					goldYKordSpinner.setModel(goldYKordSpinnerModel);
@@ -178,7 +192,7 @@ public class Benutzerdefiniertes_Feld extends JFrame {
 				}
 				{
 					SpinnerListModel agentYKordSpinnerModel = new SpinnerListModel(spinnerListSmall);
-//					agentYKordSpinnerModel.setValue("0,1,2,3");
+					// agentYKordSpinnerModel.setValue("0,1,2,3");
 					agentYKordSpinner = new JSpinner();
 					getContentPane().add(agentYKordSpinner, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 					agentYKordSpinner.setModel(agentYKordSpinnerModel);
@@ -186,7 +200,7 @@ public class Benutzerdefiniertes_Feld extends JFrame {
 				}
 				{
 					SpinnerListModel agentXKordSpinnerModel = new SpinnerListModel(spinnerListSmall);
-//					agentXKordSpinnerModel.setValue("0,1,2,3");
+					// agentXKordSpinnerModel.setValue("0,1,2,3");
 					agentXKordSpinner = new JSpinner();
 					getContentPane().add(agentXKordSpinner, new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 					agentXKordSpinner.setModel(agentXKordSpinnerModel);
@@ -194,7 +208,7 @@ public class Benutzerdefiniertes_Feld extends JFrame {
 				}
 				{
 					SpinnerListModel goldXKordSpinnerModel = new SpinnerListModel(spinnerListSmall);
-//					goldXKordSpinnerModel.setValue("0,1,2,3");
+					// goldXKordSpinnerModel.setValue("0,1,2,3");
 					goldXKordSpinner = new JSpinner();
 					getContentPane().add(goldXKordSpinner, new GridBagConstraints(2, 3, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 					goldXKordSpinner.setModel(goldXKordSpinnerModel);
@@ -202,7 +216,7 @@ public class Benutzerdefiniertes_Feld extends JFrame {
 				}
 				{
 					SpinnerListModel wumpXKordSpinnerModel = new SpinnerListModel(spinnerListSmall);
-//					wumpXKordSpinnerModel.setValue("0,1,2,3");
+					// wumpXKordSpinnerModel.setValue("0,1,2,3");
 					wumpXKordSpinner = new JSpinner();
 					getContentPane().add(wumpXKordSpinner, new GridBagConstraints(2, 4, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 					wumpXKordSpinner.setModel(wumpXKordSpinnerModel);
@@ -210,7 +224,7 @@ public class Benutzerdefiniertes_Feld extends JFrame {
 				}
 				{
 					SpinnerListModel pitXKordSpinnerModel = new SpinnerListModel(spinnerListSmall);
-//					pitXKordSpinnerModel.setValue("0,1,2,3");
+					// pitXKordSpinnerModel.setValue("0,1,2,3");
 					pitXKordSpinner = new JSpinner();
 					getContentPane().add(pitXKordSpinner, new GridBagConstraints(2, 5, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 					pitXKordSpinner.setModel(pitXKordSpinnerModel);

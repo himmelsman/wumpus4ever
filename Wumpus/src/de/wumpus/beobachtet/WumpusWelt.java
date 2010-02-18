@@ -37,6 +37,33 @@ public class WumpusWelt extends Observable {
 
 		}
 	}
+	/**
+	 * die Methode gibt die Anzahl des Feldes und initialisiert die WumpusWelt
+	 *  
+	 * @param size Größe des Feldes
+	 * @param positionen Vom Benutzerdefiniertes_Feld übergebene Positionen
+	 */
+	public void grossedesFeldes(int size, int[] positionen) {
+		anzahl = size;
+		System.out.println("anzahl in Welt " + anzahl);
+		weltArray = positioniere.feldPositionierung(anzahl, positionen);
+		// weltArray = new int[anzahl][anzahl];
+		for (int i = 0; i < anzahl; i++) {
+			for (int j = 0; j < anzahl; j++) {
+				// weltArray[i][j] = 0;
+				if (bestimmeDieErsteZahl(weltArray[i][j]) == 1) {
+					agent_y = i;
+					agent_x = j;
+					setChanged();
+					notifyObservers(new NachrichtenObjekt(agent_x, agent_y, positioniere.separateWahrnehmungen(weltArray[i][j]), Bezeichnungen.NEUES_SPIEL));
+					System.out.println("X " + agent_x + " Y " + agent_y);
+				}
+				// System.out.println("Position " + i + "," + j + " Wert " +
+				// weltArray[i][j]);
+			}
+
+		}
+	}
 
 //	/* Diese Methode bestimm die Position des Agentes */
 //	public void positiondesAgentes() {
@@ -74,6 +101,15 @@ public class WumpusWelt extends Observable {
 
 	/* Durch diese Methode wird die grosse des WumpusWelt festgelegt */
 	public void neuesSpiel(int weltGroesse) {
+		grossedesFeldes(weltGroesse);
+		System.out.println("Teste vor notifyObservers");
+		setChanged();
+		notifyObservers(new NachrichtenObjekt(0, 0, null, Bezeichnungen.REPAINT));
+		System.out.println("Teste nach notifyObservers");
+	}
+	/*neues Spiel durch von Benutzer festgelegten Positionen*/
+	public void neuesSpiel(int weltGroesse, int[] positionen) {
+		
 		grossedesFeldes(weltGroesse);
 		System.out.println("Teste vor notifyObservers");
 		setChanged();
