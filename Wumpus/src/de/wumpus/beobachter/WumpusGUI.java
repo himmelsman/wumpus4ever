@@ -361,7 +361,7 @@ public class WumpusGUI extends JFrame implements Observer {
 		}
 		if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.FERTIG)) {
 			ablaufTextArea.setText(ablaufTextArea.getText());
-//			System.out.println("\n\n\n" + ablaufTextArea.getText());
+			System.out.println("\n\n\n" + ablaufTextArea.getText());
 		}
 	}
 }

@@ -59,18 +59,17 @@ public class Wumpus_Panel extends JPanel implements Observer {
 		// }
 		// }
 		initGUI();
-		revalidate();
-		repaint();
-
 	}
 
 	public void setzeAnzahl() {
 		anzahl = wump.anzahl;
 		array = new WumpusBitmapComponent[anzahl][anzahl];
+//		for (int i = 0; i < anzahl; i++) {
+//			for (int j = 0; j < anzahl; j++) {
+//				System.out.println("Position " + i + "," + j + " Wert " + wump.weltArray[i][j]);
+//			}
+//		}
 		initGUI();
-		revalidate();
-		// zeichnen();
-		repaint();
 	}
 
 	@Override
@@ -99,18 +98,18 @@ public class Wumpus_Panel extends JPanel implements Observer {
 
 	private void initGUI() {
 		// int x = 1, y = 1;
-		this.removeAll();
+		removeAll();
 		GridBagLayout thisLayout = new GridBagLayout();
 		// TODO: statt gridbaglayout eine alternative suchen, welches quadratische felder ermöglicht
-		this.setLayout(thisLayout);
-		this.setPreferredSize(new java.awt.Dimension(panelGrosse, panelGrosse));
-		this.setDebugGraphicsOptions(DebugGraphics.BUFFERED_OPTION);
-		this.setAutoscrolls(true);
+		setLayout(thisLayout);
+		setPreferredSize(new java.awt.Dimension(panelGrosse, panelGrosse));
+		setDebugGraphicsOptions(DebugGraphics.BUFFERED_OPTION);
+		setAutoscrolls(true);
 		array = new WumpusBitmapComponent[anzahl][anzahl];
 		// System.out.println("Anzahl init= " + anzahl);
-		this.zeichnen();
-		this.revalidate();
-		this.repaint();
+		zeichnen();
+		revalidate();
+		repaint();
 	}
 
 	/**
@@ -147,7 +146,7 @@ public class Wumpus_Panel extends JPanel implements Observer {
 					} else
 						array[i][j] = new WumpusBitmapComponent(schwarz2, anzahl, j, i % anzahl);
 					this.add(array[i][j], new GridBagConstraints(x, y, 1, 1, 0.1, 0.1, GridBagConstraints.SOUTH, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
-//					System.out.println("X = " + x +" Y = " + y);
+					// System.out.println("X = " + x +" Y = " + y);
 					// this.add(new JLabel("Test: x:" + i + " y: " + j), new GridBagConstraints(x, y, 1, 1, 0.1, 0.1, GridBagConstraints.SOUTH, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 					// array.actionPerformed();
 					// array[i][j].addMouseListener(mkl);
@@ -193,7 +192,7 @@ public class Wumpus_Panel extends JPanel implements Observer {
 	 */
 	public void wechseleNur2Bilder(int alteY, int alteX, int neuY, int neuX) {
 		System.err.println("Altes");
-		System.out.println("Y: " + alteY + " X: "+ alteX + " Dateiname: " + array[alteY][alteX].getFileName());
+		System.out.println("Y: " + alteY + " X: " + alteX + " Dateiname: " + array[alteY][alteX].getFileName());
 		remove(array[alteY][alteX]);
 		// repaint();
 
@@ -205,7 +204,7 @@ public class Wumpus_Panel extends JPanel implements Observer {
 		// array[alteY][alteX].changeImage(welchesBild(alteY, alteX));
 		validate();
 		System.err.println("Neues");
-		System.out.println("Y: " + neuY + " X: "+ neuX + " Dateiname: " + array[neuY][neuX].getFileName());
+		System.out.println("Y: " + neuY + " X: " + neuX + " Dateiname: " + array[neuY][neuX].getFileName());
 		remove(array[neuY][neuX]);
 		/* Agent muss vorne an die Wahrnemung angefügt werden */
 		array[neuY][neuX] = new WumpusBitmapComponent(agent2, anzahl, neuY, neuX);
@@ -213,7 +212,8 @@ public class Wumpus_Panel extends JPanel implements Observer {
 		// repaint();
 		validate();
 	}
-//TODO: Zeichemethode beim erstellen eines neuen Feldes wird 2 mal aufgerufen
+
+	// TODO: Zeichemethode beim erstellen eines neuen Feldes wird 2 mal aufgerufen
 	// private static Object remove(Object array, int index) {
 	// int length = getLength(array);
 	// if (index < 0 || index >= length) {
@@ -248,7 +248,7 @@ public class Wumpus_Panel extends JPanel implements Observer {
 		if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.BEWEGE)) {
 			neuY = ((NachrichtenObjekt) arg).wahrnehmung[0];
 			neuX = ((NachrichtenObjekt) arg).wahrnehmung[1];
-//			wechseleNur2Bilder(alteY, alteX, neuY, neuX);
+			// wechseleNur2Bilder(alteY, alteX, neuY, neuX);
 			alteY = neuY;
 			alteX = neuX;
 		}

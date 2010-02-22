@@ -3,6 +3,8 @@ package de.wumpus.beobachter;
 import java.util.Observable;
 import java.util.Observer;
 
+import java.util.Scanner;
+
 import de.wumpus.beobachtet.WumpusWelt;
 import de.wumpus.tools.Feld;
 import de.wumpus.tools.Bezeichnungen;
@@ -100,20 +102,29 @@ public class Agent implements Observer {
 		}
 	}
 
-	/* diese Methode prueft, ob man nicht ausserhalb des vor gegebenes Bereiches nicht rausgeht. d.h. vermeidet ArrayIndexOutOfBoundsException */
+	/**
+	 * diese Methode prueft, ob man nicht ausserhalb des vor gegebenes Bereiches nicht rausgeht. d.h. vermeidet ArrayIndexOutOfBoundsException gibt ein Bumb falls dieses doch vorkommt aus.
+	 * 
+	 * @param y
+	 * @param x
+	 */
 	private boolean ichBinNichtAuserhalb(int y, int x) {
 		// System.err.println("Y: " + y + " X: " + x);
 		if (y >= 0 && y < anzahl && x >= 0 && x < anzahl) {
 			// System.err.println("ich bin nicht ausserhalb");
 			return true;
-		} else
+		} else {
+			// TODO: weiterleitung der Wahrnehmung an GUI mit abzug von Punkten wegen Bewegung
+			System.out.println("BUMP");
 			return false;
+		}
 	}
 
 	private void bewegeAgenten() {
 		// Derzeit wird der Agent nicht bewegt sondern nur eines der anliegenden Felder wird geprüft
 		// Deshalb do while mit Abbruchbedingung
 		// TODO:Bewege den Agenten richtig
+		setzeKeinGefahrNachStart(agentY, agentX);
 		boolean trigger = true;
 		verarbeiteWahrnehmung(agentY, agentX);
 		// Falls Agent am Anfang nicht weiss wohin
@@ -123,48 +134,93 @@ public class Agent implements Observer {
 			// System.err.println("bewegeAgenten: " + richtung);
 			switch (richtung) {
 			case 1: {
+				System.out.println("Agent(" + agentY + "|" + agentX + ") versucht nach oben zu gehen");
 				if (ichBinNichtAuserhalb(agentY - 1, agentX)) {
-					if (!pruefeFeldNachGefahr(agentY = agentY - 1, agentX)) {
-						wump.bewegeAgent(Bezeichnungen.UP);
-						trigger = sitzeAufGold(agentY, agentX);
+					if (!pruefeFeldNachGefahr(agentY - 1, agentX)) {
+						if (pruefeFeldNachSicherheit(agentY - 1, agentX)) {
+							agentY = agentY - 1;
+							wump.bewegeAgent(Bezeichnungen.UP);
+							verarbeiteWahrnehmung(agentY, agentX);
+							trigger = sitzeAufGold(agentY, agentX);
+						}
+
 					}
 				}
 				break;
 			}
 			case 2: {
+				System.out.println("Agent(" + agentY + "|" + agentX + ") versucht nach unten zu gehen");
 				if (ichBinNichtAuserhalb(agentY + 1, agentX)) {
-					if (!pruefeFeldNachGefahr(agentY = agentY + 1, agentX)) {
-						wump.bewegeAgent(Bezeichnungen.DOWN);
-						trigger = sitzeAufGold(agentY, agentX);
+					if (!pruefeFeldNachGefahr(agentY + 1, agentX)) {
+						if (pruefeFeldNachSicherheit(agentY + 1, agentX)) {
+							agentY = agentY + 1;
+							wump.bewegeAgent(Bezeichnungen.DOWN);
+							verarbeiteWahrnehmung(agentY, agentX);
+							trigger = sitzeAufGold(agentY, agentX);
+						}
 					}
 				}
 				break;
 			}
 			case 3: {
+				System.out.println("Agent(" + agentY + "|" + agentX + ") versucht nach links zu gehen");
 				if (ichBinNichtAuserhalb(agentY, agentX - 1)) {
-					if (pruefeFeldNachGefahr(agentY, agentX = agentX - 1)) {
-						wump.bewegeAgent(Bezeichnungen.LINKS);
-						trigger = sitzeAufGold(agentY, agentX);
+					if (!pruefeFeldNachGefahr(agentY, agentX - 1)) {
+						if (pruefeFeldNachSicherheit(agentY, agentX - 1)) {
+							agentX = agentX - 1;
+							wump.bewegeAgent(Bezeichnungen.LINKS);
+							verarbeiteWahrnehmung(agentY, agentX);
+							trigger = sitzeAufGold(agentY, agentX);
+						}
 					}
 				}
 				break;
 			}
 			case 4: {
+				System.out.println("Agent(" + agentY + "|" + agentX + ") versucht nach rechts zu gehen");
 				if (ichBinNichtAuserhalb(agentY, agentX + 1)) {
-					if (!pruefeFeldNachGefahr(agentY, agentX = agentX + 1)) {
-						wump.bewegeAgent(Bezeichnungen.RECHTS);
-						trigger = sitzeAufGold(agentY, agentX);
+					if (!pruefeFeldNachGefahr(agentY, agentX + 1)) {
+						if (pruefeFeldNachSicherheit(agentY, agentX + 1)) {
+							agentX = agentX + 1;
+							wump.bewegeAgent(Bezeichnungen.RECHTS);
+							verarbeiteWahrnehmung(agentY, agentX);
+							trigger = sitzeAufGold(agentY, agentX);
+						}
 					}
 				}
 				break;
 			}
 			}
-			verarbeiteWahrnehmung(agentY, agentX);
-			ausgabe();
+//			ausgabe();
+//			new Scanner(System.in).next();
 		} while (trigger);
 		wump.agentIstFertig();
 	}
 
+	private void setzeKeinGefahrNachStart(int y, int x) {
+		if (ichBinNichtAuserhalb(y - 1, x)) {
+			arraymitWissenBasis[y - 1][x].gefahr = false;
+		}
+		if (ichBinNichtAuserhalb(y, x - 1)) {
+			arraymitWissenBasis[y][x - 1].gefahr = false;
+		}
+		if (ichBinNichtAuserhalb(y + 1, x)) {
+			arraymitWissenBasis[y + 1][x].gefahr = false;
+		}
+		if (ichBinNichtAuserhalb(y, x + 1)) {
+			arraymitWissenBasis[y][x + 1].gefahr = false;
+		}
+	}
+
+	/**
+	 * Wenn ein Feld noch nicht als besucht markiert wurde, es also zum ersten mal besucht wird, wird dieses Feld in der Wissensbasis als besucht abgelegt und als nicht versteckt. Dannach werden die evtl. vorkommenden Wahrnehmungen des Feldes
+	 * einzelnd verarbeitet und in der Wissensbasis gespeichert.
+	 * 
+	 * @param y
+	 *            y position von Agent
+	 * @param x
+	 *            x position von Agent
+	 */
 	private void verarbeiteWahrnehmung(int y, int x) {
 		if (!arraymitWissenBasis[y][x].besucht) {
 			arraymitWissenBasis[y][x].besucht = true;
@@ -203,22 +259,27 @@ public class Agent implements Observer {
 		} else if (istFallgrubeDa(y, x)) {
 			System.err.println("DORT IST EINE FALLGRUBE.");
 			return true;
-		} else if (istGoldDa(y, x)) {
-			System.err.println("DORT IST DAS GOLD.");
-			return true;
+			// }else if (istGoldDa(y, x)) {
+			// System.err.println("DORT IST DAS GOLD.");
+			// return true;
 		} else {
 			System.err.println("DORT IST NICHTS NENNENSWERTES.");
 			return false;
 		}
 	}
 
-	private void pruefeFeldNachSicherheit(int y, int x) {
-		if (istWumpusNichtDa(y, x)) {
-			System.err.println("DORT IST NICHT DAS WUMPUS.");
-		} else if (istFallgrubeNichtDa(y, x)) {
-			System.err.println("DORT IST KEINE FALLGRUBE.");
-		} else {
+	private boolean pruefeFeldNachSicherheit(int y, int x) {
+		if (!istWumpusNichtDa(y, x)) {
+			System.err.println("DORT IST EVTL. WUMPUS.");
+			return false;
+		}
+		if (!istFallgrubeNichtDa(y, x)) {
+			System.err.println("DORT IST EVTL. FALLGRUBE.");
+			return false;
+		}
+		{
 			System.err.println("DORT IST NICHTS NENNENSWERTES.");
+			return true;
 		}
 	}
 
