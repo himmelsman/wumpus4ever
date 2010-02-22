@@ -14,11 +14,12 @@ class Main{
 		WumpusGUI observing = new WumpusGUI(panel, wumpusWeltObserved);//Beobachter
 		observing.setLocationRelativeTo(null);
 		observing.setVisible(true);
-//		Agent agent = new Agent(wumpusWeltObserved);//Beobachter
+		wumpusWeltObserved.addObserver(panel);
+		Agent agent = new Agent(wumpusWeltObserved);//Beobachter		
+		wumpusWeltObserved.addObserver(observing);//add Beobachter WumpusGUI
+		wumpusWeltObserved.addObserver(agent);//add Beobachter Agent 
 		
-		wumpusWeltObserved.addObserver(observing);//add Beobachter WumpusGUI 
-		
-//		wumpusWeltObserved.addObserver(agent);//add Beobachter Agent
+
 //		observed.counter(10);
 //		observed.positiondesAgentes();
 //		observed.test(1, 3, 7, "Ich weiss nix");

@@ -1,4 +1,5 @@
 package de.wumpus.beobachter;
+
 import java.util.Observable;
 import java.util.Observer;
 
@@ -17,7 +18,7 @@ public class Agent implements Observer {
 	Feld feld;
 	Feld[][] arraymitWissenBasis;
 
-	public Agent(WumpusWelt _wump/*, SetzeDieGeschwindigkeit geschwindigkeit*/) {
+	public Agent(WumpusWelt _wump/* , SetzeDieGeschwindigkeit geschwindigkeit */) {
 		wump = _wump;
 	}
 
@@ -37,7 +38,7 @@ public class Agent implements Observer {
 	public void update(Observable obj, Object arg) {
 		System.out.println("Ich bin der Agent in kl. Agent");
 		if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.AGENT)) {
-			System.out.println("Meine Position x " + ((NachrichtenObjekt) arg).x + " Position y: " + ((NachrichtenObjekt) arg).y);
+			System.out.println("Meine Position y " + ((NachrichtenObjekt) arg).y + " Position x: " + ((NachrichtenObjekt) arg).x);
 			// positionDesAgentes(((NachrichtenObjekt) arg).y, ((NachrichtenObjekt) arg).x, ((NachrichtenObjekt) arg).wahrnehmung);
 			System.out.println("Wissenbasis des Abentes");
 			// ausgabe();
@@ -58,7 +59,6 @@ public class Agent implements Observer {
 	// System.out.println("anzahl " + anzahl + " array.length" + arraymitWissenBasis.length);
 	// System.out.println("Meine Position x " + x + " Position y: " + y);
 	// }
-
 	public void ausgabe() {
 		System.out.println("----------------------------------------------------------------------------------------------------------");
 		for (int j = 0; j < anzahl; j++) {
@@ -66,8 +66,8 @@ public class Agent implements Observer {
 				if (arraymitWissenBasis[j][i] != null) {
 					// TODO: Was wird hier bei der Ausgabe geändert
 					// if (arraymitWissenBasis[j][i].istWahrnehmung()) {
-					System.out.print("2:" + arraymitWissenBasis[j][i].gold + " 4:" + arraymitWissenBasis[j][i].wumpus+ " 6:" + arraymitWissenBasis[j][i].fallgrube);
-//					System.out.print("3:" + arraymitWissenBasis[j][i].glitter + " 5:" + arraymitWissenBasis[j][i].geruch + " 7:" + arraymitWissenBasis[j][i].brise);
+					System.out.print("2:" + arraymitWissenBasis[j][i].gold + " 4:" + arraymitWissenBasis[j][i].wumpus + " 6:" + arraymitWissenBasis[j][i].fallgrube);
+					// System.out.print("3:" + arraymitWissenBasis[j][i].glitter + " 5:" + arraymitWissenBasis[j][i].geruch + " 7:" + arraymitWissenBasis[j][i].brise);
 					// } else {
 					// System.out.print("no Wahr");
 					// }
@@ -85,7 +85,7 @@ public class Agent implements Observer {
 				if (arraymitWissenBasis[j][i] != null) {
 					// TODO: Was wird hier bei der Ausgabe geändert
 					// if (arraymitWissenBasis[j][i].istWahrnehmung()) {
-//					System.out.print("2:" + arraymitWissenBasis[j][i].gold + " 4:" + arraymitWissenBasis[j][i].wumpus+ " 6:" + arraymitWissenBasis[j][i].fallgrube);
+					// System.out.print("2:" + arraymitWissenBasis[j][i].gold + " 4:" + arraymitWissenBasis[j][i].wumpus+ " 6:" + arraymitWissenBasis[j][i].fallgrube);
 					System.out.print("3:" + arraymitWissenBasis[j][i].glitter + " 5:" + arraymitWissenBasis[j][i].geruch + " 7:" + arraymitWissenBasis[j][i].brise);
 					// } else {
 					// System.out.print("no Wahr");
@@ -99,7 +99,8 @@ public class Agent implements Observer {
 			System.out.println("----------------------------------------------------------------------------------------------------------");
 		}
 	}
-	/*diese Methode prueft, ob man nicht ausserhalb des vor gegebenes Bereiches nicht rausgeht. d.h. vermeidet ArrayIndexOutOfBoundsException*/
+
+	/* diese Methode prueft, ob man nicht ausserhalb des vor gegebenes Bereiches nicht rausgeht. d.h. vermeidet ArrayIndexOutOfBoundsException */
 	private boolean ichBinNichtAuserhalb(int y, int x) {
 		// System.err.println("Y: " + y + " X: " + x);
 		if (y >= 0 && y < anzahl && x >= 0 && x < anzahl) {
@@ -118,38 +119,42 @@ public class Agent implements Observer {
 		// Falls Agent am Anfang nicht weiss wohin
 		do {
 			int richtung = (int) ((Math.random()) * 4 + 1);
-//			System.err.println("AgentY " + agentY + " AgentX " + agentX);
-//			System.err.println("bewegeAgenten: " + richtung);
+			// System.err.println("AgentY " + agentY + " AgentX " + agentX);
+			// System.err.println("bewegeAgenten: " + richtung);
 			switch (richtung) {
 			case 1: {
 				if (ichBinNichtAuserhalb(agentY - 1, agentX)) {
-					pruefeFeldNachGefahr(agentY = agentY - 1, agentX);
-					wump.bewegeAgent(Bezeichnungen.UP);
-					trigger = sitzeAufGold(agentY, agentX);
+					if (!pruefeFeldNachGefahr(agentY = agentY - 1, agentX)) {
+						wump.bewegeAgent(Bezeichnungen.UP);
+						trigger = sitzeAufGold(agentY, agentX);
+					}
 				}
 				break;
 			}
 			case 2: {
 				if (ichBinNichtAuserhalb(agentY + 1, agentX)) {
-					pruefeFeldNachGefahr(agentY = agentY + 1, agentX);
-					wump.bewegeAgent(Bezeichnungen.DOWN);
-					trigger = sitzeAufGold(agentY, agentX);
+					if (!pruefeFeldNachGefahr(agentY = agentY + 1, agentX)) {
+						wump.bewegeAgent(Bezeichnungen.DOWN);
+						trigger = sitzeAufGold(agentY, agentX);
+					}
 				}
 				break;
 			}
 			case 3: {
 				if (ichBinNichtAuserhalb(agentY, agentX - 1)) {
-					pruefeFeldNachGefahr(agentY, agentX = agentX - 1);
-					wump.bewegeAgent(Bezeichnungen.LINKS);
-					trigger = sitzeAufGold(agentY, agentX);
+					if (pruefeFeldNachGefahr(agentY, agentX = agentX - 1)) {
+						wump.bewegeAgent(Bezeichnungen.LINKS);
+						trigger = sitzeAufGold(agentY, agentX);
+					}
 				}
 				break;
 			}
 			case 4: {
 				if (ichBinNichtAuserhalb(agentY, agentX + 1)) {
-					pruefeFeldNachGefahr(agentY, agentX = agentX + 1);
-					wump.bewegeAgent(Bezeichnungen.RECHTS);
-					trigger = sitzeAufGold(agentY, agentX);
+					if (!pruefeFeldNachGefahr(agentY, agentX = agentX + 1)) {
+						wump.bewegeAgent(Bezeichnungen.RECHTS);
+						trigger = sitzeAufGold(agentY, agentX);
+					}
 				}
 				break;
 			}
@@ -160,7 +165,6 @@ public class Agent implements Observer {
 		wump.agentIstFertig();
 	}
 
-	
 	private void verarbeiteWahrnehmung(int y, int x) {
 		if (!arraymitWissenBasis[y][x].besucht) {
 			arraymitWissenBasis[y][x].besucht = true;
@@ -192,15 +196,19 @@ public class Agent implements Observer {
 		return true;
 	}
 
-	private void pruefeFeldNachGefahr(int y, int x) {
+	private boolean pruefeFeldNachGefahr(int y, int x) {
 		if (istWumpusDa(y, x)) {
 			System.err.println("DORT IST DAS WUMPUS.");
+			return true;
 		} else if (istFallgrubeDa(y, x)) {
 			System.err.println("DORT IST EINE FALLGRUBE.");
+			return true;
 		} else if (istGoldDa(y, x)) {
 			System.err.println("DORT IST DAS GOLD.");
+			return true;
 		} else {
 			System.err.println("DORT IST NICHTS NENNENSWERTES.");
+			return false;
 		}
 	}
 
@@ -271,13 +279,13 @@ public class Agent implements Observer {
 		if (x + 1 < anzahl) {
 			rechtesFeld = arraymitWissenBasis[y][x + 1];
 		}
-		if (linkesFeld != null && linkesFeld.besucht && linkesFeld.brise && istWumpusNichtDa(y - 1, x - 1) && istWumpusNichtDa(y + 1, x - 1) && istWumpusNichtDa(y, x - 2)) {
+		if (linkesFeld != null && linkesFeld.besucht && linkesFeld.brise && istFallgrubeNichtDa(y - 1, x - 1) && istFallgrubeNichtDa(y + 1, x - 1) && istFallgrubeNichtDa(y, x - 2)) {
 			return true;
-		} else if (rechtesFeld != null && rechtesFeld.besucht && rechtesFeld.brise && istWumpusNichtDa(y - 1, x + 1) && istWumpusNichtDa(y + 1, x + 1) && istWumpusNichtDa(y, x + 2)) {
+		} else if (rechtesFeld != null && rechtesFeld.besucht && rechtesFeld.brise && istFallgrubeNichtDa(y - 1, x + 1) && istFallgrubeNichtDa(y + 1, x + 1) && istFallgrubeNichtDa(y, x + 2)) {
 			return true;
-		} else if (oberesFeld != null && oberesFeld.besucht && oberesFeld.brise && istWumpusNichtDa(y - 2, x) && istWumpusNichtDa(y - 1, x - 1) && istWumpusNichtDa(y - 1, x + 1)) {
+		} else if (oberesFeld != null && oberesFeld.besucht && oberesFeld.brise && istFallgrubeNichtDa(y - 2, x) && istFallgrubeNichtDa(y - 1, x - 1) && istFallgrubeNichtDa(y - 1, x + 1)) {
 			return true;
-		} else if (unteresFeld != null && unteresFeld.besucht && unteresFeld.brise && istWumpusNichtDa(y + 2, x) && istWumpusNichtDa(y + 1, x - 1) && istWumpusNichtDa(y + 1, x + 1)) {
+		} else if (unteresFeld != null && unteresFeld.besucht && unteresFeld.brise && istFallgrubeNichtDa(y + 2, x) && istFallgrubeNichtDa(y + 1, x - 1) && istFallgrubeNichtDa(y + 1, x + 1)) {
 			return true;
 		}
 		return false;
@@ -305,13 +313,13 @@ public class Agent implements Observer {
 		if (x + 1 < anzahl) {
 			rechtesFeld = arraymitWissenBasis[y][x + 1];
 		}
-		if (linkesFeld != null && linkesFeld.besucht && linkesFeld.glitter && istWumpusNichtDa(y - 1, x - 1) && istWumpusNichtDa(y + 1, x - 1) && istWumpusNichtDa(y, x - 2)) {
+		if (linkesFeld != null && linkesFeld.besucht && linkesFeld.glitter && istGoldNichtDa(y - 1, x - 1) && istGoldNichtDa(y + 1, x - 1) && istGoldNichtDa(y, x - 2)) {
 			return true;
-		} else if (rechtesFeld != null && rechtesFeld.besucht && rechtesFeld.glitter && istWumpusNichtDa(y - 1, x + 1) && istWumpusNichtDa(y + 1, x + 1) && istWumpusNichtDa(y, x + 2)) {
+		} else if (rechtesFeld != null && rechtesFeld.besucht && rechtesFeld.glitter && istGoldNichtDa(y - 1, x + 1) && istGoldNichtDa(y + 1, x + 1) && istGoldNichtDa(y, x + 2)) {
 			return true;
-		} else if (oberesFeld != null && oberesFeld.besucht && oberesFeld.glitter && istWumpusNichtDa(y - 2, x) && istWumpusNichtDa(y - 1, x - 1) && istWumpusNichtDa(y - 1, x + 1)) {
+		} else if (oberesFeld != null && oberesFeld.besucht && oberesFeld.glitter && istGoldNichtDa(y - 2, x) && istGoldNichtDa(y - 1, x - 1) && istGoldNichtDa(y - 1, x + 1)) {
 			return true;
-		} else if (unteresFeld != null && unteresFeld.besucht && unteresFeld.glitter && istWumpusNichtDa(y + 2, x) && istWumpusNichtDa(y + 1, x - 1) && istWumpusNichtDa(y + 1, x + 1)) {
+		} else if (unteresFeld != null && unteresFeld.besucht && unteresFeld.glitter && istGoldNichtDa(y + 2, x) && istGoldNichtDa(y + 1, x - 1) && istGoldNichtDa(y + 1, x + 1)) {
 			return true;
 		}
 		return false;

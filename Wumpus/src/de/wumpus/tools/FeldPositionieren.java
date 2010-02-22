@@ -130,8 +130,8 @@ public class FeldPositionieren {
 		return istarray;
 	}
 
-	/*
-	 * die Methode setzt um den Wumpus und Pits nahligende felder mit Geruchund Brize. Man muss achten damit die Felder nicht im auﬂerem Rand plaziert werden.
+	/**
+	 * Die Methode setzt um den Wumpus und Pits nahligende felder mit Geruchund Brize. Man muss achten damit die Felder nicht im auﬂerem Rand plaziert werden.
 	 */
 	private void setUmfeld(int x, int y, int value, int anzahl, int[][] istarray) {
 		if (x != 0)
@@ -159,7 +159,7 @@ public class FeldPositionieren {
 		}
 	}
 
-	/* diese Methode wird die benuzerdefiniertes Feld uebegeben, mit Koordinaten von Agent,Gold,Wumpus,Pit */
+	/** Diese Methode wird die benuzerdefiniertes Feld uebegeben, mit Koordinaten von Agent,Gold,Wumpus,Pit */
 	public int[][] myfeldPositionierung(int anzahl, int[] positionen) {
 		int[][] istarray = new int[anzahl][anzahl];
 		for (int i = 0; i < anzahl; i++) {
@@ -238,8 +238,8 @@ public class FeldPositionieren {
 		return istarray;
 	}
 
-	/*
-	 * Die Methode prueft was fuer ein Zahl am Ende ist.z.B. 123 diese Methode gibt als Rueckgabe 3
+	/**
+	 * Die Methode prueft was fuer ein Zahl am Ende ist.z.B. 123 diese Methode gibt als Rueckgabe 3	  
 	 */
 	public int checkLast(int value, int newDigit) {
 		int oldDigit = value % 10;
@@ -250,10 +250,8 @@ public class FeldPositionieren {
 		}
 		return value * 10 + newDigit;
 	}
-
-	// TODO: die Name diese Methode soll geaendert werden.
-	/*
-	 * Diese Methode schneidet den ersten Element(Zahl des Agentes) einer Zahlz.B. 0123 nach der Methode 123
+	/**
+	 * Diese Methode schneidet den ersten Element(Zahl des Agentes) einer Zahlz.B. 123 nach der Methode 23
 	 */
 	public int checkFirst(int zahl) {
 		int zaehler = 0;
@@ -272,10 +270,8 @@ public class FeldPositionieren {
 		// if(zahl < 0)zahl = 9; zahl == 0; zahl =9;
 		return (original - zahltest) <= 0 ? 9 : original - zahltest;
 	}
-
-	// TODO: die Name diese Methode soll geaendert werden.
-	/*
-	 * Diese Methode schneidet den ersten Element(Zahl des Agentes) einer Zahlz.B. 0123 nach der Methode 123
+	/**
+	 * Diese Methode schneidet den ersten Element(beliebige Zahl) einer Zahlz.B. 0123 nach der Methode 123
 	 */
 	public int checkFirst(int zahl, int first) {
 		int zaehler = 0;
@@ -294,7 +290,7 @@ public class FeldPositionieren {
 		return (original - first) <= 0 ? 9 : original - first;
 	}
 
-	/*
+	/**
 	 * Die Methode bestimmt die erste Zahl, die in der Arrayposition abgespeichert ist. d.h. die erste Teil der Zahl. z.B. Zahl = 234 nach der Methode Zahl = 2
 	 */
 	public int bestimmeDieErsteZahl(int zahl) {
@@ -307,7 +303,9 @@ public class FeldPositionieren {
 		return zahl;
 	}
 
-	/* Diese Methode uebergibt die einzelne/separate Wahrnechnungen als ein Array an */
+	/**
+	 *  Diese Methode uebergibt die einzelne/separate Wahrnechnungen als ein Array an.  
+	 */
 	public int[] separateWahrnehmungen(int zahl) {
 		int zahlTemp = zahl;
 		int zaehler = 0;

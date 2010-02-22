@@ -121,10 +121,10 @@ public class Benutzerdefiniertes_Feld extends JFrame {
 						@Override
 						public void mouseClicked(MouseEvent e) {
 							if (e.getClickCount() >= 1) {
-								 System.out.println("Agent(" + agentXKordSpinner.getValue() + "|" + agentYKordSpinner.getValue() + ")");
-								 System.out.println("Gold(" + goldXKordSpinner.getValue() + "|" + goldYKordSpinner.getValue() + ")");
-								 System.out.println("Wumpus(" + wumpXKordSpinner.getValue() + "|" + wumpYKordSpinner.getValue() + ")");
-								 System.out.println("Pit(" + pitXKordSpinner.getValue() + "|" + pitYKordSpinner.getValue() + ")");
+								 System.out.println("Agent(" + agentYKordSpinner.getValue() + "|" + agentXKordSpinner.getValue() + ")");
+								 System.out.println("Gold(" + goldYKordSpinner.getValue() + "|" + goldXKordSpinner.getValue() + ")");
+								 System.out.println("Wumpus(" + wumpYKordSpinner.getValue() + "|" + wumpXKordSpinner.getValue() + ")");
+								 System.out.println("Pit(" + pitYKordSpinner.getValue() + "|" + pitXKordSpinner.getValue() + ")");
 								int[] positionen = new int[] { Integer.valueOf(agentYKordSpinner.getValue().toString()) -1, Integer.valueOf(agentXKordSpinner.getValue().toString()) -1,
 										Integer.valueOf(goldYKordSpinner.getValue().toString()) -1, Integer.valueOf(goldXKordSpinner.getValue().toString()) -1, Integer.valueOf(wumpYKordSpinner.getValue().toString()) -1,
 										Integer.valueOf(wumpXKordSpinner.getValue().toString()) -1, Integer.valueOf(pitYKordSpinner.getValue().toString()) -1, Integer.valueOf(pitXKordSpinner.getValue().toString()) -1 };

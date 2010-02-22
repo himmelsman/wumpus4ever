@@ -1,5 +1,7 @@
 package de.wumpus.beobachter;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -51,8 +53,8 @@ public class WumpusGUI extends JFrame implements Observer {
 	private JLabel punkteAnzahlLabel;
 	private JLabel schritteLabel;
 	private JLabel schritteAnzahlLabel;
-	private JLabel jLabel5;
-	private JLabel jLabel6;
+//	private JLabel jLabel5;
+//	private JLabel jLabel6;
 	GridBagLayout thisLayout = new GridBagLayout();
 	private boolean ALTPRESSED = false;
 	private int agentSchrittZahler = 0;
@@ -89,6 +91,9 @@ public class WumpusGUI extends JFrame implements Observer {
 						ablaufScrollPanel.setViewportView(ablaufTextArea);
 						ablaufTextArea.setBorder(BorderFactory.createTitledBorder("Ablauf"));
 						ablaufTextArea.setEnabled(false);
+						ablaufTextArea.setFont(new Font("Arial", Font.PLAIN, 14));
+						ablaufTextArea.setBackground(Color.white);
+						ablaufTextArea.setForeground(Color.black);
 //						ablaufTextArea.setEditable(false);
 						//TODO: Focuslistener funktioniert nicht mehr wenn TextArea enabled ist.
 					}
@@ -283,15 +288,15 @@ public class WumpusGUI extends JFrame implements Observer {
 		if (((NachrichtenObjekt) arg).information == Bezeichnungen.GUI) {
 			// System.out.println("update() ist aufgeruffen, fount ist gleich "
 			// + ((Integer)arg).intValue());
-			System.out.println("Ich bin die GUI \nPosition x: " + ((NachrichtenObjekt) arg).x + " Position y: " + ((NachrichtenObjekt) arg).y + " Wahrnemung: " + ((NachrichtenObjekt) arg).wahrnehmung[0] + " Information: "
+			System.out.println("Ich bin die GUI \nPosition y: " + ((NachrichtenObjekt) arg).y + " Position x: " + ((NachrichtenObjekt) arg).x + " Wahrnemung: " + ((NachrichtenObjekt) arg).wahrnehmung[0] + " Information: "
 					+ ((NachrichtenObjekt) arg).information);
 		} else if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.REPAINT)) {
-			System.out.println(" " + Bezeichnungen.REPAINT);
+//			System.out.println(" " + Bezeichnungen.REPAINT);
 			wumpusPanel.setzeAnzahl();
 		} else if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.BEWEGE)) {
-			System.out.println(" " + Bezeichnungen.BEWEGE);
+//			System.out.println(" " + Bezeichnungen.BEWEGE);
 			//TODO: jetzt brauch man nicht die uebergabeparameter
-			wumpusPanel.wechseleZweiBilder(/*((NachrichtenObjekt) arg).y, ((NachrichtenObjekt) arg).x, ((NachrichtenObjekt) arg).wahrnehmung[0], ((NachrichtenObjekt) arg).wahrnehmung[1]*/);
+//////////////////////			wumpusPanel.wechseleZweiBilder(/*((NachrichtenObjekt) arg).y, ((NachrichtenObjekt) arg).x, ((NachrichtenObjekt) arg).wahrnehmung[0], ((NachrichtenObjekt) arg).wahrnehmung[1]*/);
 			/*es werden die Schritte gezahlt und die verbrauchte Punkte(-10 pro Schritt) abgezogen*/
 			agentSchrittZahler++;
 			gesamtPunktenAnzahl = gesamtPunktenAnzahl - einSchritt_10;
@@ -300,7 +305,7 @@ public class WumpusGUI extends JFrame implements Observer {
 			punkteAnzahlLabel.setText(String.valueOf(gesamtPunktenAnzahl));
 		}
 		if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.POSITION)) {
-			ablaufTextArea.setText(ablaufTextArea.getText() + "\n" + "Position (" + (((NachrichtenObjekt) arg).x + 1) + "|" + (((NachrichtenObjekt) arg).y + 1) + ")");			
+			ablaufTextArea.setText(ablaufTextArea.getText() + "\n" + "Position (" + (((NachrichtenObjekt) arg).y + 1) + "|" + (((NachrichtenObjekt) arg).x + 1) + ")");			
 		}
 		/*
 		 * 1 als Agend in dem Feld 2 als Gold in dem Feld 3 als Glitter in nahligenden Felder 4 als Wumpus in dem Feld 5 als Geruch in nahligenden Felder 6 als Pit in dem Feld 7 als Brize ind nahligenden Felder 9 als graues Feld als Besucht
@@ -311,7 +316,7 @@ public class WumpusGUI extends JFrame implements Observer {
 		// TODO: Überarbeiten der Ablaufausgabe so dass Sätze zusammen kommen.
 		if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.WAHRNEHMUNGEN)) {
 //			System.out.println("Wahrnehmung Position (" + (((NachrichtenObjekt) arg).x + 1) + "|" +  (((NachrichtenObjekt) arg).y+1) + ")\n" + "ABLAUFTEXT " + ablaufTextArea.getText());
-			ablaufTextArea.append("Position (" + (((NachrichtenObjekt) arg).x + 1) + "|" +  (((NachrichtenObjekt) arg).y+1) + ")\n");
+			ablaufTextArea.append("Position (" + (((NachrichtenObjekt) arg).y + 1) + "|" +  (((NachrichtenObjekt) arg).x+1) + ")\n");
 			for (int j = 0, i = 0; i < ((NachrichtenObjekt) arg).wahrnehmung.length; i++) {
 				if (((NachrichtenObjekt) arg).wahrnehmung[i] == 1) {
 					// Agent
@@ -360,8 +365,7 @@ public class WumpusGUI extends JFrame implements Observer {
 		}
 	}
 }
-// TODO: Ablauf muss auch bei neuem Spiel resetet werden
-// TODO: Punkte System, bewegung zieht von Guthaben Punkte ab(bei neu spiel muss resetet werden)
+// TODO: Ablauf muss am anfang die Position des Agentes zeigen.
 // TODO: Schwarze Felder sind noch direkt als besuchte Felder, sollten aber nicht
 // TODO: Ereignisabfrage muss Spielbeinflussen. zB. Agent ist auf Gold, Spiel gewonnen, Agent ist auf Fallgrube, Spiel verloren
 // TODO: About/Help Menu schreiben, bzw Menu fertig integrieren
