@@ -110,7 +110,13 @@ public class WumpusWelt extends Observable {
 		notifyObservers(new NachrichtenObjekt(0, 0, null, Bezeichnungen.REPAINT));
 //		System.out.println("Teste nach notifyObservers");
 	}
-
+	
+	public void bewegeAgentPerTaste(){
+		setChanged();
+		notifyObservers(new NachrichtenObjekt(0, 0, null, Bezeichnungen.BEWEGE_AGENT));
+		setChanged();
+		notifyObservers(new NachrichtenObjekt(0, 0, null, Bezeichnungen.REPAINT));
+	}
 	/* neues Spiel durch von Benutzer festgelegten Positionen */
 	public void neuesSpiel(int weltGroesse, int[] positionen) {
 

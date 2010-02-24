@@ -206,6 +206,9 @@ public class WumpusGUI extends JFrame implements Observer {
 				if (arg0.getKeyCode() == KeyEvent.VK_ALT) {
 					ALTPRESSED = true;
 				}
+				if (arg0.getKeyCode() == KeyEvent.VK_B) {
+					wump.bewegeAgentPerTaste();
+				}
 				if (arg0.getKeyCode() == KeyEvent.VK_1 && ALTPRESSED) {
 					wump.neuesSpiel(4);
 					gesamtPunktenAnzahl = 10000;
