@@ -3,6 +3,7 @@ package de.wumpus.tools;
 public class Feld {
 
 	public boolean besucht, versteckt, gefahr;
+	public boolean wandL, wandR, wandO, wandU;
 	public boolean  wumpus, fallgrube, gold;
 	public boolean brise, geruch, glitter;
 	public int cont;
@@ -14,6 +15,7 @@ public class Feld {
 		gefahr = true;
 		wumpus = fallgrube = gold = false;
 		brise = geruch = glitter = false;
+		wandR = wandL= wandO= wandU = false;
 		y = x = -1;
 	}
 

@@ -278,7 +278,7 @@ public class WumpusGUI extends JFrame implements Observer {
 			@Override
 			public void focusLost(FocusEvent arg0) {
 				requestFocus();
-				System.out.println("FOCUS");				
+//				System.out.println("FOCUS");				
 			}
 		});
 
