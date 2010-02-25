@@ -3,7 +3,6 @@ package de.wumpus.beobachtet;
 import java.util.Observable;
 
 import de.wumpus.tools.*;
-
 public class WumpusWelt extends Observable {
 
 	FeldPositionieren positioniere = new FeldPositionieren();
@@ -29,7 +28,7 @@ public class WumpusWelt extends Observable {
 					agent_y = i;
 					agent_x = j;
 					setChanged();
-					notifyObservers(new NachrichtenObjekt(agent_x, agent_y, positioniere.separateWahrnehmungen(weltArray[i][j]), Bezeichnungen.NEUES_SPIEL));
+					notifyObservers(new NachrichtenObjekt(agent_y, agent_x, positioniere.separateWahrnehmungen(weltArray[i][j]), Bezeichnungen.NEUES_SPIEL));
 					System.out.println("X " + agent_x + " Y " + agent_y);
 					
 				}

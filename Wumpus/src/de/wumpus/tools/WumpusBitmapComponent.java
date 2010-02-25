@@ -11,7 +11,7 @@ public class WumpusBitmapComponent extends Canvas{
    private int y;
    private String fileName;
 
-   public WumpusBitmapComponent(String fname, int anzahl, int _y, int _x){
+   public WumpusBitmapComponent(String fname, int anzahl, int _x,  int _y){
 		  fileName = fname;
 //		   System.out.println("wumpusBitmapCompanent= "+ fname +" "+anzahl+" "+_x+" "+_y);
 		  img = getToolkit().getImage(fname);

@@ -23,6 +23,7 @@ public class Agent implements Observer {
 	boolean ersteSchritt = false;
 	int letzteRichtung = richtung;
 	WumpusWelt wump;
+	boolean yes = true;
 	Feld feld;
 	Feld[][] arraymitWissenBasis;
 
@@ -166,31 +167,49 @@ public class Agent implements Observer {
 			// TODO: Wenn oben gegen eine Wand gelaufen wird, muss in der gesamten Wissensbasis mit dem selben y eine Wand eingetragen werden.
 			switch (richtung) {
 			case 1: {
-				arraymitWissenBasis[ySave][xSave].wandO = true;
+				if (!arraymitWissenBasis[ySave][xSave].wandO) {
+					System.out.println("BUMP");
+				}
+				for (int i = 0; i < anzahl; i++)
+					arraymitWissenBasis[ySave][i].wandO = true;
 				break;
 			}
 			case 2: {
-				arraymitWissenBasis[ySave][xSave].wandU = true;
+				if (!arraymitWissenBasis[ySave][xSave].wandU) {
+					System.out.println("BUMP");
+				}
+				for (int i = 0; i < anzahl; i++)
+					arraymitWissenBasis[ySave][i].wandU = true;
 				break;
 			}
 			case 3: {
-				arraymitWissenBasis[ySave][xSave].wandL = true;
+				if (!arraymitWissenBasis[ySave][xSave].wandL) {
+					System.out.println("BUMP");
+				}
+				for (int i = 0; i < anzahl; i++)
+					arraymitWissenBasis[i][xSave].wandL = true;
 				break;
 			}
 			case 4: {
-				arraymitWissenBasis[ySave][xSave].wandR = true;
+				if (!arraymitWissenBasis[ySave][xSave].wandR) {
+					System.out.println("BUMP");
+				}
+				for (int i = 0; i < anzahl; i++)
+					arraymitWissenBasis[i][xSave].wandR = true;
 				break;
 			}
 			}
-			System.out.println("BUMP");
 			return false;
 		}
 	}
 
 	/**
 	 * Diese Methode bestimmt die Richtung, in welche der Agent gehen soll.
-	 * @param agentY Y-Koordinate des Agentes
-	 * @param agentX X-Koordinate des Agentes
+	 * 
+	 * @param agentY
+	 *            Y-Koordinate des Agentes
+	 * @param agentX
+	 *            X-Koordinate des Agentes
 	 * @return wird die Richtung übergeben.
 	 */
 	private int bestimmeDieRichtung(int agentY, int agentX) {
@@ -292,7 +311,9 @@ public class Agent implements Observer {
 
 	/**
 	 * Diese Methode gibt eine gegen Richtung(Zahl). d. h. UP(1) es wird DOWN(2) gelifert.
-	 * @param zahl dieses Zahl representiert eine Richtung
+	 * 
+	 * @param zahl
+	 *            dieses Zahl representiert eine Richtung
 	 * @return wird eine gegen Zahl(Richtung) übergeben.
 	 */
 	private int eineGegenZahl(int zahl) {
@@ -321,6 +342,7 @@ public class Agent implements Observer {
 		// Falls Agent am Anfang nicht weiss wohin
 		// do {
 		bestimmeDieRichtung(agentY, agentX);
+//		sucheDieRoute(agentY, agentX);
 		// System.err.println("AgentY " + agentY + " AgentX " + agentX);
 		// TODO: wenn agent schon einmal sich bewegt hat, muss die setzeKeinGefahrWennKeineWahrnehmung(y,x) aufgeruffen werden.
 		// System.err.println("bewegeAgenten: " + richtung);
@@ -566,10 +588,14 @@ public class Agent implements Observer {
 			}
 		}
 	}
+
 	/**
 	 * Diese Methode prüft ob Agen in einen Feld mit Gold sich befindet.
-	 * @param y Y-Koordinate des Feldes(Agentes)
-	 * @param x X-Koordinate des Feldes(Agentes)
+	 * 
+	 * @param y
+	 *            Y-Koordinate des Feldes(Agentes)
+	 * @param x
+	 *            X-Koordinate des Feldes(Agentes)
 	 * @return true wenn es wahr.
 	 */
 	private boolean sitzeAufGold(int y, int x) {
@@ -598,16 +624,17 @@ public class Agent implements Observer {
 	}
 
 	private boolean pruefeFeldNachSicherheit(int y, int x) {
+		System.out.println("pruefeFeldNachSicherheit: (" + y + "|" + x + ")");
 		if (!istWumpusNichtDa(y, x)) {
-			System.err.println("DORT IST EVTL. WUMPUS.");
+			System.err.println("DORT IST EVTL. WUMPUS.(" + y + "|" + x + ")");
 			return false;
 		}
 		if (!istFallgrubeNichtDa(y, x)) {
-			System.err.println("DORT IST EVTL. FALLGRUBE.");
+			System.err.println("DORT IST EVTL. FALLGRUBE.(" + y + "|" + x + ")");
 			return false;
 		}
 		{
-			System.err.println("DORT IST NICHTS NENNENSWERTES.");
+			System.err.println("DORT IST NICHTS NENNENSWERTES.(" + y + "|" + x + ")");
 			return true;
 		}
 	}
@@ -797,13 +824,15 @@ public class Agent implements Observer {
 		// TODO: Nach dem alle listen erstellt wurden, muss entschieden werden, welche liste returned wird.
 		// TODO: Überprüfen der notwendigen Abbruchbedingungen
 		// TODO: Überprüfen ob eine liste einen kompletten Pfad hat, also von Agent bis Ziel
+		System.out.println("gib mir die Richtung zum Ziel");
 		if (liste.contains(new Position(agentY, agentX))) {
 			return liste;
 		}
 		liste.add(new Position(agentY, agentX));
 		LinkedList<Position> listeOben, listeUnten, listeRechts, listeLinks;
 		LinkedList<LinkedList<Position>> listen = new LinkedList<LinkedList<Position>>();
-		if (!arraymitWissenBasis[agentY][agentX].wandO) {
+		if (istDortWand(agentY, agentX, 1)) {
+			// TODO: Wenn keine warhnehmung darüber ob Wand oben, muss trotzdem geprüft werden ob outofbound
 			if (arraymitWissenBasis[agentY - 1][agentX].besucht && pruefeFeldNachSicherheit(agentY - 1, agentX)) {
 				listeOben = gibMirDieRichtungZumZiel(liste, agentY - 1, agentX, zielY, zielX);
 				// TODO: Überprüfe wann eine liste drin sein soll
@@ -815,7 +844,7 @@ public class Agent implements Observer {
 				// bewegungsListe.addFirst(Bezeichnungen.UP);
 			}
 		}
-		if (!arraymitWissenBasis[agentY][agentX].wandU) {
+		if (istDortWand(agentY, agentX, 2)) {
 			if (arraymitWissenBasis[agentY + 1][agentX].besucht && pruefeFeldNachSicherheit(agentY + 1, agentX)) {
 				listeUnten = gibMirDieRichtungZumZiel(liste, agentY + 1, agentX, zielY, zielX);
 				if (listeKomplett(listeUnten, new Position(agentY, agentX), new Position(zielY, zielX))) {
@@ -823,7 +852,8 @@ public class Agent implements Observer {
 				}
 			}
 		}
-		if (!arraymitWissenBasis[agentY][agentX].wandL) {
+		if (istDortWand(agentY, agentX, 3)) {
+
 			if (arraymitWissenBasis[agentY][agentX - 1].besucht && pruefeFeldNachSicherheit(agentY, agentX - 1)) {
 				listeLinks = gibMirDieRichtungZumZiel(liste, agentY, agentX - 1, zielY, zielX);
 				if (listeKomplett(listeLinks, new Position(agentY, agentX), new Position(zielY, zielX))) {
@@ -831,7 +861,7 @@ public class Agent implements Observer {
 				}
 			}
 		}
-		if (!arraymitWissenBasis[agentY][agentX].wandR) {
+		if (istDortWand(agentY, agentX, 4)) {
 			if (arraymitWissenBasis[agentY][agentX + 1].besucht && pruefeFeldNachSicherheit(agentY, agentX + 1)) {
 				listeRechts = gibMirDieRichtungZumZiel(liste, agentY, agentX + 1, zielY, zielX);
 				if (listeKomplett(listeRechts, new Position(agentY, agentX), new Position(zielY, zielX))) {
@@ -847,7 +877,12 @@ public class Agent implements Observer {
 		for (int i = 1; i < listen.size(); i++) {
 			if (richtigeListe.size() > listen.get(i).size()) {
 				richtigeListe = listen.get(i);
+
 			}
+		}
+		System.out.println("Liste mit Positionen");
+		for (int i = 0; i < richtigeListe.size(); i++) {
+			System.out.println(i + ".Elemnt der Liste (" + richtigeListe.get(i).y + "|" + richtigeListe.get(i).x + ")");
 		}
 		return richtigeListe;
 	}
@@ -875,11 +910,13 @@ public class Agent implements Observer {
 	 */
 	private void sucheDieRoute(int _y, int _x) {
 		/* Fall eins: suche ein Feld, wo ein Gold und kein Gefahr sein kann. */
+		System.out.println("Suche die Route");
 		int zielY = -1, zielX = -1;
 		for (int y = 0; y < anzahl; y++) {
 			for (int x = 0; x < anzahl; x++) {
 				if (!arraymitWissenBasis[y][x].besucht) {
 					if (istGoldDa(y, x)) {
+						System.out.println("Gold zuweisen");
 						zielY = y;
 						zielX = x;
 					}
@@ -890,8 +927,11 @@ public class Agent implements Observer {
 		if (zielY == -1 && zielX == -1) {
 			for (int y = 0; y < anzahl; y++) {
 				for (int x = 0; x < anzahl; x++) {
+					
+//					TODO: der agent prueft  jedes feld statt nur nahligenden Felder um die vom Agent schon besuchten felder
 					if (!arraymitWissenBasis[y][x].besucht && pruefeFeldNachSicherheit(y, x)) {
 						if (zielY == -1 && zielX == -1 && (Math.abs(y) + Math.abs(x)) < (Math.abs(zielY) + Math.abs(zielX))) {
+							System.out.println("Sicheres Feld zuweisen");
 							zielY = y;
 							zielX = x;
 						}
@@ -904,7 +944,7 @@ public class Agent implements Observer {
 			if (!positionenListe.isEmpty()) {
 				positionenListe.clear();
 			}
-			gibMirDieRichtungZumZiel(positionenListe, _y, _x, zielY, zielX);
+			positionenListe = gibMirDieRichtungZumZiel(new LinkedList<Position>(), _y, _x, zielY, zielX);
 			// TODO: Wenn eine Liste ausgegeben wird, muss getestet werden ob überhaupt etwas enthält, bzw. ob Ziel und Anfang drin ist
 			if (!listeKomplett(positionenListe, new Position(_y, _x), new Position(zielY, zielX))) {
 				positionenListe.clear();

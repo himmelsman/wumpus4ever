@@ -20,7 +20,7 @@ public class WumpusFieldImage extends Image  {
 	 
 	
 	/*durch überschreiben des Konstuktors, kann man die koordinaten zeigen(reinschreiben)*/
-	public WumpusFieldImage(Image schwarz2, int y, int x){	
+	public WumpusFieldImage(Image schwarz2,  int x, int y){	
 		super();		
 		this.y = y;
 		this.x = x;
