@@ -13,8 +13,9 @@ public class WumpusWelt extends Observable {
 
 	public int[][] weltArray;
 
-	/*
-	 * die Methode gibt die Anzahl des Feldes(icon) und initialisiert die WumpusWelt
+	/**
+	 * Die Methode gibt die Anzahl des Feldes(icons) und initialisiert die WumpusWelt.
+	 * @param size die grosse des Feldes
 	 */
 	public void grossedesFeldes(int size) {
 		anzahl = size;
@@ -40,7 +41,7 @@ public class WumpusWelt extends Observable {
 	}
 
 	/**
-	 * die Methode gibt die Anzahl des Feldes und initialisiert die WumpusWelt
+	 * Die Methode gibt die Anzahl des Feldes mit Positionen von Agent,Gold,Wumpus,Pit und initialisiert die WumpusWelt.
 	 * 
 	 * @param size
 	 *            Größe des Feldes
@@ -82,10 +83,9 @@ public class WumpusWelt extends Observable {
 //		}
 //	}
 
-	// TODO die geschwindigkeit soll uebergeben werden
-	// TODO: Sortierung
-	/*
+	/**
 	 * Die Methode bestimmt die erste Zahl, die in der Arrayposition abgespeichert ist. d.h. die erste Teil der Zahl. z.B. Zahl = 234 nach der Methode Zahl = 2
+	 * @param zahl ein Zahl
 	 */
 	public int bestimmeDieErsteZahl(int zahl) {
 		do {
@@ -102,7 +102,10 @@ public class WumpusWelt extends Observable {
 	// notifyObservers(new NachrichtenObjekt(x,y,wahrnehmung, information));
 	// }
 
-	/* Durch diese Methode wird die grosse des WumpusWelt festgelegt */
+	/**
+	 *  Durch diese Methode wird die grosse des WumpusWelt festgelegt
+	 *  @param weltGrosse bestimmt die Grosse des Feldes
+	 */
 	public void neuesSpiel(int weltGroesse) {
 		grossedesFeldes(weltGroesse);
 //		System.out.println("Teste vor notifyObservers");
@@ -110,14 +113,20 @@ public class WumpusWelt extends Observable {
 		notifyObservers(new NachrichtenObjekt(0, 0, null, Bezeichnungen.REPAINT));
 //		System.out.println("Teste nach notifyObservers");
 	}
-	
+	/**
+	 * Diese Methode ermoglicht schritweise die Bewegung des Agentes.
+	 */
 	public void bewegeAgentPerTaste(){
 		setChanged();
 		notifyObservers(new NachrichtenObjekt(0, 0, null, Bezeichnungen.BEWEGE_AGENT));
 		setChanged();
 		notifyObservers(new NachrichtenObjekt(0, 0, null, Bezeichnungen.REPAINT));
 	}
-	/* neues Spiel durch von Benutzer festgelegten Positionen */
+	/**
+	 *  neues Spiel durch von Benutzer festgelegten Positionen
+	 *  @param weltGrosse bestimmt die Grosse des Feldes
+	 *  @param []positionen es sind die Positionen(y,x) von Agent,Gold,Wumpus,Pit.
+	 */
 	public void neuesSpiel(int weltGroesse, int[] positionen) {
 
 		grossedesFeldes(weltGroesse, positionen);
@@ -127,8 +136,9 @@ public class WumpusWelt extends Observable {
 		System.out.println("Teste nach notifyObservers");
 	}
 
-	/*
+	/**
 	 * Die Methode bewegt den Agen in der WumpusWelt und sendet an der Welt neu Position des Agentes
+	 * @param richtung bestimmt die Richtung
 	 */
 	public void bewegeAgent(String richtung) {
 		int x_r = 0, y_r = 0;

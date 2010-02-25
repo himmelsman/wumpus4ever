@@ -52,7 +52,7 @@ public class Benutzerdefiniertes_Feld extends JFrame {
 	private JSpinner agentYKordSpinner;
 	private JSpinner goldYKordSpinner;
 	private final String[] spinnerListSmall = new String[] { "1", "2", "3", "4" };
-	private final String[] spinnerListMedium = new String[] { "1", "2", "3", "4", "5", "6", "7", "8" };
+//	private final String[] spinnerListMedium = new String[] { "1", "2", "3", "4", "5", "6", "7", "8" };
 
 	public Benutzerdefiniertes_Feld(WumpusGUI _main) {
 		main = _main;

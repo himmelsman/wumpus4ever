@@ -40,8 +40,8 @@ public class WumpusGUI extends JFrame implements Observer {
 	private JSeparator jSeparator2;
 	private JMenu fileMenu;
 	private JMenu optionen;
-	private JTextArea jTextArea1;
-	private JTextArea statistik;
+//	private JTextArea jTextArea1;
+//	private JTextArea statistik;
 	private JMenu help;
 	private JScrollPane ablaufScrollPanel;
 	private JScrollPane statistikScrollPanel;

@@ -14,9 +14,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 /**
- * AboutScreen ist das JFrame welches über alt+a oder das Menü aufgerufen wird.
+ * AboutScreen ist das JFrame welches über (Alt+a) oder das Menü aufgerufen wird.
  * 
  * @author Benjamin Werker
+ * @author Sergey Bagautdinov
  *
  */
 public class AboutScreen extends JFrame {

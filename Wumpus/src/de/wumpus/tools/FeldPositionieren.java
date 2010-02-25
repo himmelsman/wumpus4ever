@@ -15,8 +15,7 @@ public class FeldPositionieren {
 	public int[][] feldPositionierung(int anzahl) {
 		// System.out.println("Wir sind in Feld Positionierung und Anzahl ist " + anzahl);// mackaken es wird schonwieder 2 mal aufgerufen!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-		/*
-		 * initialisierung der istarray durch 0
+		/*Initialisierung der istarray durch 0
 		 */
 		int[][] istarray = new int[anzahl][anzahl];
 		for (int i = 0; i < anzahl; i++) {
@@ -131,7 +130,12 @@ public class FeldPositionieren {
 	}
 
 	/**
-	 * Die Methode setzt um den Wumpus und Pits nahligende felder mit Geruchund Brize. Man muss achten damit die Felder nicht im außerem Rand plaziert werden.
+	 * Die Methode setzt um den Wumpus,Pits und Gold nahligende felder mit Geruch,Brize und Glitter. Man muss achten damit die Felder nicht im außerem Rand plaziert werden.
+	 * @param x x Koordinate
+	 * @param y y Koordinate
+	 * @param value ein Wert in Arra[y][x]
+	 * @param anzahl die grosse des Arrays
+	 * @param istarray selbst das zweidimensionale Array(Feld)
 	 */
 	private void setUmfeld(int x, int y, int value, int anzahl, int[][] istarray) {
 		if (x != 0)
@@ -159,7 +163,10 @@ public class FeldPositionieren {
 		}
 	}
 
-	/** Diese Methode wird die benuzerdefiniertes Feld uebegeben, mit Koordinaten von Agent,Gold,Wumpus,Pit */
+	/** Diese Methode wird die benuzerdefiniertes Feld uebegeben, mit Koordinaten von Agent,Gold,Wumpus,Pit
+	 *@param anzahl die grosse des Arrays
+	 *@param positionen ein eindimensionales Array 
+	 */
 	public int[][] myfeldPositionierung(int anzahl, int[] positionen) {
 		int[][] istarray = new int[anzahl][anzahl];
 		for (int i = 0; i < anzahl; i++) {
@@ -167,16 +174,6 @@ public class FeldPositionieren {
 				istarray[i][j] = 0;
 			}
 		}
-//		int[] temparray = new int[positionen.length];
-//		for (int i = 0; i < positionen.length; i++) {
-//			temparray[i] = (positionen[i]-1);
-//		}
-//		for (int i = 0; i < positionen.length; i++) {
-//			positionen[i]= temparray[i];
-//		}
-//		
-//		for (int i = 0; i < positionen.length; i++)
-//			System.out.println("positionen" + positionen[i]);
 		for (int i = 0; i < anzahl; i++) {
 			for (int j = 0; j < anzahl; j++) {
 				if (j == positionen[0] && i == positionen[1])
@@ -198,48 +195,13 @@ public class FeldPositionieren {
 				}
 			}
 		}
-//		for (int i = 0; i < positionen.length; i++)
-//			System.out.println("positionarray" + positionen[i]);
-//		for (int i = 0, j = 1; i < positionen.length; i = i + 2) {
-//			if (j == 1) {
-//				if (ichBinNichtAuserhalb(anzahl, i, i + 1)) {
-//					istarray[positionen[i]][positionen[i + 1]] = 1;
-//					j++;
-//				} else
-//					System.out.println("es wird auserhalb des vorgegebenes Bereiches zugegriffen ");
-//			} else if (j == 1) {
-//				if (ichBinNichtAuserhalb(anzahl, i, i + 1)) {
-//					istarray[positionen[i]][positionen[i + 1]] = 2;
-//					setUmfeld(positionen[i + 1], positionen[i], 3, anzahl, istarray);
-//					j++;
-//				} else
-//					System.out.println("es wird auserhalb des vorgegebenes Bereiches zugegriffen ");
-//			} else if (j == 1) {
-//				if (ichBinNichtAuserhalb(anzahl, i, i + 1)) {
-//					istarray[positionen[i]][positionen[i + 1]] = 4;
-//					setUmfeld(positionen[i + 1], positionen[i], 5, anzahl, istarray);
-//					j++;
-//				} else
-//					System.out.println("es wird auserhalb des vorgegebenes Bereiches zugegriffen ");
-//			} else {
-//				if (ichBinNichtAuserhalb(anzahl, i, i + 1)) {
-//					istarray[positionen[i]][positionen[i + 1]] = 6;
-//					setUmfeld(positionen[i + 1], positionen[i], 7, anzahl, istarray);
-//				} else
-//					System.out.println("es wird auserhalb des vorgegebenes Bereiches zugegriffen ");
-//			}
-//		}
-//		for (int i = 0; i < anzahl; i++) {
-//			for (int j = 0; j < anzahl; j++) {
-//				System.out.println("uebergebenes Array " + istarray[i][j]);
-//			}
-//			System.out.println();
-//		}
 		return istarray;
 	}
 
 	/**
-	 * Die Methode prueft was fuer ein Zahl am Ende ist.z.B. 123 diese Methode gibt als Rueckgabe 3	  
+	 * Die Methode prueft was fuer ein Zahl am Ende ist.z.B. 123 diese Methode gibt als Rueckgabe 3
+	 * @param value ein Wert in Array[y][x]
+	 * @param newDigit ein Wert 	  
 	 */
 	public int checkLast(int value, int newDigit) {
 		int oldDigit = value % 10;
@@ -252,6 +214,7 @@ public class FeldPositionieren {
 	}
 	/**
 	 * Diese Methode schneidet den ersten Element(Zahl des Agentes) einer Zahlz.B. 123 nach der Methode 23
+	 * @param zahl ein Zahl
 	 */
 	public int checkFirst(int zahl) {
 		int zaehler = 0;
@@ -272,6 +235,8 @@ public class FeldPositionieren {
 	}
 	/**
 	 * Diese Methode schneidet den ersten Element(beliebige Zahl) einer Zahlz.B. 0123 nach der Methode 123
+	 * @param zahl ein Zahl
+	 * @param first erstes Zahl
 	 */
 	public int checkFirst(int zahl, int first) {
 		int zaehler = 0;
@@ -292,6 +257,7 @@ public class FeldPositionieren {
 
 	/**
 	 * Die Methode bestimmt die erste Zahl, die in der Arrayposition abgespeichert ist. d.h. die erste Teil der Zahl. z.B. Zahl = 234 nach der Methode Zahl = 2
+	 * @param zahl ein Zahl
 	 */
 	public int bestimmeDieErsteZahl(int zahl) {
 		do {
@@ -304,7 +270,8 @@ public class FeldPositionieren {
 	}
 
 	/**
-	 *  Diese Methode uebergibt die einzelne/separate Wahrnechnungen als ein Array an.  
+	 *  Diese Methode uebergibt die einzelne/separate Wahrnechnungen als ein Array an. 
+	 *  @param zahl ein Zahl 
 	 */
 	public int[] separateWahrnehmungen(int zahl) {
 		int zahlTemp = zahl;
@@ -323,23 +290,13 @@ public class FeldPositionieren {
 		return temp;
 	}
 
-	public static void main(String[] args) {
-		FeldPositionieren fp = new FeldPositionieren();
-		int[] array = fp.separateWahrnehmungen(1230);
-		// for (int i = 0; i < array.length; i++) {
-		// System.out.println("array " + array[i]);
-		//
-		// }
-		// System.out.println("Fertig");
-	}
-
-	/* diese Methode prueft, ob man nicht ausserhalb des vor gegebenes Bereiches nicht rausgeht. d.h. vermeidet ArrayIndexOutOfBoundsException */
-	private boolean ichBinNichtAuserhalb(int anzahl, int y, int x) {
-		// System.err.println("Y: " + y + " X: " + x);
-		if (y >= 0 && y < anzahl && x >= 0 && x < anzahl) {
-			// System.err.println("ich bin nicht ausserhalb");
-			return true;
-		} else
-			return false;
-	}
+//	public static void main(String[] args) {
+//		FeldPositionieren fp = new FeldPositionieren();
+//		int[] array = fp.separateWahrnehmungen(1230);
+//		// for (int i = 0; i < array.length; i++) {
+//		// System.out.println("array " + array[i]);
+//		//
+//		// }
+//		// System.out.println("Fertig");
+//	}
 }

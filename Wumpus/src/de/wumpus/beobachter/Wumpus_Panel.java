@@ -158,7 +158,12 @@ public class Wumpus_Panel extends JPanel implements Observer {
 			x = 1;
 		}
 	}
-
+	/**
+	 * Diese Methode bestimmt welches Bild ist mit Y,X-Koordinaten.
+	 * @param y Y-Koordinate des Feldes
+	 * @param x X-Koordinate des Feldes
+	 * @return wird ein Bild zurückgegeben.
+	 */
 	public String welchesBild(int y, int x) {
 		if (wump.bestimmeDieErsteZahl(new FeldPositionieren().checkFirst(wump.weltArray[y][x])) == 2) {
 			return gold2;

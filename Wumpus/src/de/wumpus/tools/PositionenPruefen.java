@@ -43,38 +43,74 @@ public class PositionenPruefen {
 
 	private static String nachligendePositionen(int[] positionen) {
 		int agent = 0, i = 0;
-		// TODO: ÜBERARBEITEN!!!!!!!!! Agent 1|1 alle anderen felder erst bei 4|4 gültig
-		System.err.println("test");
-
 		if (positionen[agent] == positionen[i + 2]) {
-			//if (!(positionen[agent + 1] + 1 < positionen[i + 3]) && positionen[agent + 1] - 1 > positionen[i + 3]) {
-			//TODO: Bisher kann nur eine der if bedingungen als richtig durchlaufen werden, und die andere als falsch trotz richtiger koordinaten
-			//d.h. fall 1: engabe 1.3 für if ist richtig und für else if ist falsch. und 3.1 ist umgekehrt
-			if(!(positionen[agent+1] +1 < positionen[i+3] && !(positionen[agent+1] -1 > positionen[i+3]))){
-				System.err.println("Gold y=y" + "Agent: " + agent + " Position[agent]: " + positionen[agent] + " Position[agent+1]: " + positionen[agent+1] + " Position[agent+1]+1: " + (positionen[agent+1]+1));
+			if (((positionen[agent + 1] + 1) < (positionen[i + 3])) || (positionen[agent + 1] - 1) > (positionen[i + 3])) {
+				return "Nichts";
+			}
+			// TODO: Bisher kann nur eine der if bedingungen als richtig durchlaufen werden, und die andere als falsch trotz richtiger koordinaten
+			// d.h. fall 1: engabe 1.3 für if ist richtig und für else if ist falsch. und 3.1 ist umgekehrt
+			if (!((positionen[agent + 1] + 1) > (positionen[i + 3] + 1))) {
+				System.err.println("positionen[agent + 1] + 1)  positionen[i + 3] ");
+				System.err.println((positionen[agent + 1] + 1) + " < " + (positionen[i + 3] + 1));
 				return "Gold";
-			} else if (!(!(positionen[agent + 1] + 1 < positionen[i + 3]) && positionen[agent+1] -1 > positionen[i+3])) {
-				System.err.println("Gold y=y");
+			} else if (!((positionen[agent + 1] - 1) < (positionen[i + 3] - 1))) {
+				System.err.println("(positionen[agent + 1] - 1)  positionen[i + 3]");
+				System.err.println((positionen[agent + 1] - 1) + " > " + (positionen[i + 3] - 1));
 				return "Gold";
 			}
 		} else if (positionen[agent + 1] == positionen[i + 3]) {
-			// if (!(positionen[agent] + 1 < positionen[i + 2]) || !(positionen[agent] + 1 > positionen[i + 2])) {
-			if (!(positionen[agent] + 1 > positionen[i + 2]) || !(positionen[agent] + 1 < positionen[i + 2])) {
-				System.err.println("Gold x=x");
+			if (((positionen[agent] + 1) < (positionen[i + 2])) || (positionen[agent] - 1) > (positionen[i + 2])) {
+				return "Nichts";
+			}
+			if (!((positionen[agent] + 1) > (positionen[i + 2] + 1))) {
+				System.err.println("positionen[agent] + 1)  positionen[i + 2] ");
+				System.err.println((positionen[agent] + 1) + " < " + (positionen[i + 2] + 1));
+				return "Gold";
+			} else if (!((positionen[agent] - 1) < (positionen[i + 2] - 1))) {
+				System.err.println("(positionen[agent] - 1)  positionen[i + 2]");
+				System.err.println((positionen[agent] - 1) + " > " + (positionen[i + 2] - 1));
 				return "Gold";
 			}
 		}
 		i = i + 2;
-		if ((positionen[agent] == positionen[i + 2] && (!(positionen[agent + 1] + 1 < positionen[i + 3]) || !(positionen[agent + 1] - 1 > positionen[i + 3])))
-				|| (positionen[agent + 1] == positionen[i + 3] && (!(positionen[agent] + 1 < positionen[i + 2]) || !(positionen[agent] + 1 > positionen[i + 2])))) {
-			System.err.println("Wumpus");
-			return "Wumpus";
+		if (positionen[agent] == positionen[i + 2]) {
+			if (((positionen[agent + 1] + 1) < (positionen[i + 3])) || (positionen[agent + 1] - 1) > (positionen[i + 3])) {
+				return "Nichts";
+			}
+			if (!((positionen[agent + 1] + 1) > (positionen[i + 3] + 1))) {				
+				return "Wumpus";
+			} else if (!((positionen[agent + 1] - 1) < (positionen[i + 3] - 1))) {
+				return "Wumpus";
+			}
+		} else if (positionen[agent + 1] == positionen[i + 3]) {
+			if (((positionen[agent] + 1) < (positionen[i + 2])) || (positionen[agent] - 1) > (positionen[i + 2])) {
+				return "Nichts";
+			}
+			if (!((positionen[agent] + 1) > (positionen[i + 2] + 1))) {
+				return "Wumpus";
+			} else if (!((positionen[agent] - 1) < (positionen[i + 2] - 1))) {				
+				return "Wumpus";
+			}
 		}
 		i = i + 2;
-		if ((positionen[agent] == positionen[i + 2] && (!(positionen[agent + 1] + 1 < positionen[i + 3]) || !(positionen[agent + 1] - 1 > positionen[i + 3])))
-				|| (positionen[agent + 1] == positionen[i + 3] && (!(positionen[agent] + 1 < positionen[i + 2]) || !(positionen[agent] + 1 > positionen[i + 2])))) {
-			System.err.println("Fallgrube");
-			return "Fallgrube";
+		if (positionen[agent] == positionen[i + 2]) {
+			if (((positionen[agent + 1] + 1) < (positionen[i + 3])) || (positionen[agent + 1] - 1) > (positionen[i + 3])) {
+				return "Nichts";
+			}
+			if (!((positionen[agent + 1] + 1) > (positionen[i + 3] + 1))) {
+				return "Fallgrube";
+			} else if (!((positionen[agent + 1] - 1) < (positionen[i + 3] - 1))) {
+				return "Fallgrube";
+			}
+		} else if (positionen[agent + 1] == positionen[i + 3]) {
+			if (((positionen[agent] + 1) < (positionen[i + 2])) || (positionen[agent] - 1) > (positionen[i + 2])) {
+				return "Fallgrube";
+			}
+			if (!((positionen[agent] + 1) > (positionen[i + 2] + 1))) {
+				return "Fallgrube";
+			} else if (!((positionen[agent] - 1) < (positionen[i + 2] - 1))) {
+				return "Fallgrube";
+			}
 		}
 		return "Nichts";
 	}

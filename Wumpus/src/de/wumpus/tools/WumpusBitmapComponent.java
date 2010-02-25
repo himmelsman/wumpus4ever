@@ -11,15 +11,13 @@ public class WumpusBitmapComponent extends Canvas{
    private int y;
    private String fileName;
 
-//   public WumpusBitmapComponent(String fname)  {
-   // public WechselBild(String welchesBild)
-   public WumpusBitmapComponent(String fname, int anzahl, int _x, int _y){
+   public WumpusBitmapComponent(String fname, int anzahl, int _y, int _x){
 		  fileName = fname;
 //		   System.out.println("wumpusBitmapCompanent= "+ fname +" "+anzahl+" "+_x+" "+_y);
 		  img = getToolkit().getImage(fname);
 	      MediaTracker mt = new MediaTracker(this);
-	      x = _x;
 	      y = _y;
+	      x = _x;
 		  this.anzahl = anzahl;
 	      mt.addImage(img, 0);
 	      if(anzahl == 4){
@@ -65,21 +63,7 @@ public class WumpusBitmapComponent extends Canvas{
 	    	  System.out.println("In der Konstruktor WumpusBitmapComponent Fehler");
 	      }      
 	   }
-
-//   public void wechseleImage(int alte_x, int alte_y, int neu_x, int neu_y){	      
-//	      MediaTracker mt = new MediaTracker(this);	      	  
-//	      mt.addImage(img, 0);	      
-//	      try {
-//	         //Warten, bis das Image vollständig geladen ist,
-//	         //damit getWidth() und getHeight() funktionieren
-//	         mt.waitForAll();
-//	         img = img.getScaledInstance(grosse, grosse, Image.SCALE_DEFAULT);
-//	      } catch (InterruptedException e) {
-//	    	  System.out.println("In der Methode wechselImage Fehler");
-//	      }
-//	      
-//	   }
-   
+  
    public void paint(Graphics g)
    {
       g.drawImage(img,1,1,this);
@@ -115,7 +99,7 @@ public class WumpusBitmapComponent extends Canvas{
 //			img = img.getScaledInstance(sizeH, sizeH, Image.SCALE_DEFAULT);
 //   }
    public void setImageSize(int sizeW, int sizeH){	   
-			img = img.getScaledInstance(sizeW, sizeW, Image.SCALE_DEFAULT);	   
+			img = img.getScaledInstance(sizeW, sizeH, Image.SCALE_DEFAULT);	   
    }
 
    public String getFileName(){
@@ -126,7 +110,5 @@ public class WumpusBitmapComponent extends Canvas{
    }
    public int getY(){
 	   return y;
-   }
-
-	
+   }	
 }

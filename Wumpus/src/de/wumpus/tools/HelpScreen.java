@@ -15,9 +15,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 /**
- * HelpScreen ist das JFrame welches über alt+h oder das Menü aufgerufen wird. Der HelpScreen gibt eine Einleitung zur Wumpus-Welt und eine Übersicht über die Regeln.
+ * HelpScreen ist das JFrame welches über (Alt+h) oder das Menü aufgerufen wird. Der HelpScreen gibt eine Einleitung zur Wumpus-Welt und eine Übersicht über die Regeln.
  * 
  * @author Benjamin Werker
+ * @author Sergey Bagautdinov
  * 
  */
 public class HelpScreen extends JFrame {
@@ -34,8 +35,8 @@ public class HelpScreen extends JFrame {
 			+ "- Der Agent stirbt, wenn er in eine Fallgrube fällt oder dem lebenden Wumpus begegnet\n" + "- Perzeptionen werden als 5-Tupel dargestellt\n" + "- z.B. Geruch, Luftzug, Glitzern, kein Stoß, kein Schrei\n"
 			+ "- [Stench, Breeze, Glitter, None, None]\n\n" +
 
-			"Die Regeln\n" + "- Gold +1000, gefressen -1000\n" + "- 1 pro step, -10 für Pfeilschuss\n" + "- Quadrate in direkter Nachbarschaft" + "zum Wumpus sind “smelly”\n" + "- Quadrate in direkter Nachbarschaft" + "zu Pits sind “breezy”\n"
-			+ "- Glitzern bei Gold im gleichen Quadrat\n" + "- Pfeilschuss tötet den Wumpus bei direktem Gegenüberstehen\n" + "- Nur ein Pfeil steht zur Verfügung";
+			"Die Regeln\n" + "- Gold +1000, gefressen -1000\n" + "- 1 pro ein Schritt, -10 für Pfeilschuss\n" + "- Quadrate in direkter Nachbarschaft" + "zum Wumpus sind “smelly(geruch)”\n" + "- Quadrate in direkter Nachbarschaft"
+			+ "zu Pits sind “breezy(brise)”\n" + "- Quadrate in direkter Nachbarschaft" + "zum Gold sind “glitter”\n" + "- Pfeilschuss tötet den Wumpus bei direktem Gegenüberstehen\n" + "- Nur ein Pfeil steht zur Verfügung";
 
 	public HelpScreen(JFrame _main) {
 		main = _main;
