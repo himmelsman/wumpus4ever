@@ -34,15 +34,22 @@ public class Wumpus_Panel extends JPanel implements Observer {
 	Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 	private static int panelGrosse;
 
-	String schwarz2 = "Black.JPG";
+	String schwarz = "Black.JPG";
 	String grau = "Gray.JPG";
 	String glitter = "Glitter.JPG";
-	String agent2 = "Agent.jpg";
-	String gold2 = "Gold.jpg";
-	String wumpus2 = "Wumpus.jpg";
-	String pit2 = "Pit.jpg";
-	String breeze = "Breeze.jpg";
-	String smell = "Smell.jpg";
+	String agent = "Agent.JPG";
+	String gold = "Gold.JPG";
+	String wumpus2 = "Wumpus.JPG";
+	String pit = "Pit.JPG";
+	String breeze = "Breeze.JPG";
+	String smell = "Smell.JPG";
+	String breezeGold = "BreezeGold.JPG";
+	String smellGold = "smellGold";
+	String breezeSmell = "BreezeSmell.JPG";
+	String breezeSmellGold = "BreezeSmellGold.JPG";
+	String breezeGlitter = "BreezeGlitter.JPG";
+	String smellGlitter = "SmellGlitter.JPG";
+	String breezeSmellGlitter = "BreezeSmellGlitter.JPG";
 
 	public Wumpus_Panel(WumpusWelt _wump) {
 		super();
@@ -64,11 +71,11 @@ public class Wumpus_Panel extends JPanel implements Observer {
 	public void setzeAnzahl() {
 		anzahl = wump.anzahl;
 		array = new WumpusBitmapComponent[anzahl][anzahl];
-//		for (int i = 0; i < anzahl; i++) {
-//			for (int j = 0; j < anzahl; j++) {
-//				System.out.println("Position " + i + "," + j + " Wert " + wump.weltArray[i][j]);
-//			}
-//		}
+		// for (int i = 0; i < anzahl; i++) {
+		// for (int j = 0; j < anzahl; j++) {
+		// System.out.println("Position " + i + "," + j + " Wert " + wump.weltArray[i][j]);
+		// }
+		// }
 		initGUI();
 	}
 
@@ -126,25 +133,151 @@ public class Wumpus_Panel extends JPanel implements Observer {
 		for (int i = 0, h = 0; i < anzahl; i++) {
 			for (int j = 0; j < anzahl; j++) {
 				{ // bestimmeDieErsteZahl(gibmirWert[i][j]);
+					// wahrnehmung zu int[]
+//					if (wump.bestimmeDieErsteZahl(wump.weltArray[i][j]) == 1) {
+//						array[i][j] = new WumpusBitmapComponent(agent2, anzahl, j, i % anzahl);
+//						// System.out.println("TEST: ........................." + array[i][j].getX() + "," + array[i][j].getY());
+//					} else if (wump.bestimmeDieErsteZahl(wump.weltArray[i][j]) == 2) {
+//						int zweiteStelle = new FeldPositionieren().checkFirst(wump.bestimmeDieErsteZahl(wump.weltArray[i][j]), 2);
+//						if (zweiteStelle == 5) {
+//							int dritteStelle = new FeldPositionieren().checkFirst(zweiteStelle, 5);
+//							if (dritteStelle == 7) {
+//								array[i][j] = new WumpusBitmapComponent(breezeSmellGold, anzahl, j, i % anzahl);
+//							} else if (dritteStelle == 0) {
+//								array[i][j] = new WumpusBitmapComponent(smellGold, anzahl, j, i % anzahl);
+//							}
+//						} else if (zweiteStelle == 0) {
+//							array[i][j] = new WumpusBitmapComponent(gold2, anzahl, j, i % anzahl);
+//						}
+//					} else if (wump.bestimmeDieErsteZahl(wump.weltArray[i][j]) == 2) {
+//						int zweiteStelle = new FeldPositionieren().checkFirst(wump.bestimmeDieErsteZahl(wump.weltArray[i][j]), 2);
+//						if (zweiteStelle == 7 && new FeldPositionieren().checkFirst(zweiteStelle, 7) == 0) {
+//							array[i][j] = new WumpusBitmapComponent(breezeGold, anzahl, j, i % anzahl);
+//						} else if (zweiteStelle == 0) {
+//							array[i][j] = new WumpusBitmapComponent(gold2, anzahl, j, i % anzahl);
+//						}
+//
+//					} else if (wump.bestimmeDieErsteZahl(wump.weltArray[i][j]) == 3) {
+//						int zweiteStelle = new FeldPositionieren().checkFirst(wump.bestimmeDieErsteZahl(wump.weltArray[i][j]), 3);
+//						if (zweiteStelle == 5) {
+//							int dritteStelle = new FeldPositionieren().checkFirst(zweiteStelle, 5);
+//							if (dritteStelle == 7) {
+//								array[i][j] = new WumpusBitmapComponent(breezeSmellGlitter, anzahl, j, i % anzahl);
+//							} else if (dritteStelle == 0) {
+//								array[i][j] = new WumpusBitmapComponent(smellGlitter, anzahl, j, i % anzahl);
+//							}
+//						} else if (zweiteStelle == 0) {
+//							array[i][j] = new WumpusBitmapComponent(glitter, anzahl, j, i % anzahl);
+//						}
+//					} else if (wump.bestimmeDieErsteZahl(wump.weltArray[i][j]) == 3) {
+//						int zweiteStelle = new FeldPositionieren().checkFirst(wump.bestimmeDieErsteZahl(wump.weltArray[i][j]), 3);
+//						if (zweiteStelle == 7 && new FeldPositionieren().checkFirst(zweiteStelle, 7) == 0) {
+//							array[i][j] = new WumpusBitmapComponent(breezeGlitter, anzahl, j, i % anzahl);
+//						} else if (zweiteStelle == 0) {
+//							array[i][j] = new WumpusBitmapComponent(glitter, anzahl, j, i % anzahl);
+//						}
+//
+//					} else if (wump.bestimmeDieErsteZahl(wump.weltArray[i][j]) == 4) {
+//						array[i][j] = new WumpusBitmapComponent(wumpus2, anzahl, j, i % anzahl);
+//					} else if (wump.bestimmeDieErsteZahl(wump.weltArray[i][j]) == 5) {
+//						int zweiteStelle = new FeldPositionieren().checkFirst(wump.bestimmeDieErsteZahl(wump.weltArray[i][j]), 5);
+//						if (zweiteStelle == 7 && new FeldPositionieren().checkFirst(zweiteStelle, 7) == 0) {
+//							array[i][j] = new WumpusBitmapComponent(breezeSmell, anzahl, j, i % anzahl);
+//						} else if (zweiteStelle == 0) {
+//							array[i][j] = new WumpusBitmapComponent(smell, anzahl, j, i % anzahl);
+//						}
+//
+//					} else if (wump.bestimmeDieErsteZahl(wump.weltArray[i][j]) == 6) {
+//						array[i][j] = new WumpusBitmapComponent(pit2, anzahl, j, i % anzahl);
+//					} else if (wump.bestimmeDieErsteZahl(wump.weltArray[i][j]) == 7) {
+//						array[i][j] = new WumpusBitmapComponent(breeze, anzahl, j, i % anzahl);
+//					} else if (wump.bestimmeDieErsteZahl(wump.weltArray[i][j]) == 9) {
+//						array[i][j] = new WumpusBitmapComponent(grau, anzahl, j, i % anzahl);
+//					} else
 					if (wump.bestimmeDieErsteZahl(wump.weltArray[i][j]) == 1) {
-						array[i][j] = new WumpusBitmapComponent(agent2, anzahl, j, i % anzahl);
+						array[i][j] = new WumpusBitmapComponent(agent, anzahl, j, i % anzahl);
 						// System.out.println("TEST: ........................." + array[i][j].getX() + "," + array[i][j].getY());
-					} else if (wump.bestimmeDieErsteZahl(wump.weltArray[i][j]) == 2) {
-						array[i][j] = new WumpusBitmapComponent(gold2, anzahl, j, i % anzahl);
-					} else if (wump.bestimmeDieErsteZahl(wump.weltArray[i][j]) == 3) {
-						array[i][j] = new WumpusBitmapComponent(glitter, anzahl, j, i % anzahl);
+					}
+					if (wump.bestimmeDieErsteZahl(wump.weltArray[i][j]) == 2) {
+						int zweiteStelle = wump.bestimmeDieErsteZahl(checkFirst((wump.weltArray[i][j]), 2));
+						System.out.println("Zweite: " + zweiteStelle);
+						if (zweiteStelle == 5) {
+							int dritteStelle = wump.bestimmeDieErsteZahl(checkFirst(checkFirst((wump.weltArray[i][j]), 2), 5));
+							if (dritteStelle == 7) {
+								array[i][j] = new WumpusBitmapComponent(breezeSmellGold, anzahl, j, i % anzahl);
+							} else if (dritteStelle == 0) {
+								array[i][j] = new WumpusBitmapComponent(smellGold, anzahl, j, i % anzahl);
+							}
+						} else if (zweiteStelle == 0) {
+							array[i][j] = new WumpusBitmapComponent(gold, anzahl, j, i % anzahl);
+						}
+					}
+					if (wump.bestimmeDieErsteZahl(wump.weltArray[i][j]) == 2) {
+						int zweiteStelle = wump.bestimmeDieErsteZahl(checkFirst((wump.weltArray[i][j]), 2));
+						System.out.println("Zweite: " + zweiteStelle);
+						if (zweiteStelle == 7) {
+							array[i][j] = new WumpusBitmapComponent(breezeGold, anzahl, j, i % anzahl);
+						} else if (zweiteStelle == 0) {
+							array[i][j] = new WumpusBitmapComponent(gold, anzahl, j, i % anzahl);
+						}
+
+					}
+					if (wump.bestimmeDieErsteZahl(wump.weltArray[i][j]) == 3) {
+						int zweiteStelle = wump.bestimmeDieErsteZahl(checkFirst((wump.weltArray[i][j]), 3));
+						System.out.println("Zweite: " + zweiteStelle);
+						if(zweiteStelle == 4) {
+							array[i][j] = new WumpusBitmapComponent(wumpus2, anzahl, j, i % anzahl);
+						}else if (zweiteStelle == 5) {
+							int dritteStelle = wump.bestimmeDieErsteZahl(checkFirst(checkFirst((wump.weltArray[i][j]), 3), 5));
+							System.out.println("Dritte: " + dritteStelle);
+							if (dritteStelle == 7) {
+								array[i][j] = new WumpusBitmapComponent("BreezeSmellGlitter.JPG", anzahl, j, i % anzahl);
+							} else if (dritteStelle == 0) {
+								array[i][j] = new WumpusBitmapComponent(smellGlitter, anzahl, j, i % anzahl);
+							}
+						} else if (zweiteStelle == 0) {
+							array[i][j] = new WumpusBitmapComponent(glitter, anzahl, j, i % anzahl);
+						}
+					} 
+					if (wump.bestimmeDieErsteZahl(wump.weltArray[i][j]) == 3) {
+						int zweiteStelle = wump.bestimmeDieErsteZahl(checkFirst((wump.weltArray[i][j]), 3));
+						System.out.println("Zweite: " + zweiteStelle);
+						if(zweiteStelle == 4) {
+							array[i][j] = new WumpusBitmapComponent(wumpus2, anzahl, j, i % anzahl);
+						}else if(zweiteStelle == 6) {
+							array[i][j] = new WumpusBitmapComponent(pit, anzahl, j, i % anzahl);
+						}else if (zweiteStelle == 7) {
+							array[i][j] = new WumpusBitmapComponent(breezeGlitter, anzahl, j, i % anzahl);
+						} else if (zweiteStelle == 0) {
+							array[i][j] = new WumpusBitmapComponent(glitter, anzahl, j, i % anzahl);
+						}
+
 					} else if (wump.bestimmeDieErsteZahl(wump.weltArray[i][j]) == 4) {
 						array[i][j] = new WumpusBitmapComponent(wumpus2, anzahl, j, i % anzahl);
 					} else if (wump.bestimmeDieErsteZahl(wump.weltArray[i][j]) == 5) {
-						array[i][j] = new WumpusBitmapComponent(smell, anzahl, j, i % anzahl);
+						int zweiteStelle = wump.bestimmeDieErsteZahl(checkFirst((wump.weltArray[i][j]), 5));
+						System.out.println("Zweite: " + zweiteStelle);
+						if(zweiteStelle == 6) {
+							array[i][j] = new WumpusBitmapComponent(pit, anzahl, j, i % anzahl);
+						}else if (zweiteStelle == 7) {
+							array[i][j] = new WumpusBitmapComponent(breezeSmell, anzahl, j, i % anzahl);
+						} else if (zweiteStelle == 0) {
+							array[i][j] = new WumpusBitmapComponent(smell, anzahl, j, i % anzahl);
+						}
+
 					} else if (wump.bestimmeDieErsteZahl(wump.weltArray[i][j]) == 6) {
-						array[i][j] = new WumpusBitmapComponent(pit2, anzahl, j, i % anzahl);
+						array[i][j] = new WumpusBitmapComponent(pit, anzahl, j, i % anzahl);
 					} else if (wump.bestimmeDieErsteZahl(wump.weltArray[i][j]) == 7) {
 						array[i][j] = new WumpusBitmapComponent(breeze, anzahl, j, i % anzahl);
 					} else if (wump.bestimmeDieErsteZahl(wump.weltArray[i][j]) == 9) {
 						array[i][j] = new WumpusBitmapComponent(grau, anzahl, j, i % anzahl);
-					} else
-						array[i][j] = new WumpusBitmapComponent(schwarz2, anzahl, j, i % anzahl);
+					} else	if (wump.bestimmeDieErsteZahl(wump.weltArray[i][j]) == 0) {
+						array[i][j] = new WumpusBitmapComponent(schwarz, anzahl, j, i % anzahl);
+					}
+					System.out.println("zahl in wumpuswelt: " + wump.weltArray[i][j]);
+					if(array[i][j] !=null){
+						System.out.println("File: " + array[i][j].getFileName());
+					}	
 					this.add(array[i][j], new GridBagConstraints(x, y, 1, 1, 0.1, 0.1, GridBagConstraints.SOUTH, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 					// System.out.println("X = " + x +" Y = " + y);
 					// this.add(new JLabel("Test: x:" + i + " y: " + j), new GridBagConstraints(x, y, 1, 1, 0.1, 0.1, GridBagConstraints.SOUTH, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
@@ -158,15 +291,41 @@ public class Wumpus_Panel extends JPanel implements Observer {
 			x = 1;
 		}
 	}
+
+	/**
+	 * Diese Methode schneidet den ersten Element(beliebige Zahl) einer Zahlz.B. 0123 nach der Methode 123
+	 * @param zahl ein Zahl
+	 * @param first erstes Zahl
+	 */
+	public int checkFirst(int zahl, int first) {
+		int zaehler = 0;
+		int original = zahl;
+		// System.out.println("Orginal " + orginal);
+		do {
+			zahl = zahl / 10;
+			// System.out.println("Zahl " + zahl);
+			zaehler++;
+		} while (zahl > 10);
+		// System.out.println("Zähler " + zaehler);
+		for (int i = 0; i < zaehler; i++) {
+			first = first * 10;
+		}
+		// if(zahl < 0)zahl = 9; und if(zahl == 0) zahl =9;
+		return (original - first) <= 0 ? 0 : original - first;
+	}
+	
 	/**
 	 * Diese Methode bestimmt welches Bild ist mit Y,X-Koordinaten.
-	 * @param y Y-Koordinate des Feldes
-	 * @param x X-Koordinate des Feldes
+	 * 
+	 * @param y
+	 *            Y-Koordinate des Feldes
+	 * @param x
+	 *            X-Koordinate des Feldes
 	 * @return wird ein Bild zurückgegeben.
 	 */
 	public String welchesBild(int y, int x) {
 		if (wump.bestimmeDieErsteZahl(new FeldPositionieren().checkFirst(wump.weltArray[y][x])) == 2) {
-			return gold2;
+			return gold;
 		} else if (wump.bestimmeDieErsteZahl(new FeldPositionieren().checkFirst(wump.weltArray[y][x])) == 3) {
 			return glitter;
 		} else if (wump.bestimmeDieErsteZahl(new FeldPositionieren().checkFirst(wump.weltArray[y][x])) == 4) {
@@ -174,13 +333,13 @@ public class Wumpus_Panel extends JPanel implements Observer {
 		} else if (wump.bestimmeDieErsteZahl(new FeldPositionieren().checkFirst(wump.weltArray[y][x])) == 5) {
 			return smell;
 		} else if (wump.bestimmeDieErsteZahl(new FeldPositionieren().checkFirst(wump.weltArray[y][x])) == 6) {
-			return pit2;
+			return pit;
 		} else if (wump.bestimmeDieErsteZahl(new FeldPositionieren().checkFirst(wump.weltArray[y][x])) == 7) {
 			return breeze;
 		} else if (wump.bestimmeDieErsteZahl(new FeldPositionieren().checkFirst(wump.weltArray[y][x])) == 9) {
 			return grau;
 		}
-		return schwarz2;
+		return schwarz;
 	}
 
 	/**
@@ -212,7 +371,7 @@ public class Wumpus_Panel extends JPanel implements Observer {
 		System.out.println("Y: " + neuY + " X: " + neuX + " Dateiname: " + array[neuY][neuX].getFileName());
 		remove(array[neuY][neuX]);
 		/* Agent muss vorne an die Wahrnemung angefügt werden */
-		array[neuY][neuX] = new WumpusBitmapComponent(agent2, anzahl, neuY, neuX);
+		array[neuY][neuX] = new WumpusBitmapComponent(agent, anzahl, neuY, neuX);
 		add(array[neuY][neuX], new GridBagConstraints(neuY + 1, neuX + 1, 1, 1, 0.1, 0.1, GridBagConstraints.SOUTH, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 		// repaint();
 		validate();

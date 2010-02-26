@@ -712,6 +712,7 @@ public class Agent implements Observer {
 		} else if (unteresFeld != null && unteresFeld.besucht && unteresFeld.glitter && istGoldNichtDa(y + 2, x) && istGoldNichtDa(y + 1, x - 1) && istGoldNichtDa(y + 1, x + 1)) {
 			return true;
 		}
+		//TODO: die if bedinung mit zwei GlitterFelder einbauen usw.
 		return false;
 	}
 

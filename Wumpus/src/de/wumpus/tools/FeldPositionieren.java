@@ -199,7 +199,7 @@ public class FeldPositionieren {
 	}
 
 	/**
-	 * Die Methode prueft was fuer ein Zahl am Ende ist.z.B. 123 diese Methode gibt als Rueckgabe 3
+	 * Die Methode wandelt zwei Zahlen in ein um. d.h. 234 und 1 bekommen wir 1234
 	 * @param value ein Wert in Array[y][x]
 	 * @param newDigit ein Wert 	  
 	 */
