@@ -319,7 +319,6 @@ public class Agent implements Observer {
 	private int eineGegenZahl(int zahl) {
 		if (zahl == 1)
 			return 2;
-		// wahrscheilich kein else noetwendig!!!!!! ODER?????????
 		else if (zahl == 2)
 			return 1;
 		else if (zahl == 3)
@@ -342,7 +341,7 @@ public class Agent implements Observer {
 		// Falls Agent am Anfang nicht weiss wohin
 		// do {
 		bestimmeDieRichtung(agentY, agentX);
-//		sucheDieRoute(agentY, agentX);
+		 sucheDieRoute(agentY, agentX);
 		// System.err.println("AgentY " + agentY + " AgentX " + agentX);
 		// TODO: wenn agent schon einmal sich bewegt hat, muss die setzeKeinGefahrWennKeineWahrnehmung(y,x) aufgeruffen werden.
 		// System.err.println("bewegeAgenten: " + richtung);
@@ -357,22 +356,16 @@ public class Agent implements Observer {
 					wump.bewegeAgent(Bezeichnungen.UP);
 					verarbeiteWahrnehmung(agentY, agentX);
 					weiterMachen = sitzeAufGold(agentY, agentX);
-					// TODO: oder ambesten in Methode wechseln??????????????????????????????????????
 					if (!arraymitWissenBasis[agentY][agentX].gold && !arraymitWissenBasis[agentY][agentX].wumpus && !arraymitWissenBasis[agentY][agentX].geruch && !arraymitWissenBasis[agentY][agentX].fallgrube
 							&& !arraymitWissenBasis[agentY][agentX].brise) {
 						setzeKeinGefahrWennKeineWahrnehmung(agentY, agentX);
 					}
-					// if(!arraymitWissenBasis[agentY - 1][agentX].glitter)
-					// int lol;
-					// }
-					// }
 				} else if (!pruefeFeldNachGefahr(agentY - 1, agentX)) {
 					if (pruefeFeldNachSicherheit(agentY - 1, agentX)) {
 						agentY = agentY - 1;
 						wump.bewegeAgent(Bezeichnungen.UP);
 						verarbeiteWahrnehmung(agentY, agentX);
 						weiterMachen = sitzeAufGold(agentY, agentX);
-						// TODO: oder ambesten in Methode wechseln??????????????????????????????????????
 						if (!arraymitWissenBasis[agentY][agentX].gold && !arraymitWissenBasis[agentY][agentX].wumpus && !arraymitWissenBasis[agentY][agentX].geruch && !arraymitWissenBasis[agentY][agentX].fallgrube
 								&& !arraymitWissenBasis[agentY][agentX].brise) {
 							setzeKeinGefahrWennKeineWahrnehmung(agentY, agentX);
@@ -386,28 +379,20 @@ public class Agent implements Observer {
 			System.out.println("Agent(" + agentY + "|" + agentX + ") versucht nach unten zu gehen");
 			if (ichBinNichtAuserhalb(agentY + 1, agentX)) {
 				if (!(arraymitWissenBasis[agentY + 1][agentX].gefahr)) {
-					// if (!pruefeFeldNachGefahr(agentY + 1, agentX)) {
-					// if (pruefeFeldNachSicherheit(agentY + 1, agentX)) {
 					agentY = agentY + 1;
 					wump.bewegeAgent(Bezeichnungen.DOWN);
 					verarbeiteWahrnehmung(agentY, agentX);
 					weiterMachen = sitzeAufGold(agentY, agentX);
-					// TODO: oder ambesten in Methode wechseln??????????????????????????????????????
 					if (!arraymitWissenBasis[agentY][agentX].gold && !arraymitWissenBasis[agentY][agentX].wumpus && !arraymitWissenBasis[agentY][agentX].geruch && !arraymitWissenBasis[agentY][agentX].fallgrube
 							&& !arraymitWissenBasis[agentY][agentX].brise) {
 						setzeKeinGefahrWennKeineWahrnehmung(agentY, agentX);
 					}
-					// if(!arraymitWissenBasis[agentY + 1][agentX].glitter)
-					// int lol;
-					// }
-					// }
 				} else if (!pruefeFeldNachGefahr(agentY + 1, agentX)) {
 					if (pruefeFeldNachSicherheit(agentY + 1, agentX)) {
 						agentY = agentY + 1;
 						wump.bewegeAgent(Bezeichnungen.DOWN);
 						verarbeiteWahrnehmung(agentY, agentX);
 						weiterMachen = sitzeAufGold(agentY, agentX);
-						// TODO: oder ambesten in Methode wechseln??????????????????????????????????????
 						if (!arraymitWissenBasis[agentY][agentX].gold && !arraymitWissenBasis[agentY][agentX].wumpus && !arraymitWissenBasis[agentY][agentX].geruch && !arraymitWissenBasis[agentY][agentX].fallgrube
 								&& !arraymitWissenBasis[agentY][agentX].brise) {
 							setzeKeinGefahrWennKeineWahrnehmung(agentY, agentX);
@@ -421,28 +406,20 @@ public class Agent implements Observer {
 			System.out.println("Agent(" + agentY + "|" + agentX + ") versucht nach links zu gehen");
 			if (ichBinNichtAuserhalb(agentY, agentX - 1)) {
 				if (!(arraymitWissenBasis[agentY][agentX - 1].gefahr)) {
-					// if (!pruefeFeldNachGefahr(agentY - 1, agentX)) {
-					// if (pruefeFeldNachSicherheit(agentY - 1, agentX)) {
 					agentX = agentX - 1;
 					wump.bewegeAgent(Bezeichnungen.LINKS);
 					verarbeiteWahrnehmung(agentY, agentX);
 					weiterMachen = sitzeAufGold(agentY, agentX);
-					// TODO: oder ambesten in Methode wechseln??????????????????????????????????????
 					if (!arraymitWissenBasis[agentY][agentX].gold && !arraymitWissenBasis[agentY][agentX].wumpus && !arraymitWissenBasis[agentY][agentX].geruch && !arraymitWissenBasis[agentY][agentX].fallgrube
 							&& !arraymitWissenBasis[agentY][agentX].brise) {
 						setzeKeinGefahrWennKeineWahrnehmung(agentY, agentX);
 					}
-					// if(!arraymitWissenBasis[agentY - 1][agentX].glitter)
-					// int lol;
-					// }
-					// }
 				} else if (!pruefeFeldNachGefahr(agentY, agentX - 1)) {
 					if (pruefeFeldNachSicherheit(agentY, agentX - 1)) {
 						agentX = agentX - 1;
 						wump.bewegeAgent(Bezeichnungen.LINKS);
 						verarbeiteWahrnehmung(agentY, agentX);
 						weiterMachen = sitzeAufGold(agentY, agentX);
-						// TODO: oder ambesten in Methode wechseln??????????????????????????????????????
 						if (!arraymitWissenBasis[agentY][agentX].gold && !arraymitWissenBasis[agentY][agentX].wumpus && !arraymitWissenBasis[agentY][agentX].geruch && !arraymitWissenBasis[agentY][agentX].fallgrube
 								&& !arraymitWissenBasis[agentY][agentX].brise) {
 							setzeKeinGefahrWennKeineWahrnehmung(agentY, agentX);
@@ -456,28 +433,20 @@ public class Agent implements Observer {
 			System.out.println("Agent(" + agentY + "|" + agentX + ") versucht nach rechts zu gehen");
 			if (ichBinNichtAuserhalb(agentY, agentX + 1)) {
 				if (!(arraymitWissenBasis[agentY][agentX + 1].gefahr)) {
-					// if (!pruefeFeldNachGefahr(agentY - 1, agentX)) {
-					// if (pruefeFeldNachSicherheit(agentY - 1, agentX)) {
 					agentX = agentX + 1;
 					wump.bewegeAgent(Bezeichnungen.RECHTS);
 					verarbeiteWahrnehmung(agentY, agentX);
 					weiterMachen = sitzeAufGold(agentY, agentX);
-					// TODO: oder ambesten in Methode wechseln??????????????????????????????????????
 					if (!arraymitWissenBasis[agentY][agentX].gold && !arraymitWissenBasis[agentY][agentX].wumpus && !arraymitWissenBasis[agentY][agentX].geruch && !arraymitWissenBasis[agentY][agentX].fallgrube
 							&& !arraymitWissenBasis[agentY][agentX].brise) {
 						setzeKeinGefahrWennKeineWahrnehmung(agentY, agentX);
 					}
-					// if(!arraymitWissenBasis[agentY - 1][agentX].glitter)
-					// int lol;
-					// }
-					// }
 				} else if (!pruefeFeldNachGefahr(agentY, agentX + 1)) {
 					if (pruefeFeldNachSicherheit(agentY, agentX + 1)) {
 						agentX = agentX + 1;
 						wump.bewegeAgent(Bezeichnungen.RECHTS);
 						verarbeiteWahrnehmung(agentY, agentX);
 						weiterMachen = sitzeAufGold(agentY, agentX);
-						// TODO: oder ambesten in Methode wechseln??????????????????????????????????????
 						if (!arraymitWissenBasis[agentY][agentX].gold && !arraymitWissenBasis[agentY][agentX].wumpus && !arraymitWissenBasis[agentY][agentX].geruch && !arraymitWissenBasis[agentY][agentX].fallgrube
 								&& !arraymitWissenBasis[agentY][agentX].brise) {
 							setzeKeinGefahrWennKeineWahrnehmung(agentY, agentX);
@@ -901,6 +870,35 @@ public class Agent implements Observer {
 		}
 		return false;
 	}
+	/**
+	 * Diese Methode prüft, ob die nahligende Felder besucht waren. d.h. es muss min. ein nahligendes Feld besucht sein.
+	 * @param y Y-Koordinate des Feldes
+	 * @param x X-Koordinate des Feldes
+	 * @return true wenn min. ein nahligendes Feld besucht ist.
+	 */
+	private boolean dieNahligendeFelderBesucht(int y, int x) {
+		if (ichBinNichtAuserhalb(y - 1, x)) {
+			if (arraymitWissenBasis[y - 1][x].besucht) {
+				return true;
+			}
+		}
+		if (ichBinNichtAuserhalb(y + 1, x)) {
+			if (arraymitWissenBasis[y + 1][x].besucht) {
+				return true;
+			}
+		}
+		if (ichBinNichtAuserhalb(y, x - 1)) {
+			if (arraymitWissenBasis[y][x - 1].besucht) {
+				return true;
+			}
+		}
+		if (ichBinNichtAuserhalb(y, x + 1)) {
+			if (arraymitWissenBasis[y][x + 1].besucht) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	/**
 	 * Diese Methode soll ausgehend von der derzeitigen Position und der aktuellen Wissensbasis versuchen das Gold zu finden. Falls dies nicht möglich ist, soll diese Methode das nächste noch nicht besuchte und sichere Feld finden.
@@ -927,13 +925,15 @@ public class Agent implements Observer {
 		if (zielY == -1 && zielX == -1) {
 			for (int y = 0; y < anzahl; y++) {
 				for (int x = 0; x < anzahl; x++) {
-					
-//					TODO: der agent prueft  jedes feld statt nur nahligenden Felder um die vom Agent schon besuchten felder
-					if (!arraymitWissenBasis[y][x].besucht && pruefeFeldNachSicherheit(y, x)) {
-						if (zielY == -1 && zielX == -1 && (Math.abs(y) + Math.abs(x)) < (Math.abs(zielY) + Math.abs(zielX))) {
-							System.out.println("Sicheres Feld zuweisen");
-							zielY = y;
-							zielX = x;
+//TODO: der Agent fahlt in Pit????????????????????????????????????????????????????????????????????
+					if (dieNahligendeFelderBesucht(y, x)) {
+						// TODO: der agent prueft jedes feld statt nur nahligenden Felder um die vom Agent schon besuchten felder
+						if (!arraymitWissenBasis[y][x].besucht && pruefeFeldNachSicherheit(y, x)) {
+							if (zielY == -1 && zielX == -1 && (Math.abs(y) + Math.abs(x)) < (Math.abs(zielY) + Math.abs(zielX))) {
+								System.out.println("Sicheres Feld zuweisen");
+								zielY = y;
+								zielX = x;
+							}
 						}
 					}
 				}
