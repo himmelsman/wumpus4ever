@@ -83,7 +83,7 @@ public class WumpusGUI extends JFrame implements Observer {
 				/* Ablauflayout */
 				{
 					ablaufScrollPanel = new JScrollPane();
-					getContentPane().add(ablaufScrollPanel, new GridBagConstraints(0, 0, 1, 6, 0.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+					getContentPane().add(ablaufScrollPanel, new GridBagConstraints(0, 0, 1, 6, 0.1, 0.1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 					ablaufScrollPanel.setPreferredSize(new java.awt.Dimension(75, 1));
 					{
 						ablaufTextArea = new JTextArea();
@@ -102,11 +102,11 @@ public class WumpusGUI extends JFrame implements Observer {
 
 				{
 					// WumpusPanel
-					this.add(wumpusPanel, new GridBagConstraints(1, 0, 3, 6, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+					this.add(wumpusPanel, new GridBagConstraints(1, 0, 3, 6, 0.1, 0.1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 				}
 				{ /* Statistiklayout */
 					statistikScrollPanel = new JScrollPane();
-					getContentPane().add(statistikScrollPanel, new GridBagConstraints(4, 0, 1, 6, 0.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+					getContentPane().add(statistikScrollPanel, new GridBagConstraints(4, 0, 1, 6, 0.1, 0.1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 					statistikScrollPanel.setPreferredSize(new java.awt.Dimension(75, 1));
 					{
 						statistikTextArea = new JTextArea();
@@ -296,6 +296,7 @@ public class WumpusGUI extends JFrame implements Observer {
 		} else if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.REPAINT)) {
 //			System.out.println(" " + Bezeichnungen.REPAINT);
 			wumpusPanel.setzeAnzahl();
+			validate();
 		} else if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.BEWEGE)) {
 //			System.out.println(" " + Bezeichnungen.BEWEGE);
 			//TODO: jetzt brauch man nicht die uebergabeparameter
