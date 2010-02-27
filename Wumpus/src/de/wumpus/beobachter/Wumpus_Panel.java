@@ -49,6 +49,7 @@ public class Wumpus_Panel extends JPanel implements Observer {
 	public Wumpus_Panel(WumpusWelt _wump) {
 		super();
 		setVisible(true);
+		setSize(1, 1);
 		wump = _wump;
 		anzahl = wump.anzahl;
 		imageArray = new WumpusBitmapComponent[anzahl][anzahl];
@@ -64,6 +65,7 @@ public class Wumpus_Panel extends JPanel implements Observer {
 
 	@Override
 	public void paint(Graphics g) {
+//		System.out.println("getWidth:" +getWidth() + " getHeight:" + getHeight());
 		for (int y = 0; y < anzahl; y++) {
 			for (int x = 0; x < anzahl; x++) {
 				imageArray[y][x].resizeImage(getWidth() / anzahl, getHeight() / anzahl);
@@ -76,8 +78,7 @@ public class Wumpus_Panel extends JPanel implements Observer {
 	 * Initalisiert das WumpusPanel, d.h. es werden alle Componenten entfernt und anhand der Informationen der WumpusWelt <b>wump</b> neu eingefügt.
 	 */
 	private void initGUI() {
-		removeAll();
-		setSize(100, 100); // TODO: setze size so das erstmal passt
+		removeAll(); // TODO: setze size so das erstmal passt
 		gridBagLayout = setzeLayout();
 		setLayout(gridBagLayout);
 		imageArray = new WumpusBitmapComponent[anzahl][anzahl];
@@ -130,7 +131,7 @@ public class Wumpus_Panel extends JPanel implements Observer {
 				{
 					imageArray[y - 1][x - 1] = welchesBild(wump.weltArray[y - 1][x - 1]);
 					// muss im gridbag x und y sein sonst bewegt up nach left
-					this.add(imageArray[y - 1][x - 1], new GridBagConstraints(x, y, 1, 1, 0.1, 0.1, GridBagConstraints.SOUTH, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+					this.add(imageArray[y - 1][x - 1], new GridBagConstraints(x, y, 1, 1, 0.1, 0.1, GridBagConstraints.SOUTH, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 				}
 			}
 		}
@@ -149,8 +150,10 @@ public class Wumpus_Panel extends JPanel implements Observer {
 		}
 		if (wump.bestimmeDieErsteZahl(wahrnehmung) == 2) {
 			int zweiteStelle = wump.bestimmeDieErsteZahl(checkFirst((wahrnehmung), 2));
+//			System.out.println("zweiteStelle:" + zweiteStelle);
 			if (zweiteStelle == 5) {
 				int dritteStelle = wump.bestimmeDieErsteZahl(checkFirst(checkFirst((wahrnehmung), 2), 5));
+//				System.out.println("dritteStelle:" + dritteStelle);
 				if (dritteStelle == 7) {
 					return new WumpusBitmapComponent(breezeSmellGold, this.getSize().height / anzahl, this.getSize().width / anzahl);
 				} else if (dritteStelle == 0 || dritteStelle == 9) {
@@ -176,7 +179,7 @@ public class Wumpus_Panel extends JPanel implements Observer {
 			} else if (zweiteStelle == 5) {
 				int dritteStelle = wump.bestimmeDieErsteZahl(checkFirst(checkFirst((wahrnehmung), 3), 5));
 				if (dritteStelle == 7) {
-					return new WumpusBitmapComponent("BreezeSmellGlitter.JPG", this.getSize().height / anzahl, this.getSize().width / anzahl);
+					return new WumpusBitmapComponent(breezeSmellGlitter, this.getSize().height / anzahl, this.getSize().width / anzahl);
 				} else if (dritteStelle == 0 || dritteStelle == 9) {
 					return new WumpusBitmapComponent(smellGlitter, this.getSize().height / anzahl, this.getSize().width / anzahl);
 				}

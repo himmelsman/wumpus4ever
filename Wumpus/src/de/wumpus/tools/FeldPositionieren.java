@@ -15,7 +15,8 @@ public class FeldPositionieren {
 	public int[][] feldPositionierung(int anzahl) {
 		// System.out.println("Wir sind in Feld Positionierung und Anzahl ist " + anzahl);// mackaken es wird schonwieder 2 mal aufgerufen!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-		/*Initialisierung der istarray durch 0
+		/*
+		 * Initialisierung der istarray durch 0
 		 */
 		int[][] istarray = new int[anzahl][anzahl];
 		for (int i = 0; i < anzahl; i++) {
@@ -76,7 +77,7 @@ public class FeldPositionieren {
 					istarray[x][y] = value;
 				} else {
 					int value = 2;
-					istarray[x][y] = istarray[x][y] * 10 + value;
+					istarray[x][y] = checkLast(istarray[x][y], value);
 				}
 				/* Ende von dieses Teil */
 				setUmfeld(x, y, 3, anzahl, istarray);
@@ -131,41 +132,57 @@ public class FeldPositionieren {
 
 	/**
 	 * Die Methode setzt um den Wumpus,Pits und Gold nahligende felder mit Geruch,Brize und Glitter. Man muss achten damit die Felder nicht im außerem Rand plaziert werden.
-	 * @param x x Koordinate
-	 * @param y y Koordinate
-	 * @param value ein Wert in Arra[y][x]
-	 * @param anzahl die grosse des Arrays
-	 * @param istarray selbst das zweidimensionale Array(Feld)
+	 * 
+	 * @param x
+	 *            x Koordinate
+	 * @param y
+	 *            y Koordinate
+	 * @param value
+	 *            ein Wert in Arra[y][x]
+	 * @param anzahl
+	 *            die grosse des Arrays
+	 * @param istarray
+	 *            selbst das zweidimensionale Array(Feld)
 	 */
 	private void setUmfeld(int x, int y, int value, int anzahl, int[][] istarray) {
-		if (x != 0)
+		if (x != 0) {
 			if (istarray[x - 1][y] == 0)
 				istarray[x - 1][y] = value;
 			else
 				istarray[x - 1][y] = checkLast(istarray[x - 1][y], value);
+//			System.out.println("value: " + value + " imArray:" + istarray[x - 1][y]);
+		}
 		if (x != anzahl - 1) {
 			if (istarray[x + 1][y] == 0)
 				istarray[x + 1][y] = value;
 			else
 				istarray[x + 1][y] = checkLast(istarray[x + 1][y], value);
+//			System.out.println("value: " + value + " imArray:" + istarray[x + 1][y]);
 		}
 		if (y != 0) {
 			if (istarray[x][y - 1] == 0)
 				istarray[x][y - 1] = value;
 			else
 				istarray[x][y - 1] = checkLast(istarray[x][y - 1], value);
+//			System.out.println("value: " + value + " imArray:" + istarray[x][y - 1]);
 		}
 		if (y != anzahl - 1) {
 			if (istarray[x][y + 1] == 0)
 				istarray[x][y + 1] = value;
 			else
 				istarray[x][y + 1] = checkLast(istarray[x][y + 1], value);
+//			System.out.println("value: " + value + " imArray:" + istarray[x][y + 1]);
 		}
+
 	}
 
-	/** Diese Methode wird die benuzerdefiniertes Feld uebegeben, mit Koordinaten von Agent,Gold,Wumpus,Pit
-	 *@param anzahl die grosse des Arrays
-	 *@param positionen ein eindimensionales Array 
+	/**
+	 * Diese Methode wird die benuzerdefiniertes Feld uebegeben, mit Koordinaten von Agent,Gold,Wumpus,Pit
+	 * 
+	 * @param anzahl
+	 *            die grosse des Arrays
+	 * @param positionen
+	 *            ein eindimensionales Array
 	 */
 	public int[][] myfeldPositionierung(int anzahl, int[] positionen) {
 		int[][] istarray = new int[anzahl][anzahl];
@@ -179,18 +196,22 @@ public class FeldPositionieren {
 				if (j == positionen[0] && i == positionen[1])
 					istarray[j][i] = 1;
 				if (j == positionen[2] && i == positionen[3]) {
-					istarray[j][i] = 2;
-//					System.out.println("istarray[j][i] " + istarray[j][i]);
+					if(istarray[j][i] == 0){
+						istarray[j][i] = 2;
+					} else{
+						istarray[j][i] = checkLast(istarray[j][i], 2);
+					}
+					// System.out.println("istarray[j][i] " + istarray[j][i]);
 					setUmfeld(j, i, 3, anzahl, istarray);
 				}
 				if (j == positionen[4] && i == positionen[5]) {
 					istarray[j][i] = 4;
-//					System.out.println("istarray[j][i] " + istarray[j][i]);
-					setUmfeld(j,i, 5, anzahl, istarray);
+					// System.out.println("istarray[j][i] " + istarray[j][i]);
+					setUmfeld(j, i, 5, anzahl, istarray);
 				}
 				if (j == positionen[6] && i == positionen[7]) {
 					istarray[j][i] = 6;
-//					System.out.println("istarray[j][i] " + istarray[j][i]);
+					// System.out.println("istarray[j][i] " + istarray[j][i]);
 					setUmfeld(j, i, 7, anzahl, istarray);
 				}
 			}
@@ -200,8 +221,11 @@ public class FeldPositionieren {
 
 	/**
 	 * Die Methode wandelt zwei Zahlen in ein um. d.h. 234 und 1 bekommen wir 1234
-	 * @param value ein Wert in Array[y][x]
-	 * @param newDigit ein Wert 	  
+	 * 
+	 * @param value
+	 *            ein Wert in Array[y][x]
+	 * @param newDigit
+	 *            ein Wert
 	 */
 	public int checkLast(int value, int newDigit) {
 		int oldDigit = value % 10;
@@ -212,9 +236,12 @@ public class FeldPositionieren {
 		}
 		return value * 10 + newDigit;
 	}
+
 	/**
 	 * Diese Methode schneidet den ersten Element(Zahl des Agentes) einer Zahlz.B. 123 nach der Methode 23
-	 * @param zahl ein Zahl
+	 * 
+	 * @param zahl
+	 *            ein Zahl
 	 */
 	public int checkFirst(int zahl) {
 		int zaehler = 0;
@@ -233,10 +260,14 @@ public class FeldPositionieren {
 		// if(zahl < 0)zahl = 9; zahl == 0; zahl =9;
 		return (original - zahltest) <= 0 ? 9 : original - zahltest;
 	}
+
 	/**
 	 * Diese Methode schneidet den ersten Element(beliebige Zahl) einer Zahlz.B. 0123 nach der Methode 123
-	 * @param zahl ein Zahl
-	 * @param first erstes Zahl
+	 * 
+	 * @param zahl
+	 *            ein Zahl
+	 * @param first
+	 *            erstes Zahl
 	 */
 	public int checkFirst(int zahl, int first) {
 		int zaehler = 0;
@@ -257,7 +288,9 @@ public class FeldPositionieren {
 
 	/**
 	 * Die Methode bestimmt die erste Zahl, die in der Arrayposition abgespeichert ist. d.h. die erste Teil der Zahl. z.B. Zahl = 234 nach der Methode Zahl = 2
-	 * @param zahl ein Zahl
+	 * 
+	 * @param zahl
+	 *            ein Zahl
 	 */
 	public int bestimmeDieErsteZahl(int zahl) {
 		do {
@@ -270,8 +303,10 @@ public class FeldPositionieren {
 	}
 
 	/**
-	 *  Diese Methode uebergibt die einzelne/separate Wahrnechnungen als ein Array an. 
-	 *  @param zahl ein Zahl 
+	 * Diese Methode uebergibt die einzelne/separate Wahrnechnungen als ein Array an.
+	 * 
+	 * @param zahl
+	 *            ein Zahl
 	 */
 	public int[] separateWahrnehmungen(int zahl) {
 		int zahlTemp = zahl;
@@ -298,5 +333,15 @@ public class FeldPositionieren {
 //		//
 //		// }
 //		// System.out.println("Fertig");
+////		System.out.println(fp.checkLast(5, 2));
+////		System.out.println(fp.checkLast(25, 7));
+////		System.out.println(fp.checkFirst(257, 2));
+////		System.out.println(fp.checkFirst(fp.checkFirst(257, 2), 5));
+//		int[][] test = fp.myfeldPositionierung(4, new int[]{0,0,2,2,2,1,3,2});
+//		for(int y = 0;y<4;y++){
+//			for(int x = 0;x<4;x++){
+//				System.out.println("Feld(" + (y) + "|" + x + ") " + test[y][x]);
+//			}
+//		}
 //	}
 }

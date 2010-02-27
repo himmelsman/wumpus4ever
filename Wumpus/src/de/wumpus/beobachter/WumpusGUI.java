@@ -1,6 +1,7 @@
 package de.wumpus.beobachter;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -60,6 +61,8 @@ public class WumpusGUI extends JFrame implements Observer {
 	private int agentSchrittZahler = 0;
 	private int gesamtPunktenAnzahl = 10000;
 	private int einSchritt_10 = 10;
+	private int guiWidth = 0;
+	private int guiHeight = 0;
 	
 
 	public WumpusGUI(Wumpus_Panel panel, WumpusWelt _wump) {
@@ -73,6 +76,7 @@ public class WumpusGUI extends JFrame implements Observer {
 		try {
 			{
 				setSize(800, 600);
+				
 				setTitle("Wumpus Welt");
 				setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 				thisLayout.rowWeights = new double[] { 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1 };
@@ -83,8 +87,8 @@ public class WumpusGUI extends JFrame implements Observer {
 				/* Ablauflayout */
 				{
 					ablaufScrollPanel = new JScrollPane();
-					getContentPane().add(ablaufScrollPanel, new GridBagConstraints(0, 0, 1, 6, 0.1, 0.1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
-					ablaufScrollPanel.setPreferredSize(new java.awt.Dimension(75, 1));
+					getContentPane().add(ablaufScrollPanel, new GridBagConstraints(0, 0, 1, 6, 0.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+					ablaufScrollPanel.setPreferredSize(new java.awt.Dimension(100, 1));
 					{
 						ablaufTextArea = new JTextArea();
 						ablaufTextArea.setLineWrap(true);
@@ -102,12 +106,13 @@ public class WumpusGUI extends JFrame implements Observer {
 
 				{
 					// WumpusPanel
-					this.add(wumpusPanel, new GridBagConstraints(1, 0, 3, 6, 0.1, 0.1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+					wumpusPanel.setPreferredSize(new Dimension(guiWidth/3*2, guiHeight/6*4));
+					this.add(wumpusPanel, new GridBagConstraints(1, 0, 3, 6, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 				}
 				{ /* Statistiklayout */
 					statistikScrollPanel = new JScrollPane();
-					getContentPane().add(statistikScrollPanel, new GridBagConstraints(4, 0, 1, 6, 0.1, 0.1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
-					statistikScrollPanel.setPreferredSize(new java.awt.Dimension(75, 1));
+					getContentPane().add(statistikScrollPanel, new GridBagConstraints(4, 0, 1, 6, 0.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+					statistikScrollPanel.setPreferredSize(new java.awt.Dimension(100, 1));
 					{
 						statistikTextArea = new JTextArea();
 						statistikScrollPanel.setViewportView(statistikTextArea);

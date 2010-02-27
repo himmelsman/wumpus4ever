@@ -57,6 +57,9 @@ public class WumpusBitmapComponent extends Canvas {
 	 */
 	public void resizeImage(int width, int height) {
 		if (imageWidth != width || imageHeight != height) {
+//			System.out.println("imageWidth:" + imageWidth + " imageHeight:" + imageHeight + " width:" + width + " height:" + height);
+			imageWidth = width;
+			imageHeight = height;
 			img = getToolkit().getImage(fileName);
 			MediaTracker mt = new MediaTracker(this);
 			mt.addImage(img, 0);
@@ -70,6 +73,7 @@ public class WumpusBitmapComponent extends Canvas {
 			} catch (InterruptedException e) {
 				System.out.println("In der Konstruktor WumpusBitmapComponent Fehler");
 			}
+			
 		}
 	}
 	
