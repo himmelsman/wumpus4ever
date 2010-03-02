@@ -140,7 +140,7 @@ public class Agent implements Observer {
 	 * @param richtung
 	 * @return
 	 */
-	private boolean istDortWand(int y, int x, int richtung) {
+	private boolean istDortKeineWand(int y, int x, int richtung) {
 		int ySave = y, xSave = x;
 		switch (richtung) {
 		case 1: {
@@ -341,7 +341,7 @@ public class Agent implements Observer {
 		// Falls Agent am Anfang nicht weiss wohin
 		// do {
 		bestimmeDieRichtung(agentY, agentX);
-		 sucheDieRoute(agentY, agentX);
+		sucheDieRoute(agentY, agentX);
 		// System.err.println("AgentY " + agentY + " AgentX " + agentX);
 		// TODO: wenn agent schon einmal sich bewegt hat, muss die setzeKeinGefahrWennKeineWahrnehmung(y,x) aufgeruffen werden.
 		// System.err.println("bewegeAgenten: " + richtung);
@@ -609,6 +609,111 @@ public class Agent implements Observer {
 	}
 
 	/* Hilfsmethoden */
+	
+	/**
+	 * Die Methode bestimm, wo das Wumpus ist. d.h. es wird in Wissenbassis nach Geruch gesucht, dadurch entstehen 4 Fälle, bei denen muss man noch weitere Fälle untescheiden. 
+	 * 
+	 * @return die Position des Wumpus oder <b>null</b>
+	 */
+	private Position istWumpusDa() {
+		Feld erstesFeldMitGeruch = null;
+		Feld zweitesFeldMitGeruch = null;
+		Feld drittesFeldMitGeruch = null;
+//		Feld viertesFeldMitGeruch = null;
+		int geheNichtNochmal = 0;
+		for (int j = 0; j < anzahl; j++) {
+			for (int i = 0; i < anzahl; i++) {
+				if (arraymitWissenBasis[j][i].besucht) {
+					if (arraymitWissenBasis[j][i].geruch) {
+						// TODO: wenn erste bedinung stimm, dann stimmt die zweite stelle(if) usw.
+						if (geheNichtNochmal == 0) {
+							erstesFeldMitGeruch = arraymitWissenBasis[j][i];
+							geheNichtNochmal = 1;
+						} else if (geheNichtNochmal == 1) {
+							zweitesFeldMitGeruch = arraymitWissenBasis[j][i];
+							geheNichtNochmal = 2;
+						} else if (geheNichtNochmal == 2) {
+							drittesFeldMitGeruch = arraymitWissenBasis[j][i];
+							geheNichtNochmal = 3;
+						} else if (geheNichtNochmal == 3) {
+//							viertesFeldMitGeruch = arraymitWissenBasis[j][i];
+							geheNichtNochmal = 4;
+						}
+					}
+				}
+			}
+
+		}
+
+		if (geheNichtNochmal == 1) {
+			Feld unteresFeld = null;
+			Feld oberesFeld = null;
+			Feld linkesFeld = null;
+			Feld rechtesFeld = null;
+			if (erstesFeldMitGeruch.y - 1 >= 0) {
+				oberesFeld = arraymitWissenBasis[erstesFeldMitGeruch.y - 1][erstesFeldMitGeruch.x];
+			}
+			if (erstesFeldMitGeruch.y + 1 < anzahl) {
+				unteresFeld = arraymitWissenBasis[erstesFeldMitGeruch.y + 1][erstesFeldMitGeruch.x];
+			}
+			if (erstesFeldMitGeruch.x - 1 >= 0) {
+				linkesFeld = arraymitWissenBasis[erstesFeldMitGeruch.y][erstesFeldMitGeruch.x - 1];
+			}
+			if (erstesFeldMitGeruch.x + 1 < anzahl) {
+				rechtesFeld = arraymitWissenBasis[erstesFeldMitGeruch.y][erstesFeldMitGeruch.x + 1];
+			}
+
+			if (linkesFeld != null && !linkesFeld.besucht && istWumpusNichtDa(linkesFeld.y - 1, linkesFeld.x) && istWumpusNichtDa(linkesFeld.y + 1, linkesFeld.x) && istWumpusNichtDa(linkesFeld.y, linkesFeld.x - 1)) {
+				return new Position(linkesFeld.y, linkesFeld.x);
+			} else if (rechtesFeld != null && rechtesFeld.besucht && istWumpusNichtDa(rechtesFeld.y - 1, rechtesFeld.x) && istWumpusNichtDa(rechtesFeld.y + 1, rechtesFeld.x) && istWumpusNichtDa(rechtesFeld.y, rechtesFeld.x + 1)) {
+				return new Position(rechtesFeld.y, rechtesFeld.x);
+			} else if (oberesFeld != null && oberesFeld.besucht && istWumpusNichtDa(oberesFeld.y - 1, oberesFeld.x) && istWumpusNichtDa(oberesFeld.y, oberesFeld.x - 1) && istWumpusNichtDa(oberesFeld.y, oberesFeld.x + 1)) {
+				return new Position(oberesFeld.y, oberesFeld.x);
+			} else if (unteresFeld != null && unteresFeld.besucht && istWumpusNichtDa(unteresFeld.y + 1, unteresFeld.x) && istWumpusNichtDa(unteresFeld.y, unteresFeld.x - 1) && istWumpusNichtDa(unteresFeld.y, unteresFeld.x + 1)) {
+				return new Position(unteresFeld.y, unteresFeld.x);
+			}
+		} else if (geheNichtNochmal == 2) {
+			if (erstesFeldMitGeruch.y - 2 == zweitesFeldMitGeruch.y && erstesFeldMitGeruch.x == zweitesFeldMitGeruch.x) {
+				return new Position(erstesFeldMitGeruch.y - 1, erstesFeldMitGeruch.x);
+			} else if (erstesFeldMitGeruch.y == zweitesFeldMitGeruch.y && erstesFeldMitGeruch.x + 2 == zweitesFeldMitGeruch.x) {
+				return new Position(erstesFeldMitGeruch.y, erstesFeldMitGeruch.x + 1);
+			} else if (erstesFeldMitGeruch.y + 1 == zweitesFeldMitGeruch.y && erstesFeldMitGeruch.x + 1 == zweitesFeldMitGeruch.x) {
+				if (istWumpusDa(erstesFeldMitGeruch.y, erstesFeldMitGeruch.x + 1)) {
+					return new Position(erstesFeldMitGeruch.y, erstesFeldMitGeruch.x + 1);
+				}
+				if (istWumpusDa(erstesFeldMitGeruch.y + 1, erstesFeldMitGeruch.x)) {
+					return new Position(erstesFeldMitGeruch.y + 1, erstesFeldMitGeruch.x);
+				}
+			} else if (erstesFeldMitGeruch.y + 1 == zweitesFeldMitGeruch.y && erstesFeldMitGeruch.x - 1 == zweitesFeldMitGeruch.x) {
+				if (istWumpusDa(erstesFeldMitGeruch.y, erstesFeldMitGeruch.x - 1)) {
+					return new Position(erstesFeldMitGeruch.y, erstesFeldMitGeruch.x - 1);
+				}
+				if (istWumpusDa(erstesFeldMitGeruch.y + 1, erstesFeldMitGeruch.x)) {
+					return new Position(erstesFeldMitGeruch.y + 1, erstesFeldMitGeruch.x);
+				}
+			}
+			//			
+		} else if (geheNichtNochmal == 3) {
+			if (erstesFeldMitGeruch.y + 1 == drittesFeldMitGeruch.y && erstesFeldMitGeruch.x + 1 == drittesFeldMitGeruch.x) {
+				if (erstesFeldMitGeruch.y == zweitesFeldMitGeruch.y && erstesFeldMitGeruch.x + 2 == zweitesFeldMitGeruch.x) {
+					return new Position(erstesFeldMitGeruch.y, erstesFeldMitGeruch.x + 1);
+				}
+			} else if (erstesFeldMitGeruch.y + 1 == zweitesFeldMitGeruch.y && erstesFeldMitGeruch.x - 1 == zweitesFeldMitGeruch.x) {
+				return new Position(erstesFeldMitGeruch.y, erstesFeldMitGeruch.x + 1);
+			} else if (erstesFeldMitGeruch.y + 2 == drittesFeldMitGeruch.y && erstesFeldMitGeruch.x == drittesFeldMitGeruch.x) {
+				if (erstesFeldMitGeruch.y + 1 == zweitesFeldMitGeruch.y && erstesFeldMitGeruch.x - 1 == zweitesFeldMitGeruch.x) {
+					return new Position(erstesFeldMitGeruch.y + 1, erstesFeldMitGeruch.x);
+				}
+			} else if (erstesFeldMitGeruch.y + 1 == zweitesFeldMitGeruch.y && erstesFeldMitGeruch.x + 1 == zweitesFeldMitGeruch.x) {
+				return new Position(erstesFeldMitGeruch.y + 1, erstesFeldMitGeruch.x);
+			}
+		}else if(geheNichtNochmal == 4){
+			return new Position(erstesFeldMitGeruch.y +1, erstesFeldMitGeruch.x);
+		}
+		return null;
+	}
+
+	
 	private boolean istWumpusDa(int y, int x) {
 		Feld p = arraymitWissenBasis[y][x];
 		/* Wenn Feld Besucht dann keine Gefahr */
@@ -680,6 +785,108 @@ public class Agent implements Observer {
 		}
 		return false;
 	}
+	/**
+	 * Die Methode bestimm, wo das Gold ist. d.h. es wird in Wissenbassis nach Glitter gesucht, dadurch entstehen 5 Falle, bei denen muss man noch weitere Fälle untescheiden. 
+	 * 
+	 * @return die Position des Goldes oder <b>null</b>
+	 */
+	private Position istGoldDa() {
+		Feld erstesFeldMitGlitter = null;
+		Feld zweitesFeldMitGlitter = null;
+		Feld drittesFeldMitGlitter = null;
+//		Feld viertesFeldMitGlitter = null;
+		int geheNichtNochmal = 0;
+		for (int j = 0; j < anzahl; j++) {
+			for (int i = 0; i < anzahl; i++) {
+				if (arraymitWissenBasis[j][i].besucht) {
+					if (arraymitWissenBasis[j][i].glitter) {
+						// TODO: wenn erste bedinung stimm, dann stimmt die zweite stelle(if) usw.
+						if (geheNichtNochmal == 0) {
+							erstesFeldMitGlitter = arraymitWissenBasis[j][i];
+							geheNichtNochmal = 1;
+						} else if (geheNichtNochmal == 1) {
+							zweitesFeldMitGlitter = arraymitWissenBasis[j][i];
+							geheNichtNochmal = 2;
+						} else if (geheNichtNochmal == 2) {
+							drittesFeldMitGlitter = arraymitWissenBasis[j][i];
+							geheNichtNochmal = 3;
+						} else if (geheNichtNochmal == 3) {
+//							viertesFeldMitGlitter = arraymitWissenBasis[j][i];
+							geheNichtNochmal = 4;
+						}
+					}
+				}
+			}
+
+		}
+
+		if (geheNichtNochmal == 1) {
+			Feld unteresFeld = null;
+			Feld oberesFeld = null;
+			Feld linkesFeld = null;
+			Feld rechtesFeld = null;
+			if (erstesFeldMitGlitter.y - 1 >= 0) {
+				oberesFeld = arraymitWissenBasis[erstesFeldMitGlitter.y - 1][erstesFeldMitGlitter.x];
+			}
+			if (erstesFeldMitGlitter.y + 1 < anzahl) {
+				unteresFeld = arraymitWissenBasis[erstesFeldMitGlitter.y + 1][erstesFeldMitGlitter.x];
+			}
+			if (erstesFeldMitGlitter.x - 1 >= 0) {
+				linkesFeld = arraymitWissenBasis[erstesFeldMitGlitter.y][erstesFeldMitGlitter.x - 1];
+			}
+			if (erstesFeldMitGlitter.x + 1 < anzahl) {
+				rechtesFeld = arraymitWissenBasis[erstesFeldMitGlitter.y][erstesFeldMitGlitter.x + 1];
+			}
+
+			if (linkesFeld != null && !linkesFeld.besucht && !linkesFeld.gefahr && istGoldNichtDa(linkesFeld.y - 1, linkesFeld.x) && istGoldNichtDa(linkesFeld.y + 1, linkesFeld.x) && istGoldNichtDa(linkesFeld.y, linkesFeld.x - 1)) {
+				return new Position(linkesFeld.y, linkesFeld.x);
+			} else if (rechtesFeld != null && rechtesFeld.besucht && !rechtesFeld.gefahr && istGoldNichtDa(rechtesFeld.y - 1, rechtesFeld.x) && istGoldNichtDa(rechtesFeld.y + 1, rechtesFeld.x) && istGoldNichtDa(rechtesFeld.y, rechtesFeld.x + 1)) {
+				return new Position(rechtesFeld.y, rechtesFeld.x);
+			} else if (oberesFeld != null && oberesFeld.besucht && !oberesFeld.gefahr && istGoldNichtDa(oberesFeld.y - 1, oberesFeld.x) && istGoldNichtDa(oberesFeld.y, oberesFeld.x - 1) && istGoldNichtDa(oberesFeld.y, oberesFeld.x + 1)) {
+				return new Position(oberesFeld.y, oberesFeld.x);
+			} else if (unteresFeld != null && unteresFeld.besucht && !unteresFeld.gefahr && istGoldNichtDa(unteresFeld.y + 1, unteresFeld.x) && istGoldNichtDa(unteresFeld.y, unteresFeld.x - 1) && istGoldNichtDa(unteresFeld.y, unteresFeld.x + 1)) {
+				return new Position(unteresFeld.y, unteresFeld.x);
+			}
+		} else if (geheNichtNochmal == 2) {
+			if (erstesFeldMitGlitter.y - 2 == zweitesFeldMitGlitter.y && erstesFeldMitGlitter.x == zweitesFeldMitGlitter.x) {
+				return new Position(erstesFeldMitGlitter.y - 1, erstesFeldMitGlitter.x);
+			} else if (erstesFeldMitGlitter.y == zweitesFeldMitGlitter.y && erstesFeldMitGlitter.x + 2 == zweitesFeldMitGlitter.x) {
+				return new Position(erstesFeldMitGlitter.y, erstesFeldMitGlitter.x + 1);
+			} else if (erstesFeldMitGlitter.y + 1 == zweitesFeldMitGlitter.y && erstesFeldMitGlitter.x + 1 == zweitesFeldMitGlitter.x) {
+				if (istGoldDa(erstesFeldMitGlitter.y, erstesFeldMitGlitter.x + 1)) {
+					return new Position(erstesFeldMitGlitter.y, erstesFeldMitGlitter.x + 1);
+				}
+				if (istGoldDa(erstesFeldMitGlitter.y + 1, erstesFeldMitGlitter.x)) {
+					return new Position(erstesFeldMitGlitter.y + 1, erstesFeldMitGlitter.x);
+				}
+			} else if (erstesFeldMitGlitter.y + 1 == zweitesFeldMitGlitter.y && erstesFeldMitGlitter.x - 1 == zweitesFeldMitGlitter.x) {
+				if (istGoldDa(erstesFeldMitGlitter.y, erstesFeldMitGlitter.x - 1)) {
+					return new Position(erstesFeldMitGlitter.y, erstesFeldMitGlitter.x - 1);
+				}
+				if (istGoldDa(erstesFeldMitGlitter.y + 1, erstesFeldMitGlitter.x)) {
+					return new Position(erstesFeldMitGlitter.y + 1, erstesFeldMitGlitter.x);
+				}
+			}
+			//			
+		} else if (geheNichtNochmal == 3) {
+			if (erstesFeldMitGlitter.y + 1 == drittesFeldMitGlitter.y && erstesFeldMitGlitter.x + 1 == drittesFeldMitGlitter.x) {
+				if (erstesFeldMitGlitter.y == zweitesFeldMitGlitter.y && erstesFeldMitGlitter.x + 2 == zweitesFeldMitGlitter.x) {
+					return new Position(erstesFeldMitGlitter.y, erstesFeldMitGlitter.x + 1);
+				}
+			} else if (erstesFeldMitGlitter.y + 1 == zweitesFeldMitGlitter.y && erstesFeldMitGlitter.x - 1 == zweitesFeldMitGlitter.x) {
+				return new Position(erstesFeldMitGlitter.y, erstesFeldMitGlitter.x + 1);
+			} else if (erstesFeldMitGlitter.y + 2 == drittesFeldMitGlitter.y && erstesFeldMitGlitter.x == drittesFeldMitGlitter.x) {
+				if (erstesFeldMitGlitter.y + 1 == zweitesFeldMitGlitter.y && erstesFeldMitGlitter.x - 1 == zweitesFeldMitGlitter.x) {
+					return new Position(erstesFeldMitGlitter.y + 1, erstesFeldMitGlitter.x);
+				}
+			} else if (erstesFeldMitGlitter.y + 1 == zweitesFeldMitGlitter.y && erstesFeldMitGlitter.x + 1 == zweitesFeldMitGlitter.x) {
+				return new Position(erstesFeldMitGlitter.y + 1, erstesFeldMitGlitter.x);
+			}
+		}else if(geheNichtNochmal == 4){
+			return new Position(erstesFeldMitGlitter.y +1, erstesFeldMitGlitter.x);
+		}
+		return null;
+	}
 
 	private boolean istGoldDa(int y, int x) {
 		Feld p = arraymitWissenBasis[y][x];
@@ -703,16 +910,15 @@ public class Agent implements Observer {
 		if (x + 1 < anzahl) {
 			rechtesFeld = arraymitWissenBasis[y][x + 1];
 		}
-		if (linkesFeld != null && linkesFeld.besucht && linkesFeld.glitter && istGoldNichtDa(y - 1, x - 1) && istGoldNichtDa(y + 1, x - 1) && istGoldNichtDa(y, x - 2)) {
+		if (linkesFeld != null && linkesFeld.besucht && linkesFeld.glitter /* && !linkesFeld.gefahr */&& istGoldNichtDa(y - 1, x - 1) && istGoldNichtDa(y + 1, x - 1) && istGoldNichtDa(y, x - 2)) {
 			return true;
-		} else if (rechtesFeld != null && rechtesFeld.besucht && rechtesFeld.glitter && istGoldNichtDa(y - 1, x + 1) && istGoldNichtDa(y + 1, x + 1) && istGoldNichtDa(y, x + 2)) {
+		} else if (rechtesFeld != null && rechtesFeld.besucht && rechtesFeld.glitter /* && !rechtesFeld.gefahr */&& istGoldNichtDa(y - 1, x + 1) && istGoldNichtDa(y + 1, x + 1) && istGoldNichtDa(y, x + 2)) {
 			return true;
-		} else if (oberesFeld != null && oberesFeld.besucht && oberesFeld.glitter && istGoldNichtDa(y - 2, x) && istGoldNichtDa(y - 1, x - 1) && istGoldNichtDa(y - 1, x + 1)) {
+		} else if (oberesFeld != null && oberesFeld.besucht && oberesFeld.glitter /* && !oberesFeld.gefahr */&& istGoldNichtDa(y - 2, x) && istGoldNichtDa(y - 1, x - 1) && istGoldNichtDa(y - 1, x + 1)) {
 			return true;
-		} else if (unteresFeld != null && unteresFeld.besucht && unteresFeld.glitter && istGoldNichtDa(y + 2, x) && istGoldNichtDa(y + 1, x - 1) && istGoldNichtDa(y + 1, x + 1)) {
+		} else if (unteresFeld != null && unteresFeld.besucht && unteresFeld.glitter /* && !unteresFeld.gefahr */&& istGoldNichtDa(y + 2, x) && istGoldNichtDa(y + 1, x - 1) && istGoldNichtDa(y + 1, x + 1)) {
 			return true;
 		}
-		//TODO: die if bedinung mit zwei GlitterFelder einbauen usw.
 		return false;
 	}
 
@@ -801,7 +1007,7 @@ public class Agent implements Observer {
 		liste.add(new Position(agentY, agentX));
 		LinkedList<Position> listeOben, listeUnten, listeRechts, listeLinks;
 		LinkedList<LinkedList<Position>> listen = new LinkedList<LinkedList<Position>>();
-		if (istDortWand(agentY, agentX, 1)) {
+		if (istDortKeineWand(agentY, agentX, 1)) {
 			// TODO: Wenn keine warhnehmung darüber ob Wand oben, muss trotzdem geprüft werden ob outofbound
 			if (arraymitWissenBasis[agentY - 1][agentX].besucht && pruefeFeldNachSicherheit(agentY - 1, agentX)) {
 				listeOben = gibMirDieRichtungZumZiel(liste, agentY - 1, agentX, zielY, zielX);
@@ -814,7 +1020,7 @@ public class Agent implements Observer {
 				// bewegungsListe.addFirst(Bezeichnungen.UP);
 			}
 		}
-		if (istDortWand(agentY, agentX, 2)) {
+		if (istDortKeineWand(agentY, agentX, 2)) {
 			if (arraymitWissenBasis[agentY + 1][agentX].besucht && pruefeFeldNachSicherheit(agentY + 1, agentX)) {
 				listeUnten = gibMirDieRichtungZumZiel(liste, agentY + 1, agentX, zielY, zielX);
 				if (listeKomplett(listeUnten, new Position(agentY, agentX), new Position(zielY, zielX))) {
@@ -822,7 +1028,7 @@ public class Agent implements Observer {
 				}
 			}
 		}
-		if (istDortWand(agentY, agentX, 3)) {
+		if (istDortKeineWand(agentY, agentX, 3)) {
 
 			if (arraymitWissenBasis[agentY][agentX - 1].besucht && pruefeFeldNachSicherheit(agentY, agentX - 1)) {
 				listeLinks = gibMirDieRichtungZumZiel(liste, agentY, agentX - 1, zielY, zielX);
@@ -831,7 +1037,7 @@ public class Agent implements Observer {
 				}
 			}
 		}
-		if (istDortWand(agentY, agentX, 4)) {
+		if (istDortKeineWand(agentY, agentX, 4)) {
 			if (arraymitWissenBasis[agentY][agentX + 1].besucht && pruefeFeldNachSicherheit(agentY, agentX + 1)) {
 				listeRechts = gibMirDieRichtungZumZiel(liste, agentY, agentX + 1, zielY, zielX);
 				if (listeKomplett(listeRechts, new Position(agentY, agentX), new Position(zielY, zielX))) {
@@ -857,6 +1063,77 @@ public class Agent implements Observer {
 		return richtigeListe;
 	}
 
+	private LinkedList<Position> gibMirDieRichtungZumZiel(int agentY, int agentX, int zielY, int zielX) {
+		if(!arraymitWissenBasis[agentY][agentX].besucht || arraymitWissenBasis[zielY][zielX].besucht || agentY == zielY && agentX == zielX)
+			return new LinkedList<Position>();
+		int [][] bewertung = new int[anzahl][anzahl];
+		for(int j = 0; j < anzahl; j++){
+			for(int i = 0; i < anzahl; i ++){
+				bewertung[j][i] = -1;
+			}
+		}
+		bewertung[zielY][zielX] = 0;
+		LinkedList<Position> fifo = new LinkedList<Position>();
+		int first = 0;
+		boolean routeGefunden = false;
+		fifo.add(new Position(zielY, zielY));
+		while(first != fifo.size()){
+			Position temp = fifo.get(first++);
+			int entfernung = bewertung[temp.y][temp.x] + 1;
+			if(temp.y == agentY && temp.x == agentX){
+				routeGefunden = true;
+				break;
+			}
+			Position oben = new Position(temp.y - 1, temp.x),unten = new Position(temp.y + 1, temp.x), links = new Position(temp.y, temp.x - 1), rechts = new Position(temp.y, temp.x + 1);
+			if(ichBinNichtAuserhalb(oben.y, oben.x) && arraymitWissenBasis[oben.y][oben.x].besucht && bewertung[oben.y][oben.x] == -1){
+				bewertung[oben.y][oben.x] = entfernung;
+				fifo.add(oben);
+			}
+			if(ichBinNichtAuserhalb(unten.y, unten.x) && arraymitWissenBasis[unten.y][unten.x].besucht && bewertung[unten.y][unten.x] == -1){
+				bewertung[unten.y][unten.x] = entfernung;
+				fifo.add(unten);
+			}
+			if(ichBinNichtAuserhalb(links.y, links.x) && arraymitWissenBasis[links.y][links.x].besucht && bewertung[links.y][links.x] == -1){
+				bewertung[links.y][links.x] = entfernung;
+				fifo.add(links);
+			}
+			if(ichBinNichtAuserhalb(rechts.y, rechts.x) && arraymitWissenBasis[rechts.y][rechts.x].besucht && bewertung[rechts.y][rechts.x] == -1){
+				bewertung[rechts.y][rechts.x] = entfernung;
+				fifo.add(rechts);
+			}			
+		}
+		if(!routeGefunden){
+			return new LinkedList<Position>();
+		}
+		fifo.clear();
+		fifo.add(new Position(agentY, agentX));
+		while(true){
+			Position temp = fifo.get(fifo.size() - 1);
+			int entfernung = bewertung[temp.y][temp.x] -1;
+			if(temp.y == zielY && temp.x == zielX){
+				break;
+			}
+			Position oben = new Position(temp.y - 1, temp.x),unten = new Position(temp.y + 1, temp.x), links = new Position(temp.y, temp.x - 1), rechts = new Position(temp.y, temp.x + 1);
+			if(ichBinNichtAuserhalb(oben.y, oben.x) && bewertung[oben.y][oben.x] == entfernung){
+				fifo.add(oben);
+				continue;
+			}
+			if(ichBinNichtAuserhalb(unten.y, unten.x) && bewertung[unten.y][unten.x] == entfernung){
+				fifo.add(unten);
+				continue;
+			}
+			if(ichBinNichtAuserhalb(links.y, links.x) && bewertung[links.y][links.x] == entfernung){
+				fifo.add(links);
+				continue;
+			}
+			if(ichBinNichtAuserhalb(rechts.y, rechts.x) && bewertung[rechts.y][rechts.x] == entfernung){
+				fifo.add(rechts);
+				continue;
+			}
+		}
+		
+		return fifo;
+	}
 	/**
 	 * Prüft ob eine Liste sowohl Position des Agenten als auch des Ziel beinhaltet.
 	 * 
@@ -871,10 +1148,14 @@ public class Agent implements Observer {
 		}
 		return false;
 	}
+
 	/**
 	 * Diese Methode prüft, ob die nahligende Felder besucht waren. d.h. es muss min. ein nahligendes Feld besucht sein.
-	 * @param y Y-Koordinate des Feldes
-	 * @param x X-Koordinate des Feldes
+	 * 
+	 * @param y
+	 *            Y-Koordinate des Feldes
+	 * @param x
+	 *            X-Koordinate des Feldes
 	 * @return true wenn min. ein nahligendes Feld besucht ist.
 	 */
 	private boolean dieNahligendeFelderBesucht(int y, int x) {
@@ -926,8 +1207,8 @@ public class Agent implements Observer {
 		if (zielY == -1 && zielX == -1) {
 			for (int y = 0; y < anzahl; y++) {
 				for (int x = 0; x < anzahl; x++) {
-//TODO: der Agent fahlt in Pit????????????????????????????????????????????????????????????????????
-					if (dieNahligendeFelderBesucht(y, x)) {
+					// TODO: der Agent fahlt in Pit????????????????????????????????????????????????????????????????????
+//					if (dieNahligendeFelderBesucht(y, x)) {
 						// TODO: der agent prueft jedes feld statt nur nahligenden Felder um die vom Agent schon besuchten felder
 						if (!arraymitWissenBasis[y][x].besucht && pruefeFeldNachSicherheit(y, x)) {
 							if (zielY == -1 && zielX == -1 && (Math.abs(y) + Math.abs(x)) < (Math.abs(zielY) + Math.abs(zielX))) {
@@ -936,7 +1217,7 @@ public class Agent implements Observer {
 								zielX = x;
 							}
 						}
-					}
+//					}
 				}
 			}
 		}
@@ -945,11 +1226,11 @@ public class Agent implements Observer {
 			if (!positionenListe.isEmpty()) {
 				positionenListe.clear();
 			}
-			positionenListe = gibMirDieRichtungZumZiel(new LinkedList<Position>(), _y, _x, zielY, zielX);
+			positionenListe = gibMirDieRichtungZumZiel(_y, _x, zielY, zielX);
 			// TODO: Wenn eine Liste ausgegeben wird, muss getestet werden ob überhaupt etwas enthält, bzw. ob Ziel und Anfang drin ist
-			if (!listeKomplett(positionenListe, new Position(_y, _x), new Position(zielY, zielX))) {
-				positionenListe.clear();
-			}
+//			if (!listeKomplett(positionenListe, new Position(_y, _x), new Position(zielY, zielX))) {
+//				positionenListe.clear();
+//			}
 
 			/*
 			 * Es wird geprüft ob die Positionen Liste nicht Leer ist, also ein Weg gefunden wurde. Dann wird diese Liste solange durchlaufen bis sie leer ist, wobei von der ersten zur zweiten Position jeweils die Richtung an die bewegungsListe
@@ -963,6 +1244,10 @@ public class Agent implements Observer {
 						positionenListe.clear();
 					}
 				}
+			}
+			System.out.println("bewegungsliste");
+			for(int i = 0; i < bewegungsListe.size(); i ++){
+				System.out.println(i + ". "+bewegungsListe.get(i));
 			}
 		}
 

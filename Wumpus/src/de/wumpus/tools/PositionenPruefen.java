@@ -97,18 +97,18 @@ public class PositionenPruefen {
 			if (((positionen[agent + 1] + 1) < (positionen[i + 3])) || (positionen[agent + 1] - 1) > (positionen[i + 3])) {
 				return "Nichts";
 			}
-			if (!((positionen[agent + 1] + 1) > (positionen[i + 3] + 1))) {
+			if (!((positionen[agent + 1] + 1) > (positionen[i + 3] + 1))) {				
 				return "Fallgrube";
 			} else if (!((positionen[agent + 1] - 1) < (positionen[i + 3] - 1))) {
 				return "Fallgrube";
 			}
 		} else if (positionen[agent + 1] == positionen[i + 3]) {
 			if (((positionen[agent] + 1) < (positionen[i + 2])) || (positionen[agent] - 1) > (positionen[i + 2])) {
-				return "Fallgrube";
+				return "Nichts";
 			}
 			if (!((positionen[agent] + 1) > (positionen[i + 2] + 1))) {
 				return "Fallgrube";
-			} else if (!((positionen[agent] - 1) < (positionen[i + 2] - 1))) {
+			} else if (!((positionen[agent] - 1) < (positionen[i + 2] - 1))) {				
 				return "Fallgrube";
 			}
 		}
