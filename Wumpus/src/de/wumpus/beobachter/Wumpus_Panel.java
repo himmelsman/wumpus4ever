@@ -42,6 +42,7 @@ public class Wumpus_Panel extends JPanel implements Observer {
 	String breezeGlitter = "BreezeGlitter.JPG";
 	String smellGlitter = "SmellGlitter.JPG";
 	String breezeSmellGlitter = "BreezeSmellGlitter.JPG";
+	public boolean DEBUG = true;
 
 	public Wumpus_Panel(WumpusWelt _wump) {
 		super();
@@ -62,7 +63,7 @@ public class Wumpus_Panel extends JPanel implements Observer {
 
 	@Override
 	public void paint(Graphics g) {
-//		System.out.println("getWidth:" +getWidth() + " getHeight:" + getHeight());
+		// System.out.println("getWidth:" +getWidth() + " getHeight:" + getHeight());
 		for (int y = 0; y < anzahl; y++) {
 			for (int x = 0; x < anzahl; x++) {
 				imageArray[y][x].resizeImage(getWidth() / anzahl, getHeight() / anzahl);
@@ -126,7 +127,11 @@ public class Wumpus_Panel extends JPanel implements Observer {
 		for (int y = 1; y < anzahl + 1; y++) {
 			for (int x = 1; x < anzahl + 1; x++) {
 				{
-					imageArray[y - 1][x - 1] = welchesBild(wump.weltArray[y - 1][x - 1]);
+					if (wump.weltArray[y - 1][x - 1] == 1 || DEBUG) {
+						imageArray[y - 1][x - 1] = welchesBild(wump.weltArray[y - 1][x - 1]);
+					} else {
+						imageArray[y - 1][x - 1] = welchesBild(0);
+					}
 					// muss im gridbag x und y sein sonst bewegt up nach left
 					this.add(imageArray[y - 1][x - 1], new GridBagConstraints(x, y, 1, 1, 0.1, 0.1, GridBagConstraints.SOUTH, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 				}
@@ -263,10 +268,10 @@ public class Wumpus_Panel extends JPanel implements Observer {
 	public void switchImages(int alteY, int alteX, int neueY, int neueX) {
 		remove(imageArray[neueY][neueX]);
 		imageArray[neueY][neueX] = new WumpusBitmapComponent(agent, getSize().height / anzahl, getSize().width / anzahl);
-		add(imageArray[neueY][neueX], new GridBagConstraints(neueX + 1, neueY + 1, 1, 1, 0.1, 0.1, GridBagConstraints.SOUTH, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+		add(imageArray[neueY][neueX], new GridBagConstraints(neueX + 1, neueY + 1, 1, 1, 0.1, 0.1, GridBagConstraints.SOUTH, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 		remove(imageArray[alteY][alteX]);
 		imageArray[alteY][alteX] = welchesBild(wump.weltArray[alteY][alteX]);
-		add(imageArray[alteY][alteX], new GridBagConstraints(alteX + 1, alteY + 1, 1, 1, 0.1, 0.1, GridBagConstraints.SOUTH, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+		add(imageArray[alteY][alteX], new GridBagConstraints(alteX + 1, alteY + 1, 1, 1, 0.1, 0.1, GridBagConstraints.SOUTH, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 		validate();
 	}
 

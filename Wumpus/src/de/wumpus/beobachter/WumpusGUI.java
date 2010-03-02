@@ -56,7 +56,8 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 	// private JLabel jLabel5;
 	// private JLabel jLabel6;
 	GridBagLayout thisLayout = new GridBagLayout();
-	private boolean ALTPRESSED = false;
+	private boolean altPressed = false;
+	private boolean shiftPressed = false;
 	private int agentSchrittZahler = 0;
 	private int gesamtPunktenAnzahl = 10000;
 	private int einSchritt_10 = 10;
@@ -221,40 +222,43 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
 				if (arg0.getKeyCode() == KeyEvent.VK_ALT) {
-					ALTPRESSED = true;
+					altPressed = true;
+				}
+				if (arg0.getKeyCode() == KeyEvent.VK_SHIFT) {
+					shiftPressed = true;
 				}
 				if (arg0.getKeyCode() == KeyEvent.VK_B) {
 					wump.bewegeAgentPerTaste();
 				}
-				if (arg0.getKeyCode() == KeyEvent.VK_1 && ALTPRESSED) {
+				if (arg0.getKeyCode() == KeyEvent.VK_1 && altPressed) {
 					wump.neuesSpiel(4);
 					gesamtPunktenAnzahl = 10000;
 					punkteAnzahlLabel.setText(gesamtPunktenAnzahl + "");
 					agentSchrittZahler = 0;
 					schritteAnzahlLabel.setText(agentSchrittZahler + "");
 					ablaufTextArea.setText("");
-				} else if (arg0.getKeyCode() == KeyEvent.VK_2 && ALTPRESSED) {
+				} else if (arg0.getKeyCode() == KeyEvent.VK_2 && altPressed) {
 					wump.neuesSpiel(8);
 					gesamtPunktenAnzahl = 10000;
 					punkteAnzahlLabel.setText(gesamtPunktenAnzahl + "");
 					agentSchrittZahler = 0;
 					schritteAnzahlLabel.setText(agentSchrittZahler + "");
 					ablaufTextArea.setText("");
-				} else if (arg0.getKeyCode() == KeyEvent.VK_3 && ALTPRESSED) {
+				} else if (arg0.getKeyCode() == KeyEvent.VK_3 && altPressed) {
 					// wump.neuesSpiel(16);
 					// ablaufTextArea.setText("");
-				} else if (arg0.getKeyCode() == KeyEvent.VK_D && ALTPRESSED) {
+				} else if (arg0.getKeyCode() == KeyEvent.VK_D && altPressed) {
 					setEnabled(false);
 					new Benutzerdefiniertes_Feld(guiFrame);
 					// wump.neuesSpiel(16);
 					// ablaufTextArea.setText("");
-				} else if (arg0.getKeyCode() == KeyEvent.VK_X && ALTPRESSED) {
+				} else if (arg0.getKeyCode() == KeyEvent.VK_X && altPressed) {
 					System.exit(0);
-				} else if (arg0.getKeyCode() == KeyEvent.VK_H && ALTPRESSED) {
+				} else if (arg0.getKeyCode() == KeyEvent.VK_H && altPressed) {
 					System.out.println("ALT + H");
 					setEnabled(false);
 					new HelpScreen(guiFrame);
-				} else if (arg0.getKeyCode() == KeyEvent.VK_A && ALTPRESSED) {
+				} else if (arg0.getKeyCode() == KeyEvent.VK_A && altPressed) {
 					System.out.println("ALT + A");
 					setEnabled(false);
 					new AboutScreen(guiFrame);
@@ -273,12 +277,22 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 					System.out.println("Down");
 					wump.bewegeAgent(Bezeichnungen.DOWN);
 				}
+				
+				/*Enable or Disable DebugMode for WumpusPanel*/
+				if (arg0.getKeyCode() == KeyEvent.VK_D && shiftPressed && !wumpusPanel.DEBUG) {
+					wumpusPanel.DEBUG = true;
+				} else if(arg0.getKeyCode() == KeyEvent.VK_D && shiftPressed && wumpusPanel.DEBUG) {
+					wumpusPanel.DEBUG = false;
+				}
 			}
 
 			@Override
 			public void keyReleased(KeyEvent arg0) {
 				if (arg0.getKeyCode() == KeyEvent.VK_ALT) {
-					ALTPRESSED = false;
+					altPressed = false;
+				}
+				if (arg0.getKeyCode() == KeyEvent.VK_SHIFT) {
+					shiftPressed = false;
 				}
 
 			}
