@@ -1,24 +1,21 @@
 package de.wumpus.beobachter;
 
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.Toolkit;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.DebugGraphics;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import de.wumpus.beobachtet.WumpusWelt;
 import de.wumpus.tools.Bezeichnungen;
-import de.wumpus.tools.FeldPositionieren;
 import de.wumpus.tools.NachrichtenObjekt;
 import de.wumpus.tools.WumpusBitmapComponent;
 
+@SuppressWarnings("serial")
 public class Wumpus_Panel extends JPanel implements Observer {
 	WumpusWelt wump;
 	private int anzahl;
@@ -39,7 +36,7 @@ public class Wumpus_Panel extends JPanel implements Observer {
 	String breeze = "Breeze.JPG";
 	String smell = "Smell.JPG";
 	String breezeGold = "BreezeGold.JPG";
-	String smellGold = "smellGold";
+	String smellGold = "SmellGold.JPG";
 	String breezeSmell = "BreezeSmell.JPG";
 	String breezeSmellGold = "BreezeSmellGold.JPG";
 	String breezeGlitter = "BreezeGlitter.JPG";
@@ -150,10 +147,10 @@ public class Wumpus_Panel extends JPanel implements Observer {
 		}
 		if (wump.bestimmeDieErsteZahl(wahrnehmung) == 2) {
 			int zweiteStelle = wump.bestimmeDieErsteZahl(checkFirst((wahrnehmung), 2));
-//			System.out.println("zweiteStelle:" + zweiteStelle);
+			System.out.println("zweiteStelle:" + zweiteStelle);
 			if (zweiteStelle == 5) {
 				int dritteStelle = wump.bestimmeDieErsteZahl(checkFirst(checkFirst((wahrnehmung), 2), 5));
-//				System.out.println("dritteStelle:" + dritteStelle);
+				System.out.println("dritteStelle:" + dritteStelle);
 				if (dritteStelle == 7) {
 					return new WumpusBitmapComponent(breezeSmellGold, this.getSize().height / anzahl, this.getSize().width / anzahl);
 				} else if (dritteStelle == 0 || dritteStelle == 9) {
@@ -272,8 +269,6 @@ public class Wumpus_Panel extends JPanel implements Observer {
 		add(imageArray[alteY][alteX], new GridBagConstraints(alteX + 1, alteY + 1, 1, 1, 0.1, 0.1, GridBagConstraints.SOUTH, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 		validate();
 	}
-
-	// TODO: die Fokus geht verloren. d.h. wenn man den agent steuert, dann funktioniert nicht alt+1 usw...
 
 	public void update(Observable obj, Object arg) {
 		if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.REPAINT)) {
