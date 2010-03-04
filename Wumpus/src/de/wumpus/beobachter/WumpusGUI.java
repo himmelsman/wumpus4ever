@@ -64,16 +64,16 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 	private int guiWidth = 0;
 	private int guiHeight = 0;
 	/*MenuItemLabels*/
-	private String fileMenuItem1 = "Feld 4x4  (Alt+1)";
-	private String fileMenuItem2 = "Feld 8x8  (Alt+2)";
-//	private String fileMenuItem3 = "Feld 16x16(Alt+3)";
-	private String fileMenuItem4 = "Def. Feld (Alt+D)";
-	private String fileMenuItem5 = "Exit (Alt+x)";
-	private String optionMenuItem1 = "Mensch";
-	private String optionMenuItem2 = "KI-Agent";
-//	private String optionMenuItem3 = "Geschwindigkeit";
-	private String helpMenuItem1 = "Hilfe (Alt+H)";
-	private String helpMenuItem2 = "About (Alt+A)";
+	private static final  String FILEMENUITEM1 = "Feld 4x4  (Alt+1)";
+	private static final  String FILEMENUITEM2 = "Feld 8x8  (Alt+2)";
+//	private static final  String FILEMENUITEM3 = "Feld 16x16(Alt+3)";
+	private static final  String FILEMENUITEM4 = "Def. Feld (Alt+D)";
+	private static final  String FILEMENUITEM5 = "Exit (Alt+x)";
+	private static final  String OPTIONMENUITEM1 = "Mensch";
+	private static final  String OPTIONMENUITEM2 = "KI-Agent";
+//	private String OPTIONMENUITEM3 = "Geschwindigkeit";
+	private static final  String HELPMENUITEM1 = "Hilfe (Alt+H)";
+	private static final  String HELPMENUITEM2 = "About (Alt+A)";
 	
 	
 
@@ -157,10 +157,10 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 						jMenuBar.add(fileMenu);
 						fileMenu.setText("File");
 						{
-							JMenuItem feld1 = new JMenuItem(fileMenuItem1);
+							JMenuItem feld1 = new JMenuItem(FILEMENUITEM1);
 							fileMenu.add(feld1);
 							feld1.addActionListener(this);
-							JMenuItem feld2 = new JMenuItem(fileMenuItem2);
+							JMenuItem feld2 = new JMenuItem(FILEMENUITEM2);
 							fileMenu.add(feld2);
 							feld2.addActionListener(this);
 //							JMenuItem feld3 = new JMenuItem(fileMenuItem3);
@@ -170,14 +170,14 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 							jSeparator1 = new JSeparator(); /* Trennlinie */
 							fileMenu.add(jSeparator1);
 
-							JMenuItem feld4 = new JMenuItem(fileMenuItem4);
+							JMenuItem feld4 = new JMenuItem(FILEMENUITEM4);
 							fileMenu.add(feld4);
 							feld4.addActionListener(this);
 
 							jSeparator2 = new JSeparator(); /* Trennlinie */
 							fileMenu.add(jSeparator2);
 
-							JMenuItem exit = new JMenuItem(fileMenuItem5);
+							JMenuItem exit = new JMenuItem(FILEMENUITEM5);
 							fileMenu.add(exit);
 							// exit.addKeyListener(this);
 							exit.addActionListener(this);
@@ -186,9 +186,9 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 						jMenuBar.add(optionen);
 						optionen.setText("Optionen");
 						{
-							JMenuItem mensch = new JMenuItem(optionMenuItem1);
+							JMenuItem mensch = new JMenuItem(OPTIONMENUITEM1);
 							optionen.add(mensch);
-							JMenuItem ki_agent = new JMenuItem(optionMenuItem2);
+							JMenuItem ki_agent = new JMenuItem(OPTIONMENUITEM2);
 							optionen.add(ki_agent);
 
 //							jSeparator1 = new JSeparator(); /* Trennlinie */
@@ -201,10 +201,10 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 						jMenuBar.add(help);
 						help.setText("Help");
 						{
-							JMenuItem hilfe = new JMenuItem(helpMenuItem1);
+							JMenuItem hilfe = new JMenuItem(HELPMENUITEM1);
 							hilfe.addActionListener(this);
 							help.add(hilfe);
-							JMenuItem about = new JMenuItem(helpMenuItem2);
+							JMenuItem about = new JMenuItem(HELPMENUITEM2);
 							about.addActionListener(this);
 							help.add(about);
 						}
@@ -403,14 +403,14 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent acev) {
 		String actionBefehl = acev.getActionCommand();
-		if (actionBefehl.equals(fileMenuItem1)) {
+		if (actionBefehl.equals(FILEMENUITEM1)) {
 			wump.neuesSpiel(4);
 			gesamtPunktenAnzahl = 10000;
 			punkteAnzahlLabel.setText(gesamtPunktenAnzahl + "");
 			agentSchrittZahler = 0;
 			schritteAnzahlLabel.setText(agentSchrittZahler + "");
 			ablaufTextArea.setText("");
-		} else if (actionBefehl.equals(fileMenuItem2)) {
+		} else if (actionBefehl.equals(FILEMENUITEM2)) {
 			wump.neuesSpiel(8);
 			gesamtPunktenAnzahl = 10000;
 			punkteAnzahlLabel.setText(gesamtPunktenAnzahl + "");
@@ -424,15 +424,15 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 //			agentSchrittZahler = 0;
 //			schritteAnzahlLabel.setText(agentSchrittZahler + "");
 //			ablaufTextArea.setText("");
-		} else if (actionBefehl.equals(fileMenuItem4)) {
+		} else if (actionBefehl.equals(FILEMENUITEM4)) {
 			setEnabled(false);
 			new Benutzerdefiniertes_Feld(guiFrame);
-		} else if (actionBefehl.equals(fileMenuItem5)) {
+		} else if (actionBefehl.equals(FILEMENUITEM5)) {
 			System.exit(0);
-		}else if (actionBefehl.equals(helpMenuItem1)) {
+		}else if (actionBefehl.equals(HELPMENUITEM1)) {
 			setEnabled(false);
 			new HelpScreen(guiFrame);
-		}else if (actionBefehl.equals(helpMenuItem2)) {
+		}else if (actionBefehl.equals(HELPMENUITEM2)) {
 			setEnabled(false);
 			new AboutScreen(guiFrame);
 		}

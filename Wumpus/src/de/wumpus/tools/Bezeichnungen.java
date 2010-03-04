@@ -33,4 +33,8 @@ public class Bezeichnungen {
 	public static final String FERTIG = "FERTIG";
 	public static final String POSITION_DES_AGENTES = "POSITION_DES_AGENTES";
 	public static final String BEWEGE_AGENT = "BEWEGE_AGENT";
+	public static final String BENUTZE_PFEIL = "BENUTZE_PFEIL";
+	public static final String WUMPUS_WURDE_GETOETET = "WUMPUS_WURDE_GETOETET";
+	public static final String WUMPUS_WURDE_NICHT_GETOETET = "WUMPUS_WURDE_NICHT_GETOETET";
+	public static final String AKTUALISIERE_BILD = "AKTUALISIERE_BILD";
 }

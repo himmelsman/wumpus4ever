@@ -332,7 +332,7 @@ public class FeldPositionieren {
 	 * @param zahl
 	 * @return Wahrnehmung ohne Zahl
 	 */
-	private int entferneWahnehmung(int wahrnehmung, int zahl) {
+	public int entferneWahnehmung(int wahrnehmung, int zahl) {
 		int[] sep = separateWahrnehmungen(wahrnehmung);
 		int temp = 0;
 		for (int i = 0; i < sep.length; i++) {

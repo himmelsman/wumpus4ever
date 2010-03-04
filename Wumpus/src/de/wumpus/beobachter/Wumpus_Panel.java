@@ -274,6 +274,13 @@ public class Wumpus_Panel extends JPanel implements Observer {
 		add(imageArray[alteY][alteX], new GridBagConstraints(alteX + 1, alteY + 1, 1, 1, 0.1, 0.1, GridBagConstraints.SOUTH, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 		validate();
 	}
+	
+	public void refreshImage(int y, int x) {
+		remove(imageArray[y][x]);
+		imageArray[y][x] = welchesBild(wump.weltArray[y][x]);
+		add(imageArray[y][x], new GridBagConstraints(x + 1, y + 1, 1, 1, 0.1, 0.1, GridBagConstraints.SOUTH, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
+		validate();
+	}
 
 	public void update(Observable obj, Object arg) {
 		if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.REPAINT)) {
@@ -291,6 +298,9 @@ public class Wumpus_Panel extends JPanel implements Observer {
 			switchImages(alteY, alteX, neuY, neuX);
 			alteY = neuY;
 			alteX = neuX;
+		}
+		if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.AKTUALISIERE_BILD)) {
+			refreshImage(((NachrichtenObjekt) arg).y, ((NachrichtenObjekt) arg).x);
 		}
 
 	}
