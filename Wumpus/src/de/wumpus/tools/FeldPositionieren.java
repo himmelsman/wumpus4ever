@@ -150,28 +150,28 @@ public class FeldPositionieren {
 				istarray[x - 1][y] = value;
 			else
 				istarray[x - 1][y] = checkLast(istarray[x - 1][y], value);
-//			System.out.println("value: " + value + " imArray:" + istarray[x - 1][y]);
+			// System.out.println("value: " + value + " imArray:" + istarray[x - 1][y]);
 		}
 		if (x != anzahl - 1) {
 			if (istarray[x + 1][y] == 0)
 				istarray[x + 1][y] = value;
 			else
 				istarray[x + 1][y] = checkLast(istarray[x + 1][y], value);
-//			System.out.println("value: " + value + " imArray:" + istarray[x + 1][y]);
+			// System.out.println("value: " + value + " imArray:" + istarray[x + 1][y]);
 		}
 		if (y != 0) {
 			if (istarray[x][y - 1] == 0)
 				istarray[x][y - 1] = value;
 			else
 				istarray[x][y - 1] = checkLast(istarray[x][y - 1], value);
-//			System.out.println("value: " + value + " imArray:" + istarray[x][y - 1]);
+			// System.out.println("value: " + value + " imArray:" + istarray[x][y - 1]);
 		}
 		if (y != anzahl - 1) {
 			if (istarray[x][y + 1] == 0)
 				istarray[x][y + 1] = value;
 			else
 				istarray[x][y + 1] = checkLast(istarray[x][y + 1], value);
-//			System.out.println("value: " + value + " imArray:" + istarray[x][y + 1]);
+			// System.out.println("value: " + value + " imArray:" + istarray[x][y + 1]);
 		}
 
 	}
@@ -196,9 +196,9 @@ public class FeldPositionieren {
 				if (j == positionen[0] && i == positionen[1])
 					istarray[j][i] = 1;
 				if (j == positionen[2] && i == positionen[3]) {
-					if(istarray[j][i] == 0){
+					if (istarray[j][i] == 0) {
 						istarray[j][i] = 2;
-					} else{
+					} else {
 						istarray[j][i] = checkLast(istarray[j][i], 2);
 					}
 					// System.out.println("istarray[j][i] " + istarray[j][i]);
@@ -325,23 +325,47 @@ public class FeldPositionieren {
 		return temp;
 	}
 
+	/**
+	 * Entfernt aus einer Wahrnehmungsfolge z.B. 123456 eine einzelne Wahrnehmung also wenn Zahl z.B. 4 dann liefert der return Wert 12356 zurück.
+	 * 
+	 * @param wahrnehmung 
+	 * @param zahl
+	 * @return Wahrnehmung ohne Zahl
+	 */
+	private int entferneWahnehmung(int wahrnehmung, int zahl) {
+		int[] sep = separateWahrnehmungen(wahrnehmung);
+		int temp = 0;
+		for (int i = 0; i < sep.length; i++) {
+			if (sep[i] == zahl) {
+				continue;
+			} else {
+				temp = checkLast(temp, sep[i]);
+
+			}
+		}
+		return temp;
+	}
+
 //	public static void main(String[] args) {
 //		FeldPositionieren fp = new FeldPositionieren();
-//		int[] array = fp.separateWahrnehmungen(1230);
-//		// for (int i = 0; i < array.length; i++) {
-//		// System.out.println("array " + array[i]);
-//		//
+//
+//		int temp = fp.entferneWahnehmung(123456, 4);
+//		System.out.println("Temp: " + temp);
+//		// int[] array = fp.separateWahrnehmungen(1230);
+//		// // for (int i = 0; i < array.length; i++) {
+//		// // System.out.println("array " + array[i]);
+//		// //
+//		// // }
+//		// // System.out.println("Fertig");
+//		// // System.out.println(fp.checkLast(5, 2));
+//		// // System.out.println(fp.checkLast(25, 7));
+//		// // System.out.println(fp.checkFirst(257, 2));
+//		// // System.out.println(fp.checkFirst(fp.checkFirst(257, 2), 5));
+//		// int[][] test = fp.myfeldPositionierung(4, new int[]{0,0,2,2,2,1,3,2});
+//		// for(int y = 0;y<4;y++){
+//		// for(int x = 0;x<4;x++){
+//		// System.out.println("Feld(" + (y) + "|" + x + ") " + test[y][x]);
 //		// }
-//		// System.out.println("Fertig");
-////		System.out.println(fp.checkLast(5, 2));
-////		System.out.println(fp.checkLast(25, 7));
-////		System.out.println(fp.checkFirst(257, 2));
-////		System.out.println(fp.checkFirst(fp.checkFirst(257, 2), 5));
-//		int[][] test = fp.myfeldPositionierung(4, new int[]{0,0,2,2,2,1,3,2});
-//		for(int y = 0;y<4;y++){
-//			for(int x = 0;x<4;x++){
-//				System.out.println("Feld(" + (y) + "|" + x + ") " + test[y][x]);
-//			}
-//		}
+//		// }
 //	}
 }
