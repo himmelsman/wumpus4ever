@@ -20,6 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
@@ -60,22 +61,21 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 	private boolean shiftPressed = false;
 	private int agentSchrittZahler = 0;
 	private int gesamtPunktenAnzahl = 10000;
-	private int einSchritt_10 = 10;
+	private int einSchritt_1 = 1;
+	private int pfeilBenutzung = 10;
 	private int guiWidth = 0;
 	private int guiHeight = 0;
-	/*MenuItemLabels*/
-	private static final  String FILEMENUITEM1 = "Feld 4x4  (Alt+1)";
-	private static final  String FILEMENUITEM2 = "Feld 8x8  (Alt+2)";
-//	private static final  String FILEMENUITEM3 = "Feld 16x16(Alt+3)";
-	private static final  String FILEMENUITEM4 = "Def. Feld (Alt+D)";
-	private static final  String FILEMENUITEM5 = "Exit (Alt+x)";
-	private static final  String OPTIONMENUITEM1 = "Mensch";
-	private static final  String OPTIONMENUITEM2 = "KI-Agent";
-//	private String OPTIONMENUITEM3 = "Geschwindigkeit";
-	private static final  String HELPMENUITEM1 = "Hilfe (Alt+H)";
-	private static final  String HELPMENUITEM2 = "About (Alt+A)";
-	
-	
+	/* MenuItemLabels */
+	private static final String FILEMENUITEM1 = "Feld 4x4  (Alt+1)";
+	private static final String FILEMENUITEM2 = "Feld 8x8  (Alt+2)";
+	// private static final String FILEMENUITEM3 = "Feld 16x16(Alt+3)";
+	private static final String FILEMENUITEM4 = "Def. Feld (Alt+D)";
+	private static final String FILEMENUITEM5 = "Exit (Alt+x)";
+	private static final String OPTIONMENUITEM1 = "Mensch";
+	private static final String OPTIONMENUITEM2 = "KI-Agent";
+	// private String OPTIONMENUITEM3 = "Geschwindigkeit";
+	private static final String HELPMENUITEM1 = "Hilfe (Alt+H)";
+	private static final String HELPMENUITEM2 = "About (Alt+A)";
 
 	public WumpusGUI(Wumpus_Panel panel, WumpusWelt _wump) {
 		wumpusPanel = panel;
@@ -163,9 +163,9 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 							JMenuItem feld2 = new JMenuItem(FILEMENUITEM2);
 							fileMenu.add(feld2);
 							feld2.addActionListener(this);
-//							JMenuItem feld3 = new JMenuItem(fileMenuItem3);
-//							fileMenu.add(feld3);
-//							feld3.addActionListener(this);
+							// JMenuItem feld3 = new JMenuItem(fileMenuItem3);
+							// fileMenu.add(feld3);
+							// feld3.addActionListener(this);
 
 							jSeparator1 = new JSeparator(); /* Trennlinie */
 							fileMenu.add(jSeparator1);
@@ -191,11 +191,11 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 							JMenuItem ki_agent = new JMenuItem(OPTIONMENUITEM2);
 							optionen.add(ki_agent);
 
-//							jSeparator1 = new JSeparator(); /* Trennlinie */
-//							optionen.add(jSeparator1);
-//
-//							JMenuItem geschwindigkeit = new JMenuItem(optionMenuItem3);
-//							optionen.add(geschwindigkeit);
+							// jSeparator1 = new JSeparator(); /* Trennlinie */
+							// optionen.add(jSeparator1);
+							//
+							// JMenuItem geschwindigkeit = new JMenuItem(optionMenuItem3);
+							// optionen.add(geschwindigkeit);
 						}
 						help = new JMenu();
 						jMenuBar.add(help);
@@ -250,6 +250,7 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 				} else if (arg0.getKeyCode() == KeyEvent.VK_D && altPressed) {
 					setEnabled(false);
 					new Benutzerdefiniertes_Feld(guiFrame);
+					altPressed = false;
 					// wump.neuesSpiel(16);
 					// ablaufTextArea.setText("");
 				} else if (arg0.getKeyCode() == KeyEvent.VK_X && altPressed) {
@@ -262,26 +263,44 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 					System.out.println("ALT + A");
 					setEnabled(false);
 					new AboutScreen(guiFrame);
+				} else if (arg0.getKeyCode() == KeyEvent.VK_Z && altPressed) {
+					wump.schickeAgentZurueck();
+				} else if (arg0.getKeyCode() == KeyEvent.VK_T) {
+					wump.testCase();
 				}
 				// Abfage der Tastaturpfeile
-				if (arg0.getKeyCode() == KeyEvent.VK_LEFT) {
+				if (arg0.getKeyCode() == KeyEvent.VK_LEFT && !shiftPressed) {
 					System.out.println("Left");
 					wump.bewegeAgent(Bezeichnungen.LINKS);
-				} else if (arg0.getKeyCode() == KeyEvent.VK_RIGHT) {
+				} else if (arg0.getKeyCode() == KeyEvent.VK_RIGHT && !shiftPressed) {
 					System.out.println("Right");
 					wump.bewegeAgent(Bezeichnungen.RECHTS);
-				} else if (arg0.getKeyCode() == KeyEvent.VK_UP) {
+				} else if (arg0.getKeyCode() == KeyEvent.VK_UP && !shiftPressed) {
 					System.out.println("Up");
 					wump.bewegeAgent(Bezeichnungen.UP);
-				} else if (arg0.getKeyCode() == KeyEvent.VK_DOWN) {
+				} else if (arg0.getKeyCode() == KeyEvent.VK_DOWN && !shiftPressed) {
 					System.out.println("Down");
 					wump.bewegeAgent(Bezeichnungen.DOWN);
 				}
-				
-				/*Enable or Disable DebugMode for WumpusPanel*/
+				// Abfrage der Tastaturpfeile zur Verwendung des Pfeiles
+				if (arg0.getKeyCode() == KeyEvent.VK_LEFT && shiftPressed) {
+					System.out.println("Pfeil + Left");
+					wump.bewegeAgent(Bezeichnungen.BENUTZE_PFEIL + " " + Bezeichnungen.LINKS);
+				} else if (arg0.getKeyCode() == KeyEvent.VK_RIGHT && shiftPressed) {
+					System.out.println("Pfeil + Right");
+					wump.bewegeAgent(Bezeichnungen.BENUTZE_PFEIL + " " + Bezeichnungen.RECHTS);
+				} else if (arg0.getKeyCode() == KeyEvent.VK_UP && shiftPressed) {
+					System.out.println("Pfeil + Up");
+					wump.bewegeAgent(Bezeichnungen.BENUTZE_PFEIL + " " + Bezeichnungen.UP);
+				} else if (arg0.getKeyCode() == KeyEvent.VK_DOWN && shiftPressed) {
+					System.out.println("Pfeil + Down");
+					wump.bewegeAgent(Bezeichnungen.BENUTZE_PFEIL + " " + Bezeichnungen.DOWN);
+				}
+
+				/* Enable or Disable DebugMode for WumpusPanel */
 				if (arg0.getKeyCode() == KeyEvent.VK_D && shiftPressed && !wumpusPanel.DEBUG) {
 					wumpusPanel.DEBUG = true;
-				} else if(arg0.getKeyCode() == KeyEvent.VK_D && shiftPressed && wumpusPanel.DEBUG) {
+				} else if (arg0.getKeyCode() == KeyEvent.VK_D && shiftPressed && wumpusPanel.DEBUG) {
 					wumpusPanel.DEBUG = false;
 				}
 			}
@@ -334,9 +353,12 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 			// //////////////////// wumpusPanel.wechseleZweiBilder(/*((NachrichtenObjekt) arg).y, ((NachrichtenObjekt) arg).x, ((NachrichtenObjekt) arg).wahrnehmung[0], ((NachrichtenObjekt) arg).wahrnehmung[1]*/);
 			/* es werden die Schritte gezahlt und die verbrauchte Punkte(-10 pro Schritt) abgezogen */
 			agentSchrittZahler++;
-			gesamtPunktenAnzahl = gesamtPunktenAnzahl - einSchritt_10;
+			gesamtPunktenAnzahl = gesamtPunktenAnzahl - einSchritt_1;
 			// schritteAnzahlLabel.setText(Integer.toString(agentSchrittZahler));//alternative
 			schritteAnzahlLabel.setText(String.valueOf(agentSchrittZahler));
+			punkteAnzahlLabel.setText(String.valueOf(gesamtPunktenAnzahl));
+		} else if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.WUMPUS_WURDE_GETOETET)) {
+			gesamtPunktenAnzahl = gesamtPunktenAnzahl - pfeilBenutzung;
 			punkteAnzahlLabel.setText(String.valueOf(gesamtPunktenAnzahl));
 		}
 		if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.POSITION)) {
@@ -394,9 +416,11 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 				}
 			}
 		}
-		if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.FERTIG)) {
-			ablaufTextArea.setText(ablaufTextArea.getText());
-			// System.out.println("\n\n\n" + ablaufTextArea.getText());
+		// if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.FERTIG)) {
+		// ablaufTextArea.setText(ablaufTextArea.getText());
+		// }
+		if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.SPIEL_ZU_ENDE)) {
+			JOptionPane.showMessageDialog(this, "Mario ist tod.", "Spiel zu Ende", JOptionPane.PLAIN_MESSAGE);
 		}
 	}
 
@@ -417,22 +441,22 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 			agentSchrittZahler = 0;
 			schritteAnzahlLabel.setText(agentSchrittZahler + "");
 			ablaufTextArea.setText("");
-//		} else if (actionBefehl.equals(fileMenuItem3)) {
-//			wump.neuesSpiel(16);
-//			gesamtPunktenAnzahl = 10000;
-//			punkteAnzahlLabel.setText(gesamtPunktenAnzahl + "");
-//			agentSchrittZahler = 0;
-//			schritteAnzahlLabel.setText(agentSchrittZahler + "");
-//			ablaufTextArea.setText("");
+			// } else if (actionBefehl.equals(fileMenuItem3)) {
+			// wump.neuesSpiel(16);
+			// gesamtPunktenAnzahl = 10000;
+			// punkteAnzahlLabel.setText(gesamtPunktenAnzahl + "");
+			// agentSchrittZahler = 0;
+			// schritteAnzahlLabel.setText(agentSchrittZahler + "");
+			// ablaufTextArea.setText("");
 		} else if (actionBefehl.equals(FILEMENUITEM4)) {
 			setEnabled(false);
 			new Benutzerdefiniertes_Feld(guiFrame);
 		} else if (actionBefehl.equals(FILEMENUITEM5)) {
 			System.exit(0);
-		}else if (actionBefehl.equals(HELPMENUITEM1)) {
+		} else if (actionBefehl.equals(HELPMENUITEM1)) {
 			setEnabled(false);
 			new HelpScreen(guiFrame);
-		}else if (actionBefehl.equals(HELPMENUITEM2)) {
+		} else if (actionBefehl.equals(HELPMENUITEM2)) {
 			setEnabled(false);
 			new AboutScreen(guiFrame);
 		}

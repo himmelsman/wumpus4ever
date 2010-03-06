@@ -55,10 +55,12 @@ public class Wumpus_Panel extends JPanel implements Observer {
 	}
 
 	public void setzeAnzahl() {
-		setVisible(true);
-		anzahl = wump.anzahl;
-		imageArray = new WumpusBitmapComponent[anzahl][anzahl];
-		initGUI();
+		if (anzahl != wump.anzahl) {
+			setVisible(true);
+			anzahl = wump.anzahl;
+			imageArray = new WumpusBitmapComponent[anzahl][anzahl];
+			initGUI();
+		}
 	}
 
 	@Override
@@ -274,7 +276,7 @@ public class Wumpus_Panel extends JPanel implements Observer {
 		add(imageArray[alteY][alteX], new GridBagConstraints(alteX + 1, alteY + 1, 1, 1, 0.1, 0.1, GridBagConstraints.SOUTH, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 		validate();
 	}
-	
+
 	public void refreshImage(int y, int x) {
 		remove(imageArray[y][x]);
 		imageArray[y][x] = welchesBild(wump.weltArray[y][x]);
@@ -290,7 +292,11 @@ public class Wumpus_Panel extends JPanel implements Observer {
 			// erstesmal = true;
 			alteY = ((NachrichtenObjekt) arg).y;
 			alteX = ((NachrichtenObjekt) arg).x;
-			initGUI();
+			if (anzahl == wump.anzahl) {
+				initGUI();
+			} else {
+				setzeAnzahl();
+			}
 		}
 		if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.BEWEGE)) {
 			neuY = ((NachrichtenObjekt) arg).wahrnehmung[0];
@@ -302,7 +308,28 @@ public class Wumpus_Panel extends JPanel implements Observer {
 		if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.AKTUALISIERE_BILD)) {
 			refreshImage(((NachrichtenObjekt) arg).y, ((NachrichtenObjekt) arg).x);
 		}
-
+		if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.WECHSLE_AGENT)) {
+			alteY = ((NachrichtenObjekt) arg).wahrnehmung[0];
+			alteX = ((NachrichtenObjekt) arg).wahrnehmung[1];
+			int tempY = ((NachrichtenObjekt) arg).wahrnehmung[2];
+			int tempX = ((NachrichtenObjekt) arg).wahrnehmung[3];
+			System.out.println("Agent(" + alteY + "|" + alteX + ")\nAltesFeld("+ tempY + "|" + tempX + ")");
+			tauscheAgentZurueck(alteY, alteX, tempY, tempX);
+		}
 	}
 
+	public void tauscheAgentZurueck(int agentY, int agentX, int schwarzY, int schwarzX) {
+		remove(imageArray[schwarzY][schwarzX]);
+		int wahrnehmung = wump.weltArray[schwarzY][schwarzX];
+		if(wump.positioniere.letzteStelle(wahrnehmung) == 9){
+			imageArray[schwarzY][schwarzX] = welchesBild(wahrnehmung);
+		}else {
+			imageArray[agentY][agentX] = new WumpusBitmapComponent(schwarz, getSize().height / anzahl, getSize().width / anzahl);
+		}
+		add(imageArray[schwarzY][schwarzX], new GridBagConstraints(schwarzX + 1, schwarzY + 1, 1, 1, 0.1, 0.1, GridBagConstraints.SOUTH, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
+		remove(imageArray[agentY][agentX]);
+		imageArray[agentY][agentX] = new WumpusBitmapComponent(agent, getSize().height / anzahl, getSize().width / anzahl);
+		add(imageArray[agentY][agentX], new GridBagConstraints(agentX + 1, agentY + 1, 1, 1, 0.1, 0.1, GridBagConstraints.SOUTH, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
+		validate();
+	}
 }

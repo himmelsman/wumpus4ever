@@ -1,15 +1,17 @@
 package de.wumpus.beobachtet;
 
+import java.util.LinkedList;
 import java.util.Observable;
 
 import de.wumpus.tools.*;
 
 public class WumpusWelt extends Observable {
 
-	FeldPositionieren positioniere = new FeldPositionieren();
+	public FeldPositionieren positioniere = new FeldPositionieren();
 	public int anzahl = 0;
 	int agent_y = 0, agent_x = 0;
 	int neuY = 0, neuX = 0;
+	private LinkedList<EinSchrittZurueck> globaleListe = new LinkedList<EinSchrittZurueck>();
 
 	public int[][] weltArray;
 
@@ -116,6 +118,7 @@ public class WumpusWelt extends Observable {
 		// System.out.println("Teste vor notifyObservers");
 		setChanged();
 		notifyObservers(new NachrichtenObjekt(0, 0, null, Bezeichnungen.REPAINT));
+		globaleListe.clear();
 		// System.out.println("Teste nach notifyObservers");
 	}
 
@@ -152,37 +155,45 @@ public class WumpusWelt extends Observable {
 	 *            bestimmt die Richtung
 	 */
 	public void bewegeAgent(String richtung) {
-		int x_r = 0, y_r = 0;
+		int x_r = -1, y_r = -1;
 		boolean wumpusToeten = false;
 		/* Abfrage nach der Richtung */
 		if (richtung.equals(Bezeichnungen.RECHTS)) {
 			x_r = 1;
 			y_r = 0;
+			sagAgentSpeichern(4);
 		} else if (richtung.equals(Bezeichnungen.LINKS)) {
 			x_r = -1;
 			y_r = 0;
+			sagAgentSpeichern(3);
 		} else if (richtung.equals(Bezeichnungen.UP)) {
 			x_r = 0;
 			y_r = -1;
+			sagAgentSpeichern(1);
 		} else if (richtung.equals(Bezeichnungen.DOWN)) {
 			x_r = 0;
 			y_r = 1;
+			sagAgentSpeichern(2);
 		} else if (richtung.equals(Bezeichnungen.BENUTZE_PFEIL + " " + Bezeichnungen.RECHTS)) {
 			x_r = 1;
 			y_r = 0;
 			wumpusToeten = true;
+			sagAgentSpeichern(8);
 		} else if (richtung.equals(Bezeichnungen.BENUTZE_PFEIL + " " + Bezeichnungen.LINKS)) {
 			x_r = -1;
 			y_r = 0;
 			wumpusToeten = true;
+			sagAgentSpeichern(7);
 		} else if (richtung.equals(Bezeichnungen.BENUTZE_PFEIL + " " + Bezeichnungen.UP)) {
 			x_r = 0;
 			y_r = -1;
 			wumpusToeten = true;
+			sagAgentSpeichern(5);
 		} else if (richtung.equals(Bezeichnungen.BENUTZE_PFEIL + " " + Bezeichnungen.DOWN)) {
 			x_r = 0;
 			y_r = 1;
 			wumpusToeten = true;
+			sagAgentSpeichern(6);
 		}
 		/*
 		 * Es werden zuerts die Abfragungen gemacht, d.h. wenn der Agent in der 0.0 ist, muss er nicht in Auserbereich tretten(in diesem Fall nur rechts oder nach unten).
@@ -193,8 +204,8 @@ public class WumpusWelt extends Observable {
 				int alteWahrnehmung = weltArray[agent_y][agent_x];
 				int neueWahrnehmung = weltArray[agent_y + y_r][agent_x + x_r];
 				// System.out.println("alteWahrnehmung " + alteWahrnehmung + " " + weltArray[agent_y][agent_x]);
-				weltArray[agent_y][agent_x] = positioniere.checkLast(positioniere.checkFirst(alteWahrnehmung), 9);
 				if (!wumpusToeten) {
+					weltArray[agent_y][agent_x] = positioniere.checkLast(positioniere.checkFirst(alteWahrnehmung), 9);
 					weltArray[agent_y + y_r][agent_x + x_r] = positioniere.checkLast(neueWahrnehmung, 1);
 					setChanged();
 					notifyObservers(new NachrichtenObjekt(agent_y, agent_x, new int[] { (agent_y + y_r), (agent_x + x_r) }, Bezeichnungen.BEWEGE));
@@ -211,7 +222,7 @@ public class WumpusWelt extends Observable {
 					if (temp != weltArray[agent_y + y_r][agent_x + x_r]) {
 						if (agent_y + y_r - 1 >= 0 && agent_x + x_r >= 0 && agent_y + y_r - 1 < anzahl && agent_x + x_r < anzahl)
 							weltArray[agent_y + y_r - 1][agent_x + x_r] = positioniere.entferneWahnehmung(weltArray[agent_y + y_r - 1][agent_x + x_r], 5);
-						
+
 						if (agent_y + y_r + 1 >= 0 && agent_x + x_r >= 0 && agent_y + y_r + 1 < anzahl && agent_x + x_r < anzahl)
 							weltArray[agent_y + y_r + 1][agent_x + x_r] = positioniere.entferneWahnehmung(weltArray[agent_y + y_r + 1][agent_x + x_r], 5);
 
@@ -221,10 +232,10 @@ public class WumpusWelt extends Observable {
 						if (agent_y + y_r >= 0 && agent_x + x_r + 1 >= 0 && agent_y + y_r < anzahl && agent_x + x_r + 1 < anzahl)
 							weltArray[agent_y + y_r][agent_x + x_r + 1] = positioniere.entferneWahnehmung(weltArray[agent_y + y_r][agent_x + x_r + 1], 5);
 						setChanged();
-						notifyObservers(new NachrichtenObjekt(agent_y + y_r, agent_x + y_r, null, Bezeichnungen.WUMPUS_WURDE_GETOETET));
-					}else{
-						//WUMPUS WAR NICHT DA
-						
+						notifyObservers(new NachrichtenObjekt(agent_y + y_r, agent_x + x_r, null, Bezeichnungen.WUMPUS_WURDE_GETOETET));
+					} else {
+						// WUMPUS WAR NICHT DA
+
 					}
 				}
 			}
@@ -243,9 +254,66 @@ public class WumpusWelt extends Observable {
 		setChanged();
 		notifyObservers(new NachrichtenObjekt(agent_y, agent_x, new int[] {}, Bezeichnungen.FERTIG));
 	}
-	
-	public void aktualisiereBild(int y, int x){
+
+	public void aktualisiereBild(int y, int x) {
 		setChanged();
 		notifyObservers(new NachrichtenObjekt(y, x, new int[] {}, Bezeichnungen.AKTUALISIERE_BILD));
+	}
+
+	public void sendeSpielZuEnde() {
+		setChanged();
+		notifyObservers(new NachrichtenObjekt(0, 0, new int[] {}, Bezeichnungen.SPIEL_ZU_ENDE));
+	}
+
+	public void schickeAgentZurueck() {
+		setChanged();
+		notifyObservers(new NachrichtenObjekt(0, 0, new int[] {}, Bezeichnungen.EIN_SCHRITT_ZURUECK));
+	}
+
+	public EinSchrittZurueck letzteBewegung() {
+		if (!globaleListe.isEmpty()) {
+			EinSchrittZurueck temp = globaleListe.removeLast();
+			System.out.println("Richtung " + temp.holeBewegung() + " Feld " + temp.holeFeld().length + " Welt " + temp.holeWelt().length);
+			alteWelt(temp.holeWelt());
+			return temp;
+		}
+		return null;
+	}
+
+	public void testCase() {
+		weltArray[0][0] = 5678;
+		System.out.println("Test");
+	}
+
+	private void alteWelt(int[][] alteWelt) {
+		int tempY = agent_y, tempX = agent_x;
+		for (int j = 0; j < weltArray.length; j++) {
+				System.arraycopy(alteWelt[j], 0, weltArray[j], 0, alteWelt.length);
+			}
+		
+
+		for (int i = 0; i < anzahl; i++) {
+			for (int j = 0; j < anzahl; j++) {
+				if (bestimmeDieErsteZahl(weltArray[i][j]) == 1) {
+					agent_y = i;
+					agent_x = j;
+				}
+			}
+		}
+		setChanged();
+		notifyObservers(new NachrichtenObjekt(0, 0, new int[] { agent_y, agent_x, tempY, tempX }, Bezeichnungen.WECHSLE_AGENT));
+	}
+
+	public void speichereBewegung(String richtung, Feld[][] copy, int[][] weltCopy) {
+		int[][] neueWeltArray = new int[weltCopy.length][weltCopy.length];
+		for (int j = 0; j < weltArray.length; j++) {
+			System.arraycopy(weltCopy[j], 0, neueWeltArray[j], 0, weltCopy.length);
+		}
+		globaleListe.add(new EinSchrittZurueck(richtung, copy, neueWeltArray));
+	}
+	
+	public void sagAgentSpeichern(int temp) {
+		setChanged();
+		notifyObservers(new NachrichtenObjekt(0, 0, new int[] {temp}, Bezeichnungen.SPEICHERN));
 	}
 }

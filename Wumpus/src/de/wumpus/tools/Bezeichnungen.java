@@ -1,16 +1,11 @@
 package de.wumpus.tools;
 
 public class Bezeichnungen {
-	 /*initialisierung der array
-	 * 1 als Agend in dem Feld
-	 * 2 als Gold in dem Feld
-	 * 3 als Glitter in nahligenden Felder
-	 * 4 als Wumpus in dem Feld
-	 * 5 als Geruch in nahligenden Felder
-	 * 6 als Pit in dem Feld		
-	 * 7 als Brize ind nahligenden Felder  
-	 * 9 als besuchtes Feld(also graues Feld*/
-	
+	/*
+	 * initialisierung der array 1 als Agend in dem Feld 2 als Gold in dem Feld 3 als Glitter in nahligenden Felder 4 als Wumpus in dem Feld 5 als Geruch in nahligenden Felder 6 als Pit in dem Feld 7 als Brize ind nahligenden Felder 9 als besuchtes
+	 * Feld(also graues Feld
+	 */
+
 	public static final String AGENT = "AGENT";
 	public static final String GOLD = "GOLD";
 	public static final String GLITTER = "GLITTER";
@@ -37,4 +32,8 @@ public class Bezeichnungen {
 	public static final String WUMPUS_WURDE_GETOETET = "WUMPUS_WURDE_GETOETET";
 	public static final String WUMPUS_WURDE_NICHT_GETOETET = "WUMPUS_WURDE_NICHT_GETOETET";
 	public static final String AKTUALISIERE_BILD = "AKTUALISIERE_BILD";
+	public static final String SPIEL_ZU_ENDE = "SPIEL_ZU_ENDE";
+	public static final String EIN_SCHRITT_ZURUECK = "EIN_SCHRITT_ZURUECK";
+	public static final String WECHSLE_AGENT = "WECHSLE_AGENT";
+	public static final String SPEICHERN = "SPEICHERN";
 }

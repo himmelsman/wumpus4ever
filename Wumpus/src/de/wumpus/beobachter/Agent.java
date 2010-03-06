@@ -1,5 +1,6 @@
 package de.wumpus.beobachter;
 
+import java.awt.Toolkit;
 import java.util.LinkedList;
 import java.util.Observable;
 import java.util.Observer;
@@ -10,6 +11,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import javax.swing.JOptionPane;
 
 import de.wumpus.beobachtet.WumpusWelt;
+import de.wumpus.tools.EinSchrittZurueck;
 import de.wumpus.tools.Feld;
 import de.wumpus.tools.Bezeichnungen;
 import de.wumpus.tools.FeldPositionieren;
@@ -70,7 +72,76 @@ public class Agent implements Observer {
 			bewegeAgenten();
 		}
 		if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.WUMPUS_WURDE_GETOETET)) {
-			entferneWumpus(((NachrichtenObjekt)arg).y, ((NachrichtenObjekt)arg).x);
+			entferneWumpus(((NachrichtenObjekt) arg).y, ((NachrichtenObjekt) arg).x);
+
+		}
+		if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.SPEICHERN)) {
+			int richtungen = ((NachrichtenObjekt) arg).wahrnehmung[0];
+			switch (richtungen) {
+			case 1: {
+				sendeSpeichern(Bezeichnungen.UP);
+				break;
+			}
+			case 2: {
+				sendeSpeichern(Bezeichnungen.DOWN);
+				break;
+			}
+			case 3: {
+				sendeSpeichern(Bezeichnungen.LINKS);
+				break;
+			}
+			case 4: {
+				sendeSpeichern(Bezeichnungen.RECHTS);
+				break;
+			}
+			case 5: {
+				sendeSpeichern(Bezeichnungen.BENUTZE_PFEIL + " " + Bezeichnungen.UP);
+				break;
+			}
+			case 6: {
+				sendeSpeichern(Bezeichnungen.BENUTZE_PFEIL + " " + Bezeichnungen.DOWN);
+				break;
+			}
+			case 7: {
+				sendeSpeichern(Bezeichnungen.BENUTZE_PFEIL + " " + Bezeichnungen.LINKS);
+				break;
+			}
+			case 8: {
+				sendeSpeichern(Bezeichnungen.BENUTZE_PFEIL + " " + Bezeichnungen.RECHTS);
+				break;
+			}
+			}
+		}
+		if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.EIN_SCHRITT_ZURUECK)) {
+			EinSchrittZurueck temp = wump.letzteBewegung();
+			if (temp != null) {
+				arraymitWissenBasis = temp.holeFeld();
+				String richtung = temp.holeBewegung();
+				if (richtung.equals(Bezeichnungen.RECHTS)) {
+					agentX = agentX - 1;
+				} else if (richtung.equals(Bezeichnungen.LINKS)) {
+					agentX = agentX + 1;
+				} else if (richtung.equals(Bezeichnungen.UP)) {
+					agentY = agentY + 1;
+				} else if (richtung.equals(Bezeichnungen.DOWN)) {
+					agentY = agentY - 1;
+				} else if (richtung.equals(Bezeichnungen.BENUTZE_PFEIL + " " + Bezeichnungen.RECHTS)) {
+					agentX = agentX - 1;
+					pfeil = true;
+				} else if (richtung.equals(Bezeichnungen.BENUTZE_PFEIL + " " + Bezeichnungen.LINKS)) {
+					agentX = agentX + 1;
+					pfeil = true;
+				} else if (richtung.equals(Bezeichnungen.BENUTZE_PFEIL + " " + Bezeichnungen.UP)) {
+					agentY = agentY + 1;
+					pfeil = true;
+				} else if (richtung.equals(Bezeichnungen.BENUTZE_PFEIL + " " + Bezeichnungen.DOWN)) {
+					agentY = agentY - 1;
+					pfeil = true;
+				}
+			} else {
+				// TODO: Fehler wenn Liste leer ausgeben.
+
+			}
 		}
 	}
 
@@ -312,10 +383,12 @@ public class Agent implements Observer {
 		boolean weiterMachen = true;
 		sucheDieRoute(agentY, agentX);
 		if (!bewegungsListe.isEmpty()) {
-			wump.bewegeAgent(bewegungsListe.poll());
-			if (sitzeAufGold(agentY, agentX)) {
-				// SAG DER WELT IST ZUENDE
-				// Beende das Spiel mit erfolgsmeldung
+			String temp = bewegungsListe.poll();
+			sendeSpeichern(temp);
+			wump.bewegeAgent(temp);
+			verarbeiteWahrnehmung(agentY, agentX);
+			if (!sitzeNichtAufGold(agentY, agentX)) {
+				wump.sendeSpielZuEnde();
 			}
 			// verarbeiteWahrnehmung(agentY, agentX);
 			// int richtung = (int) ((Math.random()) * 4 + 1);
@@ -326,6 +399,7 @@ public class Agent implements Observer {
 			// TODO: wenn agent schon einmal sich bewegt hat, muss die setzeKeinGefahrWennKeineWahrnehmung(y,x) aufgeruffen werden.
 			// System.err.println("bewegeAgenten: " + richtung);
 		} else if (bewegungsListe.isEmpty()) {
+			System.out.println("Bewegungsliste war leer, random wird verwendet.");
 			richtung = bestimmeDieRichtung(agentY, agentX);
 			switch (richtung) {
 			case 1: {
@@ -337,7 +411,7 @@ public class Agent implements Observer {
 						agentY = agentY - 1;
 						wump.bewegeAgent(Bezeichnungen.UP);
 						verarbeiteWahrnehmung(agentY, agentX);
-						weiterMachen = sitzeAufGold(agentY, agentX);
+						weiterMachen = sitzeNichtAufGold(agentY, agentX);
 						if (!arraymitWissenBasis[agentY][agentX].gold && !arraymitWissenBasis[agentY][agentX].wumpus && !arraymitWissenBasis[agentY][agentX].geruch && !arraymitWissenBasis[agentY][agentX].fallgrube
 								&& !arraymitWissenBasis[agentY][agentX].brise) {
 							setzeKeinGefahrWennKeineWahrnehmung(agentY, agentX);
@@ -347,7 +421,7 @@ public class Agent implements Observer {
 							agentY = agentY - 1;
 							wump.bewegeAgent(Bezeichnungen.UP);
 							verarbeiteWahrnehmung(agentY, agentX);
-							weiterMachen = sitzeAufGold(agentY, agentX);
+							weiterMachen = sitzeNichtAufGold(agentY, agentX);
 							if (!arraymitWissenBasis[agentY][agentX].gold && !arraymitWissenBasis[agentY][agentX].wumpus && !arraymitWissenBasis[agentY][agentX].geruch && !arraymitWissenBasis[agentY][agentX].fallgrube
 									&& !arraymitWissenBasis[agentY][agentX].brise) {
 								setzeKeinGefahrWennKeineWahrnehmung(agentY, agentX);
@@ -364,7 +438,7 @@ public class Agent implements Observer {
 						agentY = agentY + 1;
 						wump.bewegeAgent(Bezeichnungen.DOWN);
 						verarbeiteWahrnehmung(agentY, agentX);
-						weiterMachen = sitzeAufGold(agentY, agentX);
+						weiterMachen = sitzeNichtAufGold(agentY, agentX);
 						if (!arraymitWissenBasis[agentY][agentX].gold && !arraymitWissenBasis[agentY][agentX].wumpus && !arraymitWissenBasis[agentY][agentX].geruch && !arraymitWissenBasis[agentY][agentX].fallgrube
 								&& !arraymitWissenBasis[agentY][agentX].brise) {
 							setzeKeinGefahrWennKeineWahrnehmung(agentY, agentX);
@@ -374,7 +448,7 @@ public class Agent implements Observer {
 							agentY = agentY + 1;
 							wump.bewegeAgent(Bezeichnungen.DOWN);
 							verarbeiteWahrnehmung(agentY, agentX);
-							weiterMachen = sitzeAufGold(agentY, agentX);
+							weiterMachen = sitzeNichtAufGold(agentY, agentX);
 							if (!arraymitWissenBasis[agentY][agentX].gold && !arraymitWissenBasis[agentY][agentX].wumpus && !arraymitWissenBasis[agentY][agentX].geruch && !arraymitWissenBasis[agentY][agentX].fallgrube
 									&& !arraymitWissenBasis[agentY][agentX].brise) {
 								setzeKeinGefahrWennKeineWahrnehmung(agentY, agentX);
@@ -391,7 +465,7 @@ public class Agent implements Observer {
 						agentX = agentX - 1;
 						wump.bewegeAgent(Bezeichnungen.LINKS);
 						verarbeiteWahrnehmung(agentY, agentX);
-						weiterMachen = sitzeAufGold(agentY, agentX);
+						weiterMachen = sitzeNichtAufGold(agentY, agentX);
 						if (!arraymitWissenBasis[agentY][agentX].gold && !arraymitWissenBasis[agentY][agentX].wumpus && !arraymitWissenBasis[agentY][agentX].geruch && !arraymitWissenBasis[agentY][agentX].fallgrube
 								&& !arraymitWissenBasis[agentY][agentX].brise) {
 							setzeKeinGefahrWennKeineWahrnehmung(agentY, agentX);
@@ -401,7 +475,7 @@ public class Agent implements Observer {
 							agentX = agentX - 1;
 							wump.bewegeAgent(Bezeichnungen.LINKS);
 							verarbeiteWahrnehmung(agentY, agentX);
-							weiterMachen = sitzeAufGold(agentY, agentX);
+							weiterMachen = sitzeNichtAufGold(agentY, agentX);
 							if (!arraymitWissenBasis[agentY][agentX].gold && !arraymitWissenBasis[agentY][agentX].wumpus && !arraymitWissenBasis[agentY][agentX].geruch && !arraymitWissenBasis[agentY][agentX].fallgrube
 									&& !arraymitWissenBasis[agentY][agentX].brise) {
 								setzeKeinGefahrWennKeineWahrnehmung(agentY, agentX);
@@ -418,7 +492,7 @@ public class Agent implements Observer {
 						agentX = agentX + 1;
 						wump.bewegeAgent(Bezeichnungen.RECHTS);
 						verarbeiteWahrnehmung(agentY, agentX);
-						weiterMachen = sitzeAufGold(agentY, agentX);
+						weiterMachen = sitzeNichtAufGold(agentY, agentX);
 						if (!arraymitWissenBasis[agentY][agentX].gold && !arraymitWissenBasis[agentY][agentX].wumpus && !arraymitWissenBasis[agentY][agentX].geruch && !arraymitWissenBasis[agentY][agentX].fallgrube
 								&& !arraymitWissenBasis[agentY][agentX].brise) {
 							setzeKeinGefahrWennKeineWahrnehmung(agentY, agentX);
@@ -428,7 +502,7 @@ public class Agent implements Observer {
 							agentX = agentX + 1;
 							wump.bewegeAgent(Bezeichnungen.RECHTS);
 							verarbeiteWahrnehmung(agentY, agentX);
-							weiterMachen = sitzeAufGold(agentY, agentX);
+							weiterMachen = sitzeNichtAufGold(agentY, agentX);
 							if (!arraymitWissenBasis[agentY][agentX].gold && !arraymitWissenBasis[agentY][agentX].wumpus && !arraymitWissenBasis[agentY][agentX].geruch && !arraymitWissenBasis[agentY][agentX].fallgrube
 									&& !arraymitWissenBasis[agentY][agentX].brise) {
 								setzeKeinGefahrWennKeineWahrnehmung(agentY, agentX);
@@ -550,7 +624,7 @@ public class Agent implements Observer {
 	 *            X-Koordinate des Feldes(Agentes)
 	 * @return true wenn es wahr.
 	 */
-	private boolean sitzeAufGold(int y, int x) {
+	private boolean sitzeNichtAufGold(int y, int x) {
 		if (arraymitWissenBasis[y][x].gold) {
 			System.out.println("Gold ist da");
 			return false;
@@ -874,6 +948,12 @@ public class Agent implements Observer {
 		return null;
 	}
 
+	/**
+	 * 
+	 * @param y
+	 * @param x
+	 * @return
+	 */
 	private boolean istGoldDa(int y, int x) {
 		Feld p = arraymitWissenBasis[y][x];
 		/* Wenn Feld Besucht dann keine Gold */
@@ -908,6 +988,15 @@ public class Agent implements Observer {
 		return false;
 	}
 
+	/**
+	 * Diese Methode prueft nach keinem Wumpus, und gibt true, wenn das Feld schon besucht war oder kann nicht 100% festgestellt werden, sonst false.
+	 * 
+	 * @param y
+	 *            Y-Koordinate zum pruefen
+	 * @param x
+	 *            X-Koordinate zum pruefen
+	 * @return false wenn keine Fallgrube
+	 */
 	private boolean istWumpusNichtDa(int y, int x) {
 		if (ichBinNichtAuserhalb(y, x)) {
 			Feld p = arraymitWissenBasis[y][x];
@@ -939,6 +1028,15 @@ public class Agent implements Observer {
 		return false;
 	}
 
+	/**
+	 * Diese Methode prueft nach einer Fallgrube, und gibt true, wenn das Feld schon besucht war oder kann nicht 100% festgestellt werden, sonst false.
+	 * 
+	 * @param y
+	 *            Y-Koordinate zum pruefen
+	 * @param x
+	 *            X-Koordinate zum pruefen
+	 * @return false wenn keine Fallgrube
+	 */
 	private boolean istFallgrubeNichtDa(int y, int x) {
 		if (ichBinNichtAuserhalb(y, x)) {
 			Feld p = arraymitWissenBasis[y][x];
@@ -977,9 +1075,13 @@ public class Agent implements Observer {
 	 * 
 	 * @param liste
 	 * @param agentY
+	 *            Y-Koordinate des Agentes
 	 * @param agentX
+	 *            X-Koordinate des Agentes
 	 * @param zielY
+	 *            Y-Koordinate des Zieles
 	 * @param zielX
+	 *            X-Koordinate des Zieles
 	 * @return
 	 */
 	private LinkedList<Position> gibMirDieRichtungZumZiel(LinkedList<Position> liste, int agentY, int agentX, int zielY, int zielX) {
@@ -1049,6 +1151,19 @@ public class Agent implements Observer {
 		return richtigeListe;
 	}
 
+	/**
+	 * Diese Methode
+	 * 
+	 * @param agentY
+	 *            Y-Koordinate des Agentes
+	 * @param agentX
+	 *            X-Koordinate des Agentes
+	 * @param zielY
+	 *            Y-Koordinate des Zieles
+	 * @param zielX
+	 *            X-Koordinate des Zieles
+	 * @return
+	 */
 	private LinkedList<Position> gibMirDieRichtungZumZiel(int agentY, int agentX, int zielY, int zielX) {
 		if (!arraymitWissenBasis[agentY][agentX].besucht || arraymitWissenBasis[zielY][zielX].besucht || agentY == zielY && agentX == zielX)
 			return new LinkedList<Position>();
@@ -1125,8 +1240,11 @@ public class Agent implements Observer {
 	 * Prüft ob eine Liste sowohl Position des Agenten als auch des Ziel beinhaltet.
 	 * 
 	 * @param liste
+	 *            eine Liste mit Bewegungsrichtungen
 	 * @param agent
+	 *            Y,X Position des Agentes
 	 * @param ziel
+	 *            Y,X Position des Zieles
 	 * @return
 	 */
 	private boolean listeKomplett(LinkedList<Position> liste, Position agent, Position ziel) {
@@ -1173,7 +1291,9 @@ public class Agent implements Observer {
 	 * Diese Methode soll ausgehend von der derzeitigen Position und der aktuellen Wissensbasis versuchen das Gold zu finden. Falls dies nicht möglich ist, soll diese Methode das nächste noch nicht besuchte und sichere Feld finden.
 	 * 
 	 * @param _y
+	 *            Y-Koordinate des Agentes
 	 * @param _x
+	 *            X-Koordinate des Agentes
 	 */
 	private void sucheDieRoute(int _y, int _x) {
 		/* Fall eins: suche ein Feld, wo ein Gold und kein Gefahr sein kann. */
@@ -1258,7 +1378,7 @@ public class Agent implements Observer {
 			if (wumpusToeten && pfeil) {
 				String richtung = bewegungsListe.getLast();
 				bewegungsListe.set(bewegungsListe.size() - 1, Bezeichnungen.BENUTZE_PFEIL + " " + richtung);
-				if(bewegungsListe.getFirst().equals(Bezeichnungen.BENUTZE_PFEIL + " " + richtung)){
+				if (bewegungsListe.getFirst().equals(Bezeichnungen.BENUTZE_PFEIL + " " + richtung)) {
 					pfeil = false;
 				}
 			}
@@ -1267,7 +1387,7 @@ public class Agent implements Observer {
 				System.out.println(i + ". " + bewegungsListe.get(i));
 			}
 		}
-
+		// TODO: es muss punktenabzug für pfeilverwendung stattfinden
 		// TODO: Bewegung anhand der bewegungsListe muss eingeleitet werden.
 		/*
 		 * liste muss in einer schleife, die einzelnd durchlaufen werden kann (Tastendruck) abgelaufen werden for(;bewegungsListe.isEmpty();){ wump.bewegeAgent(bewegungsListe.poll()); PAUSETASTE }
@@ -1322,40 +1442,47 @@ public class Agent implements Observer {
 		return false;
 	}
 
-
 	private void entferneWumpus(int y, int x) {
 		if (y - 1 >= 0 && y - 1 < anzahl && x >= 0 && x < anzahl) {
-			if (arraymitWissenBasis[y-1][x].besucht )  {
-				arraymitWissenBasis[y-1][x].geruch = false;
-				if(agentY !=y-1 && agentX!=x){
-					wump.aktualisiereBild(y-1, x);
+			if (arraymitWissenBasis[y - 1][x].besucht) {
+				System.out.println("ersterFall" + "Agent(" + agentY + "|" + agentX + ") Feld(" + (y - 1) + "|" + x + ")");
+				arraymitWissenBasis[y - 1][x].geruch = false;
+				if (agentY != y - 1 && agentX == x || agentY == y - 1 && agentX != x || agentY != y - 1 && agentX != x) {
+					wump.aktualisiereBild(y - 1, x);
 				}
 			}
 		}
 		if (y + 1 >= 0 && y + 1 < anzahl && x >= 0 && x < anzahl) {
-			if (arraymitWissenBasis[y+1][x].besucht) {
-				arraymitWissenBasis[y+1][x].geruch = false;
-				if( agentY !=y+1 && agentX!=x){
-					wump.aktualisiereBild(y+1, x);
+			if (arraymitWissenBasis[y + 1][x].besucht) {
+				System.out.println("zweiterFall " + "Agent(" + agentY + "|" + agentX + ") Feld(" + (y + 1) + "|" + x + ")");
+				arraymitWissenBasis[y + 1][x].geruch = false;
+				if (agentY != y + 1 && agentX == x || agentY == y + 1 && agentX != x || agentY != y + 1 && agentX != x) {
+					wump.aktualisiereBild(y + 1, x);
 				}
 			}
 		}
 		if (y >= 0 && y < anzahl && x - 1 >= 0 && x - 1 < anzahl) {
-			if (arraymitWissenBasis[y][x-1].besucht){
-				arraymitWissenBasis[y][x-1].geruch = false;
-				if( agentY !=y && agentX!=x-1) {
-					wump.aktualisiereBild(y, x-1);
+			if (arraymitWissenBasis[y][x - 1].besucht) {
+				System.out.println("dritterFall" + "Agent(" + agentY + "|" + agentX + ") Feld(" + (y) + "|" + (x - 1) + ")");
+				arraymitWissenBasis[y][x - 1].geruch = false;
+				if (agentY != y && agentX == x - 1 || agentY == y && agentX != x - 1 || agentY != y && agentX != x - 1) {
+					wump.aktualisiereBild(y, x - 1);
 				}
 			}
 		}
 		if (y >= 0 && y < anzahl && x + 1 >= 0 && x + 1 < anzahl) {
-			if (arraymitWissenBasis[y][x+1].besucht) {
-				arraymitWissenBasis[y][x+1].geruch = false;
-				if( agentY !=y && agentX!=x+1){
-					wump.aktualisiereBild(y, x+1);
+			if (arraymitWissenBasis[y][x + 1].besucht) {
+				System.out.println("vierterFall" + "Agent(" + agentY + "|" + agentX + ") Feld(" + (y) + "|" + (x + 1) + ")");
+				arraymitWissenBasis[y][x + 1].geruch = false;
+				if (agentY != y && agentX == x + 1 || agentY == y && agentX != x + 1 || agentY != y && agentX != x + 1) {
+					System.out.println("vierterFall" + "Agent(" + agentY + "|" + agentX + ") Feld(" + y + "|" + (x + 1) + ")");
+					wump.aktualisiereBild(y, x + 1);
 				}
 			}
 		}
 	}
 
+	private void sendeSpeichern(String temp) {
+		wump.speichereBewegung(temp, arraymitWissenBasis.clone(), wump.weltArray);
+	}
 }

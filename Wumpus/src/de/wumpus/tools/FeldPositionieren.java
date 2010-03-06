@@ -345,6 +345,10 @@ public class FeldPositionieren {
 		}
 		return temp;
 	}
+	
+	public int letzteStelle(int wahrnehmung){
+		return separateWahrnehmungen(wahrnehmung)[separateWahrnehmungen(wahrnehmung).length-1];
+	}
 
 //	public static void main(String[] args) {
 //		FeldPositionieren fp = new FeldPositionieren();
