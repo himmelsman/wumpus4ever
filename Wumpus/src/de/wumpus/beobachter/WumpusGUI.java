@@ -263,10 +263,8 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 					System.out.println("ALT + A");
 					setEnabled(false);
 					new AboutScreen(guiFrame);
-				} else if (arg0.getKeyCode() == KeyEvent.VK_Z && altPressed) {
+				} else if (arg0.getKeyCode() == KeyEvent.VK_Z) {
 					wump.schickeAgentZurueck();
-				} else if (arg0.getKeyCode() == KeyEvent.VK_T) {
-					wump.testCase();
 				}
 				// Abfage der Tastaturpfeile
 				if (arg0.getKeyCode() == KeyEvent.VK_LEFT && !shiftPressed) {

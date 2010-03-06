@@ -52,21 +52,16 @@ public class Agent implements Observer {
 	}
 
 	public void update(Observable obj, Object arg) {
-		// System.out.println("Ich bin der Agent in kl. Agent");
 		if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.AGENT)) {
 			agentY = ((NachrichtenObjekt) arg).y;
 			agentX = ((NachrichtenObjekt) arg).x;
 			verarbeiteWahrnehmung(agentY, agentX);
 		}
 		if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.NEUES_SPIEL)) {
-			// positionDesAgentes(((NachrichtenObjekt) arg).y, ((NachrichtenObjekt) arg).x, ((NachrichtenObjekt) arg).wahrnehmung);
-			// System.out.println("Wissenbasis des Abentes");
 			agentY = ((NachrichtenObjekt) arg).y;
 			agentX = ((NachrichtenObjekt) arg).x;
 			neuesSpiel();
 			verarbeiteWahrnehmung(agentY, agentX);
-			// bewegeAgenten();
-			// ausgabe();
 		}
 		if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.BEWEGE_AGENT)) {
 			bewegeAgenten();
@@ -139,7 +134,7 @@ public class Agent implements Observer {
 					pfeil = true;
 				}
 			} else {
-				// TODO: Fehler wenn Liste leer ausgeben.
+				Toolkit.getDefaultToolkit().beep();
 
 			}
 		}
@@ -204,7 +199,7 @@ public class Agent implements Observer {
 			return true;
 		} else {
 			// TODO: weiterleitung der Wahrnehmung an GUI mit abzug von Punkten wegen Bewegung
-			System.out.println("BUMP");
+			// System.out.println("BUMP");
 			return false;
 		}
 	}
@@ -383,21 +378,12 @@ public class Agent implements Observer {
 		boolean weiterMachen = true;
 		sucheDieRoute(agentY, agentX);
 		if (!bewegungsListe.isEmpty()) {
-			String temp = bewegungsListe.poll();
-			sendeSpeichern(temp);
-			wump.bewegeAgent(temp);
+			wump.bewegeAgent(bewegungsListe.poll());
 			verarbeiteWahrnehmung(agentY, agentX);
 			if (!sitzeNichtAufGold(agentY, agentX)) {
 				wump.sendeSpielZuEnde();
 			}
-			// verarbeiteWahrnehmung(agentY, agentX);
-			// int richtung = (int) ((Math.random()) * 4 + 1);
-			// Falls Agent am Anfang nicht weiss wohin
-			// do {
-
-			// System.err.println("AgentY " + agentY + " AgentX " + agentX);
 			// TODO: wenn agent schon einmal sich bewegt hat, muss die setzeKeinGefahrWennKeineWahrnehmung(y,x) aufgeruffen werden.
-			// System.err.println("bewegeAgenten: " + richtung);
 		} else if (bewegungsListe.isEmpty()) {
 			System.out.println("Bewegungsliste war leer, random wird verwendet.");
 			richtung = bestimmeDieRichtung(agentY, agentX);
@@ -406,8 +392,6 @@ public class Agent implements Observer {
 				System.out.println("Agent(" + agentY + "|" + agentX + ") versucht nach oben zu gehen");
 				if (ichBinNichtAuserhalb(agentY - 1, agentX)) {
 					if (!(arraymitWissenBasis[agentY - 1][agentX].gefahr)) {
-						// if (!pruefeFeldNachGefahr(agentY - 1, agentX)) {
-						// if (pruefeFeldNachSicherheit(agentY - 1, agentX)) {
 						agentY = agentY - 1;
 						wump.bewegeAgent(Bezeichnungen.UP);
 						verarbeiteWahrnehmung(agentY, agentX);
@@ -514,10 +498,7 @@ public class Agent implements Observer {
 			}
 			}
 		}
-		// ausgabe();
-		// new Scanner(System.in).next();
 		ersteSchritt = true;
-		// } while (false);
 		if (weiterMachen) {
 			wump.agentIstFertig();
 		}

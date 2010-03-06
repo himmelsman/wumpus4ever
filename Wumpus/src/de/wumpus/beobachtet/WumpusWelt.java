@@ -273,25 +273,17 @@ public class WumpusWelt extends Observable {
 	public EinSchrittZurueck letzteBewegung() {
 		if (!globaleListe.isEmpty()) {
 			EinSchrittZurueck temp = globaleListe.removeLast();
-			System.out.println("Richtung " + temp.holeBewegung() + " Feld " + temp.holeFeld().length + " Welt " + temp.holeWelt().length);
 			alteWelt(temp.holeWelt());
 			return temp;
 		}
 		return null;
 	}
 
-	public void testCase() {
-		weltArray[0][0] = 5678;
-		System.out.println("Test");
-	}
-
 	private void alteWelt(int[][] alteWelt) {
 		int tempY = agent_y, tempX = agent_x;
 		for (int j = 0; j < weltArray.length; j++) {
-				System.arraycopy(alteWelt[j], 0, weltArray[j], 0, alteWelt.length);
-			}
-		
-
+			System.arraycopy(alteWelt[j], 0, weltArray[j], 0, alteWelt.length);
+		}
 		for (int i = 0; i < anzahl; i++) {
 			for (int j = 0; j < anzahl; j++) {
 				if (bestimmeDieErsteZahl(weltArray[i][j]) == 1) {
@@ -305,15 +297,19 @@ public class WumpusWelt extends Observable {
 	}
 
 	public void speichereBewegung(String richtung, Feld[][] copy, int[][] weltCopy) {
-		int[][] neueWeltArray = new int[weltCopy.length][weltCopy.length];
+		int[][] tempWA = new int[weltCopy.length][weltCopy.length];
 		for (int j = 0; j < weltArray.length; j++) {
-			System.arraycopy(weltCopy[j], 0, neueWeltArray[j], 0, weltCopy.length);
+			System.arraycopy(weltCopy[j], 0, tempWA[j], 0, weltCopy.length);
 		}
-		globaleListe.add(new EinSchrittZurueck(richtung, copy, neueWeltArray));
+		Feld[][] tempWB = new Feld[copy.length][copy.length];
+		for (int j = 0; j < copy.length; j++) {
+			System.arraycopy(copy[j], 0, tempWB[j], 0, copy.length);
+		}
+		globaleListe.add(new EinSchrittZurueck(richtung, tempWB, tempWA));
 	}
-	
+
 	public void sagAgentSpeichern(int temp) {
 		setChanged();
-		notifyObservers(new NachrichtenObjekt(0, 0, new int[] {temp}, Bezeichnungen.SPEICHERN));
+		notifyObservers(new NachrichtenObjekt(0, 0, new int[] { temp }, Bezeichnungen.SPEICHERN));
 	}
 }
