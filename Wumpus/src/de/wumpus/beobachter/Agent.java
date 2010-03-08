@@ -43,7 +43,7 @@ public class Agent implements Observer {
 			arraymitWissenBasis = new Feld[anzahl][anzahl];
 			for (int j = 0; j < anzahl; j++) {
 				for (int i = 0; i < anzahl; i++) {
-					arraymitWissenBasis[j][i] = new Feld();
+					arraymitWissenBasis[j][i] = new Feld(j, i);
 				}
 			}
 			pfeil = true;
@@ -668,13 +668,13 @@ public class Agent implements Observer {
 					if (arraymitWissenBasis[j][i].geruch) {
 						// TODO: wenn erste bedinung stimm, dann stimmt die zweite stelle(if) usw.
 						if (geheNichtNochmal == 0) {
-							erstesFeldMitGeruch = arraymitWissenBasis[j][i];
+							erstesFeldMitGeruch = new Feld(j, i);// arraymitWissenBasis[j][i];
 							geheNichtNochmal = 1;
 						} else if (geheNichtNochmal == 1) {
-							zweitesFeldMitGeruch = arraymitWissenBasis[j][i];
+							zweitesFeldMitGeruch = new Feld(j, i);// arraymitWissenBasis[j][i];
 							geheNichtNochmal = 2;
 						} else if (geheNichtNochmal == 2) {
-							drittesFeldMitGeruch = arraymitWissenBasis[j][i];
+							drittesFeldMitGeruch = new Feld(j, i);// arraymitWissenBasis[j][i];
 							geheNichtNochmal = 3;
 						} else if (geheNichtNochmal == 3) {
 							// viertesFeldMitGeruch = arraymitWissenBasis[j][i];
@@ -687,6 +687,7 @@ public class Agent implements Observer {
 		}
 
 		if (geheNichtNochmal == 1) {
+			// return null;
 			Feld unteresFeld = null;
 			Feld oberesFeld = null;
 			Feld linkesFeld = null;
@@ -841,7 +842,6 @@ public class Agent implements Observer {
 			for (int i = 0; i < anzahl; i++) {
 				if (arraymitWissenBasis[j][i].besucht) {
 					if (arraymitWissenBasis[j][i].glitter) {
-						// TODO: wenn erste bedinung stimm, dann stimmt die zweite stelle(if) usw.
 						if (geheNichtNochmal == 0) {
 							erstesFeldMitGlitter = arraymitWissenBasis[j][i];
 							geheNichtNochmal = 1;
@@ -862,6 +862,7 @@ public class Agent implements Observer {
 		}
 
 		if (geheNichtNochmal == 1) {
+			// return null;
 			Feld unteresFeld = null;
 			Feld oberesFeld = null;
 			Feld linkesFeld = null;
@@ -897,9 +898,19 @@ public class Agent implements Observer {
 				if (istGoldDa(erstesFeldMitGlitter.y, erstesFeldMitGlitter.x + 1)) {
 					return new Position(erstesFeldMitGlitter.y, erstesFeldMitGlitter.x + 1);
 				}
-				if (istGoldDa(erstesFeldMitGlitter.y + 1, erstesFeldMitGlitter.x)) {
-					return new Position(erstesFeldMitGlitter.y + 1, erstesFeldMitGlitter.x);
+				if (erstesFeldMitGlitter.glitter && zweitesFeldMitGlitter.glitter && arraymitWissenBasis[erstesFeldMitGlitter.y][erstesFeldMitGlitter.x + 1].besucht) {
+					// return new Position(erstesFeldMitGlitter.y + 1, erstesFeldMitGlitter.x);
+					Position genauesZiel = new Position(erstesFeldMitGlitter.y + 1, erstesFeldMitGlitter.x);
+					return genauesZiel;
+				} else if (erstesFeldMitGlitter.glitter && zweitesFeldMitGlitter.glitter && arraymitWissenBasis[erstesFeldMitGlitter.y+1][erstesFeldMitGlitter.x].besucht) {
+					// return new Position(erstesFeldMitGlitter.y + 1, erstesFeldMitGlitter.x);
+					Position genauesZiel = new Position(erstesFeldMitGlitter.y, erstesFeldMitGlitter.x+1);
+					return genauesZiel;
+					//TODO: zweite fall
 				}
+				// if (istGoldDa(erstesFeldMitGlitter.y + 1, erstesFeldMitGlitter.x)) {
+				// return new Position(erstesFeldMitGlitter.y + 1, erstesFeldMitGlitter.x);
+				// }
 			} else if (erstesFeldMitGlitter.y + 1 == zweitesFeldMitGlitter.y && erstesFeldMitGlitter.x - 1 == zweitesFeldMitGlitter.x) {
 				if (istGoldDa(erstesFeldMitGlitter.y, erstesFeldMitGlitter.x - 1)) {
 					return new Position(erstesFeldMitGlitter.y, erstesFeldMitGlitter.x - 1);
@@ -1284,11 +1295,19 @@ public class Agent implements Observer {
 		for (int y = 0; y < anzahl; y++) {
 			for (int x = 0; x < anzahl; x++) {
 				if (!arraymitWissenBasis[y][x].besucht) {
-					if (istGoldDa(y, x)) {
-						System.out.println("Gold zuweisen");
-						zielY = y;
-						zielX = x;
+					Position gold = istGoldDa();
+					if (gold == null) {
+						if (istGoldDa(y, x)) {
+							System.out.println("Gold zuweisen");
+							zielY = y;
+							zielX = x;
+						}
+					} else {
+						zielY = gold.y;
+						zielX = gold.x;
+
 					}
+					// istGoldDa();
 				}
 			}
 		}
@@ -1320,11 +1339,18 @@ public class Agent implements Observer {
 		if (zielY == -1 && zielX == -1) {
 			for (int y = 0; y < anzahl; y++) {
 				for (int x = 0; x < anzahl; x++) {
-					if (istWumpusDa(y, x)) {
-						System.out.println("Wumpus zum Toeten zuweisen");
-						zielY = y;
-						zielX = x;
+					Position wump = istWumpusDa();
+					if (wump == null) {
+						if (istWumpusDa(y, x)) {
+							System.out.println("Wumpus zum Toeten zuweisen");
+							zielY = y;
+							zielX = x;
+							wumpusToeten = true;
+						}
+					} else {
 						wumpusToeten = true;
+						zielY = wump.y;
+						zielX = wump.x;
 					}
 				}
 			}

@@ -116,7 +116,7 @@ public class Benutzerdefiniertes_Feld extends JFrame {
 				{
 					schliessenButton = new JButton();
 					getContentPane().add(schliessenButton, new GridBagConstraints(1, 6, 2, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					schliessenButton.setText("Schlieﬂen");
+					schliessenButton.setText("Eingeben");
 					schliessenButton.addMouseListener(new MouseListener() {
 						@Override
 						public void mouseClicked(MouseEvent e) {

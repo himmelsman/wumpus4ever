@@ -12,15 +12,19 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.*;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
@@ -33,6 +37,19 @@ import de.wumpus.tools.Bezeichnungen;
 import de.wumpus.tools.HelpScreen;
 import de.wumpus.tools.NachrichtenObjekt;
 
+
+/**
+* This code was edited or generated using CloudGarden's Jigloo
+* SWT/Swing GUI Builder, which is free for non-commercial
+* use. If Jigloo is being used commercially (ie, by a corporation,
+* company or business for any purpose whatever) then you
+* should purchase a license for each developer using Jigloo.
+* Please visit www.cloudgarden.com for details.
+* Use of Jigloo implies acceptance of these licensing terms.
+* A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
+* THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
+* LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
+*/
 @SuppressWarnings("serial")
 public class WumpusGUI extends JFrame implements Observer, ActionListener {
 	private WumpusGUI guiFrame;
@@ -58,6 +75,11 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 	// private JLabel jLabel6;
 	GridBagLayout thisLayout = new GridBagLayout();
 	private boolean altPressed = false;
+	private JTextArea jTextArea1;
+	private JButton jButton2;
+	private JButton jButton1;
+	private JPanel jPanel2;
+	private JPanel jPanel1;
 	private boolean shiftPressed = false;
 	private int agentSchrittZahler = 0;
 	private int gesamtPunktenAnzahl = 10000;
@@ -148,6 +170,91 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 
 					}
 				}
+				{
+					jPanel1 = new JPanel();
+					GridBagLayout jPanel1Layout = new GridBagLayout();
+					getContentPane().add(jPanel1, new GridBagConstraints(0, 6, 1, 2, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+					jPanel1Layout.rowWeights = new double[] {0.03, 0.1, 0.1, 0.1};
+					jPanel1Layout.rowHeights = new int[] {7, 7, 7, 7};
+					jPanel1Layout.columnWeights = new double[] {0.01, 0.1, 0.03, 0.1, 0.01};
+					jPanel1Layout.columnWidths = new int[] {7, 7, 7, 7, 7};
+					jPanel1.setLayout(jPanel1Layout);
+					{
+						jButton1 = new JButton();
+						jPanel1.add(jButton1, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
+						jButton1.setText("Zurück");
+						jButton1.setFocusable(false);
+						jButton1.addMouseListener(new MouseListener(){
+							@Override
+							public void mouseClicked(MouseEvent e) {
+								wump.schickeAgentZurueck();
+							}
+
+							@Override
+							public void mouseEntered(MouseEvent e) {
+							}
+
+							@Override
+							public void mouseExited(MouseEvent e) {
+							}
+
+							@Override
+							public void mousePressed(MouseEvent e) {
+							}
+
+							@Override
+							public void mouseReleased(MouseEvent e) {
+							}
+
+						});
+					}
+					{
+						jButton2 = new JButton();
+						jPanel1.add(jButton2, new GridBagConstraints(3, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
+						jButton2.setText(" Next ");
+						jButton2.setFocusable(false);
+						jButton2.addMouseListener(new MouseListener(){
+
+							@Override
+							public void mouseClicked(MouseEvent e) {
+								wump.bewegeAgentPerTaste();
+							}
+
+							@Override
+							public void mouseEntered(MouseEvent e) {
+							}
+
+							@Override
+							public void mouseExited(MouseEvent e) {
+							}
+
+							@Override
+							public void mousePressed(MouseEvent e) {
+							}
+
+							@Override
+							public void mouseReleased(MouseEvent e) {
+							}
+							
+						});
+					}
+				}
+				{
+					jPanel2 = new JPanel();
+					GridBagLayout jPanel2Layout = new GridBagLayout();
+					jPanel2Layout.columnWidths = new int[] {7, 7, 7, 7};
+					jPanel2Layout.rowHeights = new int[] {7, 7, 7, 7};
+					jPanel2Layout.columnWeights = new double[] {0.1, 0.1, 0.1, 0.1};
+					jPanel2Layout.rowWeights = new double[] {0.1, 0.1, 0.1, 0.1};
+					getContentPane().add(jPanel2, new GridBagConstraints(1, 6, 3, 2, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+					jPanel2.setLayout(jPanel2Layout);
+					{
+						jTextArea1 = new JTextArea();
+						jPanel2.add(jTextArea1, new GridBagConstraints(0, 0, 4, 4, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+						jTextArea1.setText("WissenBasis des Agentes");
+						jTextArea1.setEnabled(false);
+					}
+				}
 				/* Menu Initialisierung */
 				{
 					jMenuBar = new JMenuBar();
@@ -182,21 +289,21 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 							// exit.addKeyListener(this);
 							exit.addActionListener(this);
 						}
-						optionen = new JMenu();
-						jMenuBar.add(optionen);
-						optionen.setText("Optionen");
-						{
-							JMenuItem mensch = new JMenuItem(OPTIONMENUITEM1);
-							optionen.add(mensch);
-							JMenuItem ki_agent = new JMenuItem(OPTIONMENUITEM2);
-							optionen.add(ki_agent);
-
-							// jSeparator1 = new JSeparator(); /* Trennlinie */
-							// optionen.add(jSeparator1);
-							//
-							// JMenuItem geschwindigkeit = new JMenuItem(optionMenuItem3);
-							// optionen.add(geschwindigkeit);
-						}
+//						optionen = new JMenu();
+//						jMenuBar.add(optionen);
+//						optionen.setText("Optionen");
+//						{
+//							JMenuItem mensch = new JMenuItem(OPTIONMENUITEM1);
+//							optionen.add(mensch);
+//							JMenuItem ki_agent = new JMenuItem(OPTIONMENUITEM2);
+//							optionen.add(ki_agent);
+//
+//							// jSeparator1 = new JSeparator(); /* Trennlinie */
+//							// optionen.add(jSeparator1);
+//							//
+//							// JMenuItem geschwindigkeit = new JMenuItem(optionMenuItem3);
+//							// optionen.add(geschwindigkeit);
+//						}
 						help = new JMenu();
 						jMenuBar.add(help);
 						help.setText("Help");
