@@ -29,6 +29,52 @@ public class Feld {
 		this.y = y;
 		this.x = x;
 	}
+	
+	public Feld clone(){
+		Feld temp = new Feld();
+		if(besucht){
+			temp.besucht = true;	
+		}
+		if(!versteckt){
+			temp.versteckt = false;	
+		}
+		if(!gefahr){
+			temp.gefahr = false;	
+		}
+		if(wumpus){
+			temp.wumpus = true;	
+		}
+		if(fallgrube){
+			temp.fallgrube = true;	
+		}
+		if(gold){
+			temp.gold = true;	
+		}
+		if(brise){
+			temp.brise = true;	
+		}
+		if(geruch){
+			temp.brise = true;	
+		}
+		if(glitter){
+			temp.glitter = true;	
+		}
+		if(wandO){
+			temp.wandO = true;	
+		}
+		if(wandU){
+			temp.wandU = true;	
+		}
+		if(wandL){
+			temp.wandL = true;	
+		}
+		if(wandR){
+			temp.wandR = true;	
+		}
+		temp.y = y;
+		temp.x = x;
+		return temp;
+	}
 }
 
 //

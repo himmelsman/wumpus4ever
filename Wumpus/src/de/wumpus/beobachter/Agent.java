@@ -1490,6 +1490,6 @@ public class Agent implements Observer {
 	}
 
 	private void sendeSpeichern(String temp) {
-		wump.speichereBewegung(temp, arraymitWissenBasis.clone(), wump.weltArray);
+		wump.speichereBewegung(temp, arraymitWissenBasis, wump.weltArray);
 	}
 }

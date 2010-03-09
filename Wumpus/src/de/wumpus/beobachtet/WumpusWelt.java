@@ -303,7 +303,10 @@ public class WumpusWelt extends Observable {
 		}
 		Feld[][] tempWB = new Feld[copy.length][copy.length];
 		for (int j = 0; j < copy.length; j++) {
-			System.arraycopy(copy[j], 0, tempWB[j], 0, copy.length);
+			for (int i = 0; i < copy.length; i++) {
+				tempWB[j][i] = copy[j][i].clone();
+			}
+//			System.arraycopy(arraymitWissenBasis[j], 0, tempArrayMitWissensBasis[j], 0, arraymitWissenBasis.length);
 		}
 		globaleListe.add(new EinSchrittZurueck(richtung, tempWB, tempWA));
 	}
