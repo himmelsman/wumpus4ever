@@ -23,6 +23,7 @@ import javax.swing.JTextArea;
 public class AboutScreen extends JFrame {
 
 	JFrame main;
+	ScrollText scr;
 	private JScrollPane jScrollPane1;
 	private JButton jButton1;
 	private JTextArea aboutTextArea;
@@ -40,12 +41,14 @@ public class AboutScreen extends JFrame {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				main.setEnabled(true);
+				scr.stop();
 				dispose();
 			}
 
 		});
 		setLocationRelativeTo(null);
 		setVisible(true);
+		scr.start();
 	}
 	 
 	private void initGUI() {
@@ -61,7 +64,7 @@ public class AboutScreen extends JFrame {
 				getContentPane().setLayout(thisLayout);
 				{
 					jScrollPane1 = new JScrollPane();
-					getContentPane().add(jScrollPane1, new GridBagConstraints(0, 0, 4, 3, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+					getContentPane().add(jScrollPane1, new GridBagConstraints(0, 0, 4, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 					{
 						aboutTextArea = new JTextArea();
 						jScrollPane1.setViewportView(aboutTextArea);
@@ -69,6 +72,10 @@ public class AboutScreen extends JFrame {
 						aboutTextArea.setLineWrap(true);
 						aboutTextArea.setEditable(false);
 					}
+				}
+				{
+					scr = new ScrollText(getSize().width,200);
+					getContentPane().add(scr, new GridBagConstraints(0, 1, 4, 2, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 				}
 				{
 					jButton1 = new JButton();
