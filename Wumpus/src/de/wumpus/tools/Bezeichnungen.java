@@ -36,4 +36,5 @@ public class Bezeichnungen {
 	public static final String EIN_SCHRITT_ZURUECK = "EIN_SCHRITT_ZURUECK";
 	public static final String WECHSLE_AGENT = "WECHSLE_AGENT";
 	public static final String SPEICHERN = "SPEICHERN";
+	public static final String ICH_WEISS_WO_IST_WUMPUS = "ICH_WEISS_WO_IST_WUMPUS";
 }

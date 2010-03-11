@@ -49,6 +49,7 @@ public class ScrollText extends JPanel implements Runnable {
 		Vector<String> credits = new Vector<String>();
 		{
 			int i = 0;
+			//TODO: Die Danksagungen vervollständigen bzw. an anderer Stelle erzeugen und nur referenzieren.
 			String[] line = new String[]{"Special Thanks To:", "","Andreas Holste", "", "Für kreative Ideen am Rande des Wahnsinns.", "", "Max und Moritz", "", "Für das erwärmen meiner Füße an kalten Tagen."};
 			while (i<line.length)
 				credits.addElement(line[i++]);

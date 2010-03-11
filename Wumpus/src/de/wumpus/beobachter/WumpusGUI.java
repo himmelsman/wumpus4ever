@@ -18,6 +18,7 @@ import java.util.*;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -28,6 +29,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 import de.wumpus.beobachtet.WumpusWelt;
@@ -75,10 +77,17 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 	// private JLabel jLabel6;
 	GridBagLayout thisLayout = new GridBagLayout();
 	private boolean altPressed = false;
+	private JCheckBox jCheckBox1;
+	private JButton pfeilNachUnten;
+	private JButton pfeilNachRechts;
+	private JButton pfeilNachLinks;
+	private JButton pfeilNachOben;
+	private JLabel pfeilLabel;
+	private JPanel emulation_Tastatur_Panel;
 	private JTextArea jTextArea1;
 	private JButton jButton2;
 	private JButton jButton1;
-	private JPanel jPanel2;
+	private JScrollPane jPanel2;
 	private JPanel jPanel1;
 	private boolean shiftPressed = false;
 	private int agentSchrittZahler = 0;
@@ -121,13 +130,13 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 				/* Ablauflayout */
 				{
 					ablaufScrollPanel = new JScrollPane();
+					ablaufScrollPanel.setBorder(BorderFactory.createTitledBorder("Ablauf"));
 					getContentPane().add(ablaufScrollPanel, new GridBagConstraints(0, 0, 1, 6, 0.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 					ablaufScrollPanel.setPreferredSize(new java.awt.Dimension(100, 1));
 					{
 						ablaufTextArea = new JTextArea();
 						ablaufTextArea.setLineWrap(true);
 						ablaufScrollPanel.setViewportView(ablaufTextArea);
-						ablaufTextArea.setBorder(BorderFactory.createTitledBorder("Ablauf"));
 						ablaufTextArea.setEnabled(false);
 						ablaufTextArea.setFont(new Font("Arial", Font.PLAIN, 14));
 						ablaufTextArea.setBackground(Color.white);
@@ -145,12 +154,12 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 				}
 				{ /* Statistiklayout */
 					statistikScrollPanel = new JScrollPane();
+					statistikScrollPanel.setBorder(BorderFactory.createTitledBorder("Statistik"));
 					getContentPane().add(statistikScrollPanel, new GridBagConstraints(4, 0, 1, 6, 0.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 					statistikScrollPanel.setPreferredSize(new java.awt.Dimension(100, 1));
 					{
 						statistikTextArea = new JTextArea();
 						statistikScrollPanel.setViewportView(statistikTextArea);
-						statistikTextArea.setBorder(BorderFactory.createTitledBorder("Statistik"));
 						statistikTextArea.setEnabled(false);
 						GridBagLayout statistikLayout = new GridBagLayout();
 						statistikLayout.rowWeights = new double[] { 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1 };
@@ -174,6 +183,7 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 					jPanel1 = new JPanel();
 					GridBagLayout jPanel1Layout = new GridBagLayout();
 					getContentPane().add(jPanel1, new GridBagConstraints(0, 6, 1, 2, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+					jPanel1.setPreferredSize(new java.awt.Dimension(100, 1));
 					jPanel1Layout.rowWeights = new double[] {0.03, 0.1, 0.1, 0.1};
 					jPanel1Layout.rowHeights = new int[] {7, 7, 7, 7};
 					jPanel1Layout.columnWeights = new double[] {0.01, 0.1, 0.03, 0.1, 0.01};
@@ -240,19 +250,175 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 					}
 				}
 				{
-					jPanel2 = new JPanel();
-					GridBagLayout jPanel2Layout = new GridBagLayout();
-					jPanel2Layout.columnWidths = new int[] {7, 7, 7, 7};
-					jPanel2Layout.rowHeights = new int[] {7, 7, 7, 7};
-					jPanel2Layout.columnWeights = new double[] {0.1, 0.1, 0.1, 0.1};
-					jPanel2Layout.rowWeights = new double[] {0.1, 0.1, 0.1, 0.1};
+					jPanel2 = new JScrollPane();
+					jPanel2.setBorder(BorderFactory.createTitledBorder("WissenBasis des Agentes"));
 					getContentPane().add(jPanel2, new GridBagConstraints(1, 6, 3, 2, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
-					jPanel2.setLayout(jPanel2Layout);
+					jPanel2.setPreferredSize(new java.awt.Dimension(100, 1));
 					{
 						jTextArea1 = new JTextArea();
-						jPanel2.add(jTextArea1, new GridBagConstraints(0, 0, 4, 4, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
-						jTextArea1.setText("WissenBasis des Agentes");
+						jTextArea1.setLineWrap(true);
+						jPanel2.setViewportView(jTextArea1);
+						jTextArea1.setText("TEXT");
 						jTextArea1.setEnabled(false);
+					}
+				}
+				{
+					emulation_Tastatur_Panel = new JPanel();
+					GridBagLayout jPanel3Layout = new GridBagLayout();
+					jPanel3Layout.columnWidths = new int[] {7, 7, 7, 7, 7};
+					jPanel3Layout.rowHeights = new int[] {7, 7, 7, 7, 7, 7};
+					jPanel3Layout.columnWeights = new double[] {0.02, 0.1, 0.1, 0.1, 0.02};
+					jPanel3Layout.rowWeights = new double[] {0.02, 0.1, 0.1, 0.1, 0.1, 0.02};
+					getContentPane().add(emulation_Tastatur_Panel, new GridBagConstraints(4, 6, 1, 2, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+					emulation_Tastatur_Panel.setPreferredSize(new java.awt.Dimension(100, 1));
+					emulation_Tastatur_Panel.setLayout(jPanel3Layout);					
+					{
+						pfeilNachOben = new JButton();
+						emulation_Tastatur_Panel.add(pfeilNachOben, new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+						pfeilNachOben.setText("\u2191");
+						pfeilNachOben.setFocusable(false);
+						pfeilNachOben.addMouseListener(new MouseListener(){
+
+							@Override
+							public void mouseClicked(MouseEvent e) {
+								if(jCheckBox1.isSelected()){
+									wump.bewegeAgent(Bezeichnungen.BENUTZE_PFEIL + " " + Bezeichnungen.UP);
+									jCheckBox1.setSelected(false);
+									jCheckBox1.setEnabled(false);
+								}else wump.bewegeAgent(Bezeichnungen.UP);
+							}
+
+							@Override
+							public void mouseEntered(MouseEvent e) {
+							}
+
+							@Override
+							public void mouseExited(MouseEvent e) {
+							}
+
+							@Override
+							public void mousePressed(MouseEvent e) {
+							}
+
+							@Override
+							public void mouseReleased(MouseEvent e) {
+							}
+							
+						});
+					}
+					{
+						pfeilNachLinks = new JButton();
+						emulation_Tastatur_Panel.add(pfeilNachLinks, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+						pfeilNachLinks.setText("\u2190");
+						pfeilNachLinks.setFocusable(false);
+						pfeilNachLinks.addMouseListener(new MouseListener(){
+
+							@Override
+							public void mouseClicked(MouseEvent e) {
+								if(jCheckBox1.isSelected()){
+								wump.bewegeAgent(Bezeichnungen.BENUTZE_PFEIL + " " + Bezeichnungen.LINKS);
+								jCheckBox1.setSelected(false);
+								jCheckBox1.setEnabled(false);
+							}else wump.bewegeAgent(Bezeichnungen.LINKS);
+							}
+
+							@Override
+							public void mouseEntered(MouseEvent e) {
+							}
+
+							@Override
+							public void mouseExited(MouseEvent e) {
+							}
+
+							@Override
+							public void mousePressed(MouseEvent e) {
+							}
+
+							@Override
+							public void mouseReleased(MouseEvent e) {
+							}
+							
+						});
+					}
+					{
+						pfeilNachRechts = new JButton();
+						emulation_Tastatur_Panel.add(pfeilNachRechts, new GridBagConstraints(3, 3, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+						pfeilNachRechts.setText("\u2192");
+						pfeilNachRechts.setFocusable(false);
+						pfeilNachRechts.addMouseListener(new MouseListener(){
+
+							@Override
+							public void mouseClicked(MouseEvent e) {
+								if(jCheckBox1.isSelected()){
+									wump.bewegeAgent(Bezeichnungen.BENUTZE_PFEIL + " " + Bezeichnungen.RECHTS);
+									jCheckBox1.setSelected(false);
+									jCheckBox1.setEnabled(false);
+								}else wump.bewegeAgent(Bezeichnungen.RECHTS);
+							}
+
+							@Override
+							public void mouseEntered(MouseEvent e) {
+							}
+
+							@Override
+							public void mouseExited(MouseEvent e) {
+							}
+
+							@Override
+							public void mousePressed(MouseEvent e) {
+							}
+
+							@Override
+							public void mouseReleased(MouseEvent e) {
+							}
+							
+						});
+					}
+					{
+						pfeilNachUnten = new JButton();
+						emulation_Tastatur_Panel.add(pfeilNachUnten, new GridBagConstraints(2, 4, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+						pfeilNachUnten.setText("\u2193");
+						pfeilNachUnten.setFocusable(false);
+						pfeilNachUnten.addMouseListener(new MouseListener(){
+
+							@Override
+							public void mouseClicked(MouseEvent e) {
+								if(jCheckBox1.isSelected()){
+									wump.bewegeAgent(Bezeichnungen.BENUTZE_PFEIL + " " + Bezeichnungen.DOWN);
+									jCheckBox1.setSelected(false);
+									jCheckBox1.setEnabled(false);
+								}else
+								wump.bewegeAgent(Bezeichnungen.DOWN);
+							}
+
+							@Override
+							public void mouseEntered(MouseEvent e) {
+							}
+
+							@Override
+							public void mouseExited(MouseEvent e) {
+							}
+
+							@Override
+							public void mousePressed(MouseEvent e) {
+							}
+
+							@Override
+							public void mouseReleased(MouseEvent e) {
+							}
+							
+						});
+					}
+					{
+						pfeilLabel = new JLabel("Pfeil benutzen");
+						emulation_Tastatur_Panel.add(pfeilLabel, new GridBagConstraints(1, 1, 2, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
+					}
+					{
+						jCheckBox1 = new JCheckBox();
+						emulation_Tastatur_Panel.add(jCheckBox1, new GridBagConstraints(3, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+						jCheckBox1.setEnabled(true);
+						jCheckBox1.setFocusable(false);
+//						jCheckBox1.setText("Ja/Nein");
 					}
 				}
 				/* Menu Initialisierung */
@@ -521,14 +687,14 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 				}
 			}
 		}
-		// if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.FERTIG)) {
-		// ablaufTextArea.setText(ablaufTextArea.getText());
-		// }
+		if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.ICH_WEISS_WO_IST_WUMPUS)) {
+			ablaufTextArea.setText(ablaufTextArea.getText() + "\n" + "Position des Wumpus(" + (((NachrichtenObjekt) arg).y + 1) + "|" + (((NachrichtenObjekt) arg).x + 1) + ")" + "\n");
+		}		
 		if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.SPIEL_ZU_ENDE)) {
 			JOptionPane.showMessageDialog(this, "Mario ist tod.", "Spiel zu Ende", JOptionPane.PLAIN_MESSAGE);
 		}
+				
 	}
-
 	@Override
 	public void actionPerformed(ActionEvent acev) {
 		String actionBefehl = acev.getActionCommand();

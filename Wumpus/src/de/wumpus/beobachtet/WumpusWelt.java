@@ -115,11 +115,9 @@ public class WumpusWelt extends Observable {
 	 */
 	public void neuesSpiel(int weltGroesse) {
 		grossedesFeldes(weltGroesse);
-		// System.out.println("Teste vor notifyObservers");
 		setChanged();
 		notifyObservers(new NachrichtenObjekt(0, 0, null, Bezeichnungen.REPAINT));
 		globaleListe.clear();
-		// System.out.println("Teste nach notifyObservers");
 	}
 
 	/**
@@ -203,7 +201,6 @@ public class WumpusWelt extends Observable {
 			if (weltArray != null) {
 				int alteWahrnehmung = weltArray[agent_y][agent_x];
 				int neueWahrnehmung = weltArray[agent_y + y_r][agent_x + x_r];
-				// System.out.println("alteWahrnehmung " + alteWahrnehmung + " " + weltArray[agent_y][agent_x]);
 				if (!wumpusToeten) {
 					weltArray[agent_y][agent_x] = positioniere.checkLast(positioniere.checkFirst(alteWahrnehmung), 9);
 					weltArray[agent_y + y_r][agent_x + x_r] = positioniere.checkLast(neueWahrnehmung, 1);
@@ -314,5 +311,9 @@ public class WumpusWelt extends Observable {
 	public void sagAgentSpeichern(int temp) {
 		setChanged();
 		notifyObservers(new NachrichtenObjekt(0, 0, new int[] { temp }, Bezeichnungen.SPEICHERN));
+	}
+	public void agetSagt(int y, int x){
+		setChanged();
+		notifyObservers(new NachrichtenObjekt(y, x, new int[] {}, Bezeichnungen.ICH_WEISS_WO_IST_WUMPUS));
 	}
 }
