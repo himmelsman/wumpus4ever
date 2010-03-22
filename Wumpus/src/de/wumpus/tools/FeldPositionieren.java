@@ -283,7 +283,9 @@ public class FeldPositionieren {
 			first = first * 10;
 		}
 		// if(zahl < 0)zahl = 9; und if(zahl == 0) zahl =9;
+		// System.out.println("checkFirst aufgerufen\nWert: " + original + " " + first + " " + (original - first));
 		return (original - first) <= 0 ? 9 : original - first;
+
 	}
 
 	/**
@@ -328,7 +330,7 @@ public class FeldPositionieren {
 	/**
 	 * Entfernt aus einer Wahrnehmungsfolge z.B. 123456 eine einzelne Wahrnehmung also wenn Zahl z.B. 4 dann liefert der return Wert 12356 zurück.
 	 * 
-	 * @param wahrnehmung 
+	 * @param wahrnehmung
 	 * @param zahl
 	 * @return Wahrnehmung ohne Zahl
 	 */
@@ -345,31 +347,56 @@ public class FeldPositionieren {
 		}
 		return temp;
 	}
-	
-	public int letzteStelle(int wahrnehmung){
-		return separateWahrnehmungen(wahrnehmung)[separateWahrnehmungen(wahrnehmung).length-1];
-	}
 
-//	public static void main(String[] args) {
-//		FeldPositionieren fp = new FeldPositionieren();
-//
-//		int temp = fp.entferneWahnehmung(123456, 4);
-//		System.out.println("Temp: " + temp);
-//		// int[] array = fp.separateWahrnehmungen(1230);
-//		// // for (int i = 0; i < array.length; i++) {
-//		// // System.out.println("array " + array[i]);
-//		// //
-//		// // }
-//		// // System.out.println("Fertig");
-//		// // System.out.println(fp.checkLast(5, 2));
-//		// // System.out.println(fp.checkLast(25, 7));
-//		// // System.out.println(fp.checkFirst(257, 2));
-//		// // System.out.println(fp.checkFirst(fp.checkFirst(257, 2), 5));
-//		// int[][] test = fp.myfeldPositionierung(4, new int[]{0,0,2,2,2,1,3,2});
-//		// for(int y = 0;y<4;y++){
-//		// for(int x = 0;x<4;x++){
-//		// System.out.println("Feld(" + (y) + "|" + x + ") " + test[y][x]);
-//		// }
-//		// }
-//	}
+//	 public int letzteStelle(int wahrnehmung) {
+//	 return separateWahrnehmungen(wahrnehmung)[separateWahrnehmungen(wahrnehmung).length - 1];
+//	 }
+
+	public int letzteStelle(int wahrnehmung) {
+		int zahlTemp = new Integer(wahrnehmung);
+		int zaehler = 0;
+		do {
+			zahlTemp = zahlTemp / 10;
+			zaehler++;
+		} while (zahlTemp > 10);
+		int temp = -1;
+		zahlTemp = new Integer(wahrnehmung);
+		int weiterzaehlen = new Integer(zaehler);
+		for (int i = 0; i <= zaehler; i++, weiterzaehlen--) {
+			temp = new Integer(zahlTemp);
+			int first = new Integer(bestimmeDieErsteZahl(zahlTemp));
+			for (int j = 0; j < weiterzaehlen; j++) {
+				first = first * 10;
+			}
+			zahlTemp = zahlTemp - first;
+			if (zahlTemp <= 0 && temp != 9) {
+				return 0;
+			}
+		}
+		System.out.println(temp + " " + zahlTemp);
+		return temp;
+
+	}
+	// public static void main(String[] args) {
+	// FeldPositionieren fp = new FeldPositionieren();
+	// System.out.println(fp.letzteStelle(0));
+	// int temp = fp.entferneWahnehmung(123456, 4);
+	// System.out.println("Temp: " + temp);
+	// // int[] array = fp.separateWahrnehmungen(1230);
+	// // // for (int i = 0; i < array.length; i++) {
+	// // // System.out.println("array " + array[i]);
+	// // //
+	// // // }
+	// // // System.out.println("Fertig");
+	// // // System.out.println(fp.checkLast(5, 2));
+	// // // System.out.println(fp.checkLast(25, 7));
+	// // // System.out.println(fp.checkFirst(257, 2));
+	// // // System.out.println(fp.checkFirst(fp.checkFirst(257, 2), 5));
+	// // int[][] test = fp.myfeldPositionierung(4, new int[]{0,0,2,2,2,1,3,2});
+	// // for(int y = 0;y<4;y++){
+	// // for(int x = 0;x<4;x++){
+	// // System.out.println("Feld(" + (y) + "|" + x + ") " + test[y][x]);
+	// // }
+	// // }
+	// }
 }

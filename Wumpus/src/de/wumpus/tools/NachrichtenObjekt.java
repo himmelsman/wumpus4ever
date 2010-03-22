@@ -5,6 +5,7 @@ public class NachrichtenObjekt {
 	public int x,y;
 	public int[] wahrnehmung;
 	public String information;
+	public String nachricht;
 	
 	
 	/**
@@ -19,5 +20,9 @@ public class NachrichtenObjekt {
 		x = _x;
 		wahrnehmung = _wahrnehmung;
 		information  = _info;
+	}
+	public NachrichtenObjekt(String _info, String _nachricht){
+		information = _info;
+		nachricht = _nachricht;
 	}
 }

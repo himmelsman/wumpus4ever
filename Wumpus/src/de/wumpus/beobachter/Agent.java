@@ -668,13 +668,13 @@ public class Agent implements Observer {
 					if (arraymitWissenBasis[j][i].geruch) {
 						// TODO: wenn erste bedinung stimm, dann stimmt die zweite stelle(if) usw.
 						if (geheNichtNochmal == 0) {
-							erstesFeldMitGeruch = new Feld(j, i);// arraymitWissenBasis[j][i];
+							erstesFeldMitGeruch = arraymitWissenBasis[j][i];
 							geheNichtNochmal = 1;
 						} else if (geheNichtNochmal == 1) {
-							zweitesFeldMitGeruch = new Feld(j, i);// arraymitWissenBasis[j][i];
+							zweitesFeldMitGeruch = arraymitWissenBasis[j][i];
 							geheNichtNochmal = 2;
 						} else if (geheNichtNochmal == 2) {
-							drittesFeldMitGeruch = new Feld(j, i);// arraymitWissenBasis[j][i];
+							drittesFeldMitGeruch = arraymitWissenBasis[j][i];
 							geheNichtNochmal = 3;
 						} else if (geheNichtNochmal == 3) {
 							// viertesFeldMitGeruch = arraymitWissenBasis[j][i];
@@ -716,32 +716,32 @@ public class Agent implements Observer {
 			}
 		} else if (geheNichtNochmal == 2) {
 			if (erstesFeldMitGeruch.y + 2 == zweitesFeldMitGeruch.y && erstesFeldMitGeruch.x == zweitesFeldMitGeruch.x) {
-				wump.agetSagt(erstesFeldMitGeruch.y - 1, erstesFeldMitGeruch.x);
+//				wump.agetSagt(erstesFeldMitGeruch.y - 1, erstesFeldMitGeruch.x);
 				return new Position(erstesFeldMitGeruch.y - 1, erstesFeldMitGeruch.x);
 			} else if (erstesFeldMitGeruch.y == zweitesFeldMitGeruch.y && erstesFeldMitGeruch.x + 2 == zweitesFeldMitGeruch.x) {
-				wump.agetSagt(erstesFeldMitGeruch.y, erstesFeldMitGeruch.x + 1);
+//				wump.agetSagt(erstesFeldMitGeruch.y, erstesFeldMitGeruch.x + 1);
 				return new Position(erstesFeldMitGeruch.y, erstesFeldMitGeruch.x + 1);
 			} else if (erstesFeldMitGeruch.geruch && zweitesFeldMitGeruch.geruch && ichBinNichtAuserhalb(erstesFeldMitGeruch.y, erstesFeldMitGeruch.x + 1)) {
 				if (arraymitWissenBasis[erstesFeldMitGeruch.y][erstesFeldMitGeruch.x + 1].besucht) {
-					wump.agetSagt(erstesFeldMitGeruch.y + 1, erstesFeldMitGeruch.x);
+//					wump.agetSagt(erstesFeldMitGeruch.y + 1, erstesFeldMitGeruch.x);
 					return new Position(erstesFeldMitGeruch.y + 1, erstesFeldMitGeruch.x);
 				}
 			} else if (erstesFeldMitGeruch.geruch && zweitesFeldMitGeruch.geruch && ichBinNichtAuserhalb(erstesFeldMitGeruch.y + 1, erstesFeldMitGeruch.x)) {
 				if (arraymitWissenBasis[erstesFeldMitGeruch.y + 1][erstesFeldMitGeruch.x].besucht) {
-					wump.agetSagt(erstesFeldMitGeruch.y, erstesFeldMitGeruch.x + 1);
+//					wump.agetSagt(erstesFeldMitGeruch.y, erstesFeldMitGeruch.x + 1);
 					return new Position(erstesFeldMitGeruch.y, erstesFeldMitGeruch.x + 1);
 				}
 			} else if (erstesFeldMitGeruch.geruch && zweitesFeldMitGeruch.geruch && ichBinNichtAuserhalb(erstesFeldMitGeruch.y, erstesFeldMitGeruch.x - 1)) {
 				if (arraymitWissenBasis[erstesFeldMitGeruch.y][erstesFeldMitGeruch.x - 1].besucht) {
-					wump.agetSagt(erstesFeldMitGeruch.y + 1, erstesFeldMitGeruch.x);
+//					wump.agetSagt(erstesFeldMitGeruch.y + 1, erstesFeldMitGeruch.x);
 					return new Position(erstesFeldMitGeruch.y + 1, erstesFeldMitGeruch.x);
 				}
 			} else if (erstesFeldMitGeruch.geruch && zweitesFeldMitGeruch.geruch && ichBinNichtAuserhalb(erstesFeldMitGeruch.y + 1, erstesFeldMitGeruch.x)) {
 				if (arraymitWissenBasis[erstesFeldMitGeruch.y + 1][erstesFeldMitGeruch.x].besucht) {
-					wump.agetSagt(erstesFeldMitGeruch.y, erstesFeldMitGeruch.x - 1);
+//					wump.agetSagt(erstesFeldMitGeruch.y, erstesFeldMitGeruch.x - 1);
 					return new Position(erstesFeldMitGeruch.y, erstesFeldMitGeruch.x - 1);
 				}
-			}		
+			}
 		} else if (geheNichtNochmal == 3) {
 			if (erstesFeldMitGeruch.y + 1 == drittesFeldMitGeruch.y && erstesFeldMitGeruch.x + 1 == drittesFeldMitGeruch.x) {
 				if (erstesFeldMitGeruch.y == zweitesFeldMitGeruch.y && erstesFeldMitGeruch.x + 2 == zweitesFeldMitGeruch.x) {
@@ -751,7 +751,7 @@ public class Agent implements Observer {
 			} else if (erstesFeldMitGeruch.y + 1 == zweitesFeldMitGeruch.y && erstesFeldMitGeruch.x - 1 == zweitesFeldMitGeruch.x) {
 				wump.agetSagt(erstesFeldMitGeruch.y, erstesFeldMitGeruch.x + 1);
 				return new Position(erstesFeldMitGeruch.y, erstesFeldMitGeruch.x + 1);
-			} else if (erstesFeldMitGeruch.y + 2 == drittesFeldMitGeruch.y && erstesFeldMitGeruch.x == drittesFeldMitGeruch.x) {				
+			} else if (erstesFeldMitGeruch.y + 2 == drittesFeldMitGeruch.y && erstesFeldMitGeruch.x == drittesFeldMitGeruch.x) {
 				if (erstesFeldMitGeruch.y + 1 == zweitesFeldMitGeruch.y && erstesFeldMitGeruch.x - 1 == zweitesFeldMitGeruch.x) {
 					wump.agetSagt(erstesFeldMitGeruch.y + 1, erstesFeldMitGeruch.x);
 					return new Position(erstesFeldMitGeruch.y + 1, erstesFeldMitGeruch.x);
@@ -1296,27 +1296,28 @@ public class Agent implements Observer {
 		boolean wumpusToeten = false;
 		System.out.println("Suche die Route");
 		int zielY = -1, zielX = -1;
-		for (int y = 0; y < anzahl; y++) {
-			for (int x = 0; x < anzahl; x++) {
-				if (!arraymitWissenBasis[y][x].besucht) {
-					Position woIstGold = istGoldDa();
-					if (woIstGold == null) {
+		wump.sendeSchlussfolgerung("Agent versucht zu schlussfolgern wo das Gold ist.");
+		Position woIstGold = istGoldDa();
+		if (woIstGold == null) {
+			for (int y = 0; y < anzahl; y++) {
+				for (int x = 0; x < anzahl; x++) {
+					if (!arraymitWissenBasis[y][x].besucht) {
 						if (istGoldDa(y, x)) {
 							System.out.println("Gold zuweisen");
 							zielY = y;
 							zielX = x;
 						}
-					} else {
-						zielY = woIstGold.y;
-						zielX = woIstGold.x;
-
 					}
-					// istGoldDa();
 				}
 			}
+		} else {
+			zielY = woIstGold.y;
+			zielX = woIstGold.x;
 		}
 		/* Wenn kein Gold findbar, weil wissensbasis nicht ausreichend, dann suche nächstes sicheres nicht besuchtes Feld */
 		if (zielY == -1 && zielX == -1) {
+			// Agent konnte nicht sagen wo gold ist AUSGABE
+			wump.sendeSchlussfolgerung("Agent konnte nicht herausfinden wo das Gold ist und versucht nun das nächste sichere Feld zu finden.");
 			double zielentfernung = 0;
 			for (int y = 0; y < anzahl; y++) {
 				for (int x = 0; x < anzahl; x++) {
@@ -1341,24 +1342,25 @@ public class Agent implements Observer {
 			}
 		}
 		if (zielY == -1 && zielX == -1) {
-			for (int y = 0; y < anzahl; y++) {
-				for (int x = 0; x < anzahl; x++) {
-					Position woIstWumpus = istWumpusDa();
-					if (woIstWumpus == null) {
+			wump.sendeSchlussfolgerung("Der Agent konnte kein sicheres Feld finden und versucht nun seinen wertvollen Pfeil sicher in die atomare Hülle vom Wumpus zu versenken.");
+			Position woIstWumpus = istWumpusDa();
+			if (woIstWumpus == null) {
+				for (int y = 0; y < anzahl; y++) {
+					for (int x = 0; x < anzahl; x++) {
 						if (istWumpusDa(y, x)) {
 							System.out.println("Wumpus zum Toeten zuweisen");
 							zielY = y;
-							zielX = x;							
+							zielX = x;
 							wumpusToeten = true;
 						}
-					} else {
-						System.out.println("Wumpus zum Toeten zuweisen");						
-						zielY = woIstWumpus.y;
-						zielX = woIstWumpus.x;
-//						wump.agetSagt(zielY, zielX);
-						wumpusToeten = true;
 					}
 				}
+			} else {
+				System.out.println("Wumpus zum Toeten zuweisen");
+				zielY = woIstWumpus.y;
+				zielX = woIstWumpus.x;
+				// wump.agetSagt(zielY, zielX);
+				wumpusToeten = true;
 			}
 		}
 
@@ -1400,7 +1402,33 @@ public class Agent implements Observer {
 				System.out.println(i + ". " + bewegungsListe.get(i));
 			}
 		}
-		// TODO: es muss punktenabzug für pfeilverwendung stattfinden
+		if (zielY == -1 && zielX == -1) {
+			double zielentfernung = 0;
+			for (int y = 0; y < anzahl; y++) {
+				for (int x = 0; x < anzahl; x++) {
+					// TODO: der Agent fahlt in Pit????????????????????????????????????????????????????????????????????
+					if (dieNahligendeFelderBesucht(y, x)) {
+						// TODO: der agent prueft jedes feld statt nur nahligenden Felder um die vom Agent schon besuchten felder
+						if (!arraymitWissenBasis[y][x].besucht && !pruefeFeldNachSicherheit(y, x)) {
+							double entfernung = Math.sqrt((agentY - y) * (agentY - y) + (agentX - x) * (agentX - x));
+							if (zielY == -1 && zielX == -1) {
+								System.out.println("Kein sicheres Feld zuweisen");
+								zielY = y;
+								zielX = x;
+								zielentfernung = entfernung;
+							} else if (zielentfernung > entfernung) {
+								zielY = y;
+								zielX = x;
+								zielentfernung = entfernung;								
+							}
+						}
+					}
+				}
+			}
+			positionenListe = gibMirDieRichtungZumZiel(_y, _x, zielY, zielX);
+			bewegungsListe.add(welcheRichtung(positionenListe.poll(), positionenListe.peek()));
+		}
+		
 		// TODO: Bewegung anhand der bewegungsListe muss eingeleitet werden.
 		/*
 		 * liste muss in einer schleife, die einzelnd durchlaufen werden kann (Tastendruck) abgelaufen werden for(;bewegungsListe.isEmpty();){ wump.bewegeAgent(bewegungsListe.poll()); PAUSETASTE }

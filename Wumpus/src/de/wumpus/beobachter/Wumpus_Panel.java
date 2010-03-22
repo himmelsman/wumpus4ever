@@ -319,12 +319,14 @@ public class Wumpus_Panel extends JPanel implements Observer {
 	}
 
 	public void tauscheAgentZurueck(int agentY, int agentX, int schwarzY, int schwarzX) {
-		remove(imageArray[schwarzY][schwarzX]);
 		int wahrnehmung = wump.weltArray[schwarzY][schwarzX];
+		remove(imageArray[schwarzY][schwarzX]);
 		if(wump.positioniere.letzteStelle(wahrnehmung) == 9){
+			System.out.println("Wahrnehmung:" + wahrnehmung);
+			System.out.println("letzteStelle:"+ wump.positioniere.letzteStelle(wahrnehmung));
 			imageArray[schwarzY][schwarzX] = welchesBild(wahrnehmung);
 		}else {
-			imageArray[agentY][agentX] = new WumpusBitmapComponent(schwarz, getSize().height / anzahl, getSize().width / anzahl);
+			imageArray[schwarzY][schwarzX] = new WumpusBitmapComponent(schwarz, getSize().height / anzahl, getSize().width / anzahl);
 		}
 		add(imageArray[schwarzY][schwarzX], new GridBagConstraints(schwarzX + 1, schwarzY + 1, 1, 1, 0.1, 0.1, GridBagConstraints.SOUTH, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 		remove(imageArray[agentY][agentX]);

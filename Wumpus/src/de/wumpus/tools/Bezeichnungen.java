@@ -37,4 +37,6 @@ public class Bezeichnungen {
 	public static final String WECHSLE_AGENT = "WECHSLE_AGENT";
 	public static final String SPEICHERN = "SPEICHERN";
 	public static final String ICH_WEISS_WO_IST_WUMPUS = "ICH_WEISS_WO_IST_WUMPUS";
+	public static final String AUSGABE_SCHLUSSFOLGERUNG = "AUSGABE_SCHLUSSFOLGERUNG";
+	public static final String PUNKTE_ZURUECKSETZEN = "PUNKTE_ZURUECKSETZEN";
 }

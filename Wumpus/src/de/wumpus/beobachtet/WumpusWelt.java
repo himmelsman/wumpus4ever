@@ -271,6 +271,9 @@ public class WumpusWelt extends Observable {
 		if (!globaleListe.isEmpty()) {
 			EinSchrittZurueck temp = globaleListe.removeLast();
 			alteWelt(temp.holeWelt());
+			setChanged();
+			//BUMP geschichte
+			notifyObservers(new NachrichtenObjekt(Bezeichnungen.PUNKTE_ZURUECKSETZEN, temp.holeBewegung()));
 			return temp;
 		}
 		return null;
@@ -315,5 +318,10 @@ public class WumpusWelt extends Observable {
 	public void agetSagt(int y, int x){
 		setChanged();
 		notifyObservers(new NachrichtenObjekt(y, x, new int[] {}, Bezeichnungen.ICH_WEISS_WO_IST_WUMPUS));
+	}
+	
+	public void sendeSchlussfolgerung(String text){
+		setChanged();
+		notifyObservers(new NachrichtenObjekt(Bezeichnungen.AUSGABE_SCHLUSSFOLGERUNG, text));
 	}
 }
