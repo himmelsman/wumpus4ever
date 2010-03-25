@@ -36,6 +36,7 @@ import de.wumpus.beobachtet.WumpusWelt;
 import de.wumpus.tools.AboutScreen;
 import de.wumpus.tools.Benutzerdefiniertes_Feld;
 import de.wumpus.tools.Bezeichnungen;
+import de.wumpus.tools.GameOver;
 import de.wumpus.tools.HelpScreen;
 import de.wumpus.tools.NachrichtenObjekt;
 
@@ -500,29 +501,14 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 					wump.bewegeAgentPerTaste();
 				}
 				if (arg0.getKeyCode() == KeyEvent.VK_1 && altPressed) {
-					wump.neuesSpiel(4);
-					gesamtPunktenAnzahl = 10000;
-					punkteAnzahlLabel.setText(gesamtPunktenAnzahl + "");
-					agentSchrittZahler = 0;
-					schritteAnzahlLabel.setText(agentSchrittZahler + "");
-					ablaufListe.clear();
-					ablaufListe.addFirst("");
-					ablaufTextArea.setText(listToString(ablaufListe));
+					neuesSpiel(4);
 				} else if (arg0.getKeyCode() == KeyEvent.VK_2 && altPressed) {
-					wump.neuesSpiel(8);
-					gesamtPunktenAnzahl = 10000;
-					punkteAnzahlLabel.setText(gesamtPunktenAnzahl + "");
-					agentSchrittZahler = 0;
-					schritteAnzahlLabel.setText(agentSchrittZahler + "");
-					ablaufListe.clear();
-					ablaufListe.addFirst("");
-					ablaufTextArea.setText(listToString(ablaufListe));
+					neuesSpiel(8);
 				} else if (arg0.getKeyCode() == KeyEvent.VK_3 && altPressed) {
 					// wump.neuesSpiel(16);
 					// ablaufTextArea.setText("");
 				} else if (arg0.getKeyCode() == KeyEvent.VK_D && altPressed) {
-					setEnabled(false);
-					new Benutzerdefiniertes_Feld(guiFrame);
+					neuesSpiel(-1);
 					altPressed = false;
 					// wump.neuesSpiel(16);
 					// ablaufTextArea.setText("");
@@ -588,6 +574,10 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 				} else if (arg0.getKeyCode() == KeyEvent.VK_D && shiftPressed && wumpusPanel.DEBUG) {
 					wumpusPanel.DEBUG = false;
 				}
+				if (arg0.getKeyCode() == KeyEvent.VK_G) {
+					setEnabled(false);
+					new GameOver(guiFrame, "TEST");
+				}
 			}
 
 			@Override
@@ -632,7 +622,7 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 			// System.out.println(" " + Bezeichnungen.REPAINT);
 			wumpusPanel.setzeAnzahl();
 			validate();
-		} else if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.BEWEGE)) {			
+		} else if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.BEWEGE)) {
 			/* es werden die Schritte gezahlt und die verbrauchte Punkte(-10 pro Schritt) abgezogen */
 			agentSchrittZahler++;
 			gesamtPunktenAnzahl = gesamtPunktenAnzahl - einSchritt_1;
@@ -698,10 +688,11 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 					// Besuchtes Feld
 				}
 				if (i + 1 < ((NachrichtenObjekt) arg).wahrnehmung.length && ((NachrichtenObjekt) arg).wahrnehmung[i] != 9 && ((NachrichtenObjekt) arg).wahrnehmung[i] != 2 && ((NachrichtenObjekt) arg).wahrnehmung[i] != 4
-						&& ((NachrichtenObjekt) arg).wahrnehmung[i] != 6 && ((NachrichtenObjekt) arg).wahrnehmung[i] != 1&& ((NachrichtenObjekt) arg).wahrnehmung[i] != 0&& ((NachrichtenObjekt) arg).wahrnehmung[i+1] != 9 && ((NachrichtenObjekt) arg).wahrnehmung[i+1] != 2 && ((NachrichtenObjekt) arg).wahrnehmung[i+1] != 4
-						&& ((NachrichtenObjekt) arg).wahrnehmung[i+1] != 6 && ((NachrichtenObjekt) arg).wahrnehmung[i+1] != 1&& ((NachrichtenObjekt) arg).wahrnehmung[i+1] != 0) {
+						&& ((NachrichtenObjekt) arg).wahrnehmung[i] != 6 && ((NachrichtenObjekt) arg).wahrnehmung[i] != 1 && ((NachrichtenObjekt) arg).wahrnehmung[i] != 0 && ((NachrichtenObjekt) arg).wahrnehmung[i + 1] != 9
+						&& ((NachrichtenObjekt) arg).wahrnehmung[i + 1] != 2 && ((NachrichtenObjekt) arg).wahrnehmung[i + 1] != 4 && ((NachrichtenObjekt) arg).wahrnehmung[i + 1] != 6 && ((NachrichtenObjekt) arg).wahrnehmung[i + 1] != 1
+						&& ((NachrichtenObjekt) arg).wahrnehmung[i + 1] != 0) {
 					tempText = tempText.concat(" und ");
-					
+
 				} else if (j != 0) {
 					tempText = tempText.concat(".\n");
 					break;
@@ -715,13 +706,19 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 			ablaufListe.add(tempText);
 			ablaufTextArea.setText(listToString(ablaufListe));
 		}
-		if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.SPIEL_ZU_ENDE)) {
-			JOptionPane.showMessageDialog(this, "Agent hat Gold gefunden.", "Spiel zu Ende", JOptionPane.PLAIN_MESSAGE);
+		if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.SPIEL_ZU_ENDE_WUMPUS)) {
+			new GameOver(guiFrame, "Agent ist tod, Wumpus hat ihm gefressen.");
+		}
+		if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.SPIEL_ZU_ENDE_PIT)) {
+			new GameOver(guiFrame, "Agent ist tod, Agent in Fallgrube gefallen.");
+		}
+		if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.SPIEL_ZU_ENDE_GOLD)) {
+			new GameOver(guiFrame, "Agent hat Gold gefunden.");
 		}
 		if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.AUSGABE_SCHLUSSFOLGERUNG)) {
 			wissensbasisTextArea.append(((NachrichtenObjekt) arg).nachricht + "\n");
 		}
-		//BUMP geschichte
+		// BUMP geschichte
 		if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.PUNKTE_ZURUECKSETZEN)) {
 			if (((NachrichtenObjekt) arg).nachricht.length() <= 6) {
 				gesamtPunktenAnzahl = gesamtPunktenAnzahl + einSchritt_1;
@@ -739,7 +736,7 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 				// TODO: Erst die Pfeilbenutzung als Text reinpacken.
 				// ablaufListe.removeLast();
 				// ablaufTextArea.setText(listToString(ablaufListe));
-				
+
 			}
 		}
 
@@ -749,23 +746,9 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 	public void actionPerformed(ActionEvent acev) {
 		String actionBefehl = acev.getActionCommand();
 		if (actionBefehl.equals(FILEMENUITEM1)) {
-			wump.neuesSpiel(4);
-			gesamtPunktenAnzahl = 10000;
-			punkteAnzahlLabel.setText(gesamtPunktenAnzahl + "");
-			agentSchrittZahler = 0;
-			schritteAnzahlLabel.setText(agentSchrittZahler + "");
-			ablaufListe.clear();
-			ablaufListe.addFirst("");
-			ablaufTextArea.setText(listToString(ablaufListe));
+			neuesSpiel(4);
 		} else if (actionBefehl.equals(FILEMENUITEM2)) {
-			wump.neuesSpiel(8);
-			gesamtPunktenAnzahl = 10000;
-			punkteAnzahlLabel.setText(gesamtPunktenAnzahl + "");
-			agentSchrittZahler = 0;
-			schritteAnzahlLabel.setText(agentSchrittZahler + "");
-			ablaufListe.clear();
-			ablaufListe.addFirst("");
-			ablaufTextArea.setText(listToString(ablaufListe));
+			neuesSpiel(8);
 			// } else if (actionBefehl.equals(fileMenuItem3)) {
 			// wump.neuesSpiel(16);
 			// gesamtPunktenAnzahl = 10000;
@@ -776,7 +759,7 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 			// ablaufTextArea.setText(listToString(ablaufListe));
 		} else if (actionBefehl.equals(FILEMENUITEM4)) {
 			setEnabled(false);
-			new Benutzerdefiniertes_Feld(guiFrame);
+			neuesSpiel(-1);
 		} else if (actionBefehl.equals(FILEMENUITEM5)) {
 			System.exit(0);
 		} else if (actionBefehl.equals(HELPMENUITEM1)) {
@@ -793,11 +776,27 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 		Iterator<String> listIterator = tempList.iterator();
 		while (listIterator.hasNext()) {
 			String temp = listIterator.next();
-			if ( temp != ""){
+			if (temp != "") {
 				tempText = tempText.concat(temp);
 			}
 		}
 		return tempText;
+	}
+
+	public void neuesSpiel(int i) {
+		if (i < 0) {
+			setEnabled(false);
+			new Benutzerdefiniertes_Feld(guiFrame);
+		} else {
+			wump.neuesSpiel(i);
+			gesamtPunktenAnzahl = 10000;
+			punkteAnzahlLabel.setText(gesamtPunktenAnzahl + "");
+			agentSchrittZahler = 0;
+			schritteAnzahlLabel.setText(agentSchrittZahler + "");
+			ablaufListe.clear();
+			ablaufListe.addFirst("");
+			ablaufTextArea.setText(listToString(ablaufListe));
+		}
 	}
 }
 // TODO: Ablauf muss am anfang die Position des Agentes zeigen.

@@ -257,9 +257,19 @@ public class WumpusWelt extends Observable {
 		notifyObservers(new NachrichtenObjekt(y, x, new int[] {}, Bezeichnungen.AKTUALISIERE_BILD));
 	}
 
-	public void sendeSpielZuEnde() {
+	public void sendeSpielZuEndeGold() {
 		setChanged();
-		notifyObservers(new NachrichtenObjekt(0, 0, new int[] {}, Bezeichnungen.SPIEL_ZU_ENDE));
+		notifyObservers(new NachrichtenObjekt(0, 0, new int[] {}, Bezeichnungen.SPIEL_ZU_ENDE_GOLD));
+	}
+	
+	public void sendeSpielZuEndeWumpus() {
+		setChanged();
+		notifyObservers(new NachrichtenObjekt(0, 0, new int[] {}, Bezeichnungen.SPIEL_ZU_ENDE_WUMPUS));
+	}
+	
+	public void sendeSpielZuEndePit() {
+		setChanged();
+		notifyObservers(new NachrichtenObjekt(0, 0, new int[] {}, Bezeichnungen.SPIEL_ZU_ENDE_PIT));
 	}
 
 	public void schickeAgentZurueck() {

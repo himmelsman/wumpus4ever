@@ -32,7 +32,9 @@ public class Bezeichnungen {
 	public static final String WUMPUS_WURDE_GETOETET = "WUMPUS_WURDE_GETOETET";
 	public static final String WUMPUS_WURDE_NICHT_GETOETET = "WUMPUS_WURDE_NICHT_GETOETET";
 	public static final String AKTUALISIERE_BILD = "AKTUALISIERE_BILD";
-	public static final String SPIEL_ZU_ENDE = "SPIEL_ZU_ENDE";
+	public static final String SPIEL_ZU_ENDE_GOLD = "SPIEL_ZU_ENDE_GOLD";
+	public static final String SPIEL_ZU_ENDE_WUMPUS = "SPIEL_ZU_ENDE_WUMPUS";
+	public static final String SPIEL_ZU_ENDE_PIT = "SPIEL_ZU_ENDE_PIT";
 	public static final String EIN_SCHRITT_ZURUECK = "EIN_SCHRITT_ZURUECK";
 	public static final String WECHSLE_AGENT = "WECHSLE_AGENT";
 	public static final String SPEICHERN = "SPEICHERN";

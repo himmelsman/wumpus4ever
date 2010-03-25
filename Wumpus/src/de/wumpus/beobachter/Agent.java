@@ -380,9 +380,7 @@ public class Agent implements Observer {
 		if (!bewegungsListe.isEmpty()) {
 			wump.bewegeAgent(bewegungsListe.poll());
 			verarbeiteWahrnehmung(agentY, agentX);
-			if (!sitzeNichtAufGold(agentY, agentX)) {
-				wump.sendeSpielZuEnde();
-			}
+			
 			// TODO: wenn agent schon einmal sich bewegt hat, muss die setzeKeinGefahrWennKeineWahrnehmung(y,x) aufgeruffen werden.
 		} else if (bewegungsListe.isEmpty()) {
 			System.out.println("Bewegungsliste war leer, random wird verwendet.");
@@ -594,6 +592,15 @@ public class Agent implements Observer {
 				}
 			}
 		}
+		if (!sitzeNichtAufWumpus(agentY, agentX)) {
+			wump.sendeSpielZuEndeWumpus();
+		}
+		if (!sitzeNichtAufPit(agentY, agentX)) {
+			wump.sendeSpielZuEndePit();
+		}
+		if (!sitzeNichtAufGold(agentY, agentX)) {
+			wump.sendeSpielZuEndeGold();
+		}
 	}
 
 	/**
@@ -608,6 +615,40 @@ public class Agent implements Observer {
 	private boolean sitzeNichtAufGold(int y, int x) {
 		if (arraymitWissenBasis[y][x].gold) {
 			System.out.println("Gold ist da");
+			return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * Diese Methode prüft ob Agen in einen Feld mit Wumpus sich befindet.
+	 * 
+	 * @param y
+	 *            Y-Koordinate des Feldes(Agentes)
+	 * @param x
+	 *            X-Koordinate des Feldes(Agentes)
+	 * @return true wenn es wahr.
+	 */
+	private boolean sitzeNichtAufWumpus(int y, int x) {
+		if (arraymitWissenBasis[y][x].wumpus) {
+			System.out.println("Wumpus ist da");
+			return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * Diese Methode prüft ob Agen in einen Feld mit Pit sich befindet.
+	 * 
+	 * @param y
+	 *            Y-Koordinate des Feldes(Agentes)
+	 * @param x
+	 *            X-Koordinate des Feldes(Agentes)
+	 * @return true wenn es wahr.
+	 */
+	private boolean sitzeNichtAufPit(int y, int x) {
+		if (arraymitWissenBasis[y][x].fallgrube) {
+			System.out.println("Pit ist da");
 			return false;
 		}
 		return true;
