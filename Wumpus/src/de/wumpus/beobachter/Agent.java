@@ -4,12 +4,6 @@ import java.awt.Toolkit;
 import java.util.LinkedList;
 import java.util.Observable;
 import java.util.Observer;
-
-import java.util.Scanner;
-import java.util.concurrent.LinkedBlockingQueue;
-
-import javax.swing.JOptionPane;
-
 import de.wumpus.beobachtet.WumpusWelt;
 import de.wumpus.tools.EinSchrittZurueck;
 import de.wumpus.tools.Feld;
@@ -35,7 +29,10 @@ public class Agent implements Observer {
 	public Agent(WumpusWelt _wump) {
 		wump = _wump;
 	}
-
+	
+	/**
+	 * Diese Methode erzeugt ein neues Spiel(Spielfeld).
+	 */
 	private void neuesSpiel() {
 		// if(anzahl!=wump.anzahl)
 		{
@@ -187,7 +184,7 @@ public class Agent implements Observer {
 	}
 
 	/**
-	 * diese Methode prueft, ob man nicht ausserhalb des vor gegebenes Bereiches nicht rausgeht. d.h. vermeidet ArrayIndexOutOfBoundsException gibt ein Bumb falls dieses doch vorkommt aus.
+	 * Diese Methode prueft, ob man nicht ausserhalb des vor gegebenes Bereiches nicht rausgeht. d.h. vermeidet ArrayIndexOutOfBoundsException gibt ein Bumb falls dieses doch vorkommt aus.
 	 * 
 	 * @param y
 	 * @param x
@@ -367,6 +364,9 @@ public class Agent implements Observer {
 			return 3;
 	}
 
+	/**
+	 * Diese Methode bewegt den Agent in Wumpuswelt.
+	 */
 	private void bewegeAgenten() {
 		/*
 		 * if(!bewegungsListe.isEmpty()){ wump.bewegeAgent(bewegungsListe.poll(); if(AgentSitztaufGold) Beende das Spiel mit erfolgsmeldung }
@@ -648,12 +648,18 @@ public class Agent implements Observer {
 	 */
 	private boolean sitzeNichtAufPit(int y, int x) {
 		if (arraymitWissenBasis[y][x].fallgrube) {
-			System.out.println("Pit ist da");
+			System.out.println("Fallgrube ist da");
 			return false;
 		}
 		return true;
 	}
-
+	
+	/**
+	 * Diese Methode prueft Feld nach Gefahr, wenn es nicht moeglich es auszuschlissen, dann gibt es true(gefahr) zurueck.
+	 * @param y Y-Koordinate des Feldes
+	 * @param x X-Koordinate des Feldes
+	 * @return true(Gefahr)
+	 */
 	private boolean pruefeFeldNachGefahr(int y, int x) {
 		if (istWumpusDa(y, x)) {
 			System.err.println("DORT IST DAS WUMPUS. AGENT KANN PFEIL VERWENDEN.");
@@ -670,7 +676,13 @@ public class Agent implements Observer {
 			return false;
 		}
 	}
-
+	
+	/**
+	 * Diese Methode prueft Feld nach Sicherheit, wenn es nicht moeglich es auszuschlissen, dann gibt es false(gefahr) zurueck.
+	 * @param y Y-Koordinate des Feldes
+	 * @param x X-Koordinate des Feldes
+	 * @return true(wenn sicher ist)
+	 */
 	private boolean pruefeFeldNachSicherheit(int y, int x) {
 		System.out.println("pruefeFeldNachSicherheit: (" + y + "|" + x + ")");
 		/* für den Fall, das da kein Gefahr */
@@ -807,7 +819,13 @@ public class Agent implements Observer {
 		}
 		return null;
 	}
-
+	
+	/**
+	 * Diese Methode prueft Feld nach Wumpus, wenn es nicht moeglich es auszuschlissen, dann gibt es false(moegliche gefahr) zurueck.
+	 * @param y Y-Koordinate des Feldes
+	 * @param x X-Koordinate des Feldes
+	 * @return true(wenn Wumpus da)
+	 */
 	private boolean istWumpusDa(int y, int x) {
 		Feld p = arraymitWissenBasis[y][x];
 		/* Wenn Feld Besucht dann keine Gefahr */
@@ -845,7 +863,12 @@ public class Agent implements Observer {
 		}
 		return false;
 	}
-
+	/**
+	 * Diese Methode prueft Feld nach Fallgrube, wenn es nicht moeglich es auszuschlissen, dann gibt es false(moegliche gefahr) zurueck.
+	 * @param y Y-Koordinate des Feldes
+	 * @param x X-Koordinate des Feldes
+	 * @return true(wenn Fallgrube da)
+	 */
 	private boolean istFallgrubeDa(int y, int x) {
 		Feld p = arraymitWissenBasis[y][x];
 		/* Wenn Feld Besucht dann keine Gefahr */
@@ -986,10 +1009,10 @@ public class Agent implements Observer {
 	}
 
 	/**
-	 * 
-	 * @param y
-	 * @param x
-	 * @return
+	 * Diese Methode prueft Feld nach Gold, wenn es nicht moeglich es auszuschlissen, dann gibt es false zurueck.
+	 * @param y Y-Koordinate des Feldes
+	 * @param x X-Koordinate des Feldes
+	 * @return true(wenn Gold da)
 	 */
 	private boolean istGoldDa(int y, int x) {
 		Feld p = arraymitWissenBasis[y][x];
@@ -1475,7 +1498,13 @@ public class Agent implements Observer {
 		 * liste muss in einer schleife, die einzelnd durchlaufen werden kann (Tastendruck) abgelaufen werden for(;bewegungsListe.isEmpty();){ wump.bewegeAgent(bewegungsListe.poll()); PAUSETASTE }
 		 */
 	}
-
+	
+	/**
+	 * Diese Methode bestimmt die Richtung aus zwei Positionen.
+	 * @param von Startposition
+	 * @param nach Zielposition
+	 * @return Richtung(String)
+	 */
 	private String welcheRichtung(Position von, Position nach) {
 		if (von.y == nach.y) {
 			if (von.x > nach.x) {
@@ -1493,6 +1522,12 @@ public class Agent implements Observer {
 		return "GEH NACH HAUSE!";
 	}
 
+	/**
+	 * Diese Methode prueft Feld nach Gold, wenn es nicht moeglich es auszuschlissen, dann gibt es false zurueck.
+	 * @param y Y-Koordinate des Feldes
+	 * @param x X-Koordinate des Feldes
+	 * @return true(wenn Gold da)
+	 */
 	private boolean istGoldNichtDa(int y, int x) {
 		if (ichBinNichtAuserhalb(y, x)) {
 			Feld p = arraymitWissenBasis[y][x];
@@ -1524,6 +1559,11 @@ public class Agent implements Observer {
 		return false;
 	}
 
+	/**	
+	 * Diese Methode entfern Wumpus aus Wumpuswelt, wenn der Agent ihm getoetet hat.
+	 * @param y Y-Koordinate des Feldes
+	 * @param x X-Koordinate des Feldes
+	 */
 	private void entferneWumpus(int y, int x) {
 		if (y - 1 >= 0 && y - 1 < anzahl && x >= 0 && x < anzahl) {
 			if (arraymitWissenBasis[y - 1][x].besucht) {
@@ -1564,6 +1604,10 @@ public class Agent implements Observer {
 		}
 	}
 
+	/**
+	 * Diese Methode speichert die Bewegung des Agentes.
+	 * @param temp Bewegungsrichtung 
+	 */
 	private void sendeSpeichern(String temp) {
 		wump.speichereBewegung(temp, arraymitWissenBasis, wump.weltArray);
 	}
