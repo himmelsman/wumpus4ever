@@ -30,9 +30,9 @@ public class AboutScreen extends JFrame {
 	private String aboutText = 
 		"Wumpus Welt\n" +
 		"Ein AI-Projekt von:\n" +
-		"Bagautdinov Sergey\n" +
-		"Naydich Igor\n" +
-		"Werker Benjamin\n\n" +
+		"	Bagautdinov Sergey\n" +
+		"	Naydich Igor\n" +
+		"	Werker Benjamin\n\n" +
 		"Im Auftrag von Prof. Dr. H. Klocke";
 	public AboutScreen(JFrame _main){
 		main = _main;

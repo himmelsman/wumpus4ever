@@ -1,5 +1,13 @@
 package de.wumpus.tools;
 
+/**
+ * Feld ist die Hilfsklasse, der einen eigenen Typ repräsentiert.
+ * 
+ * @author Benjamin Werker
+ * @author Sergey Bagautdinov
+ * 
+ */
+
 public class Feld {
 
 	public boolean besucht, versteckt, gefahr;
@@ -20,7 +28,7 @@ public class Feld {
 	}
 
 	/**
-	 * 
+	 * Ein einfacher Konstruktor
 	 * @param y Y-Koordinate des Feldes
 	 * @param x X-Koordinate des Feldes
 	 */

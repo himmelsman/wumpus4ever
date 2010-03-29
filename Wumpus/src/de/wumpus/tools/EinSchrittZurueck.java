@@ -1,5 +1,13 @@
 package de.wumpus.tools;
 
+/**
+ * EinSchrittZürueck ist die Hilfsklasse, der einen eigenen Typ repräsentiert.
+ * 
+ * @author Benjamin Werker
+ * @author Sergey Bagautdinov
+ * 
+ */
+
 public class EinSchrittZurueck {
 	
 	String bewegung;

@@ -1,6 +1,6 @@
 package de.wumpus.tools;
 
-import java.applet.Applet;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -9,8 +9,15 @@ import java.awt.Image;
 import java.awt.Rectangle;
 import java.util.Vector;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+/**
+ * ScrollText ist die Hilfsklasse, den Text für scrollen enthält.
+ * 
+ * @author Benjamin Werker
+ * @author Sergey Bagautdinov
+ * 
+ */
 
 public class ScrollText extends JPanel implements Runnable {
 	private int         width, height, off;

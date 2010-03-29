@@ -21,6 +21,8 @@ import javax.swing.JTextArea;
  * @author Sergey Bagautdinov
  * 
  */
+
+@SuppressWarnings("serial")
 public class HelpScreen extends JFrame {
 
 	JFrame main;

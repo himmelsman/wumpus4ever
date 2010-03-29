@@ -1,5 +1,13 @@
 package de.wumpus.tools;
 
+/**
+ * FeldPositionieren ist die Hilfsklasse, die alle Elemente/Spielfiguren random für die WumpusWelt generiert.
+ * 
+ * @author Benjamin Werker
+ * @author Sergey Bagautdinov
+ * 
+ */
+
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;

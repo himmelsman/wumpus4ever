@@ -1,5 +1,13 @@
 package de.wumpus.tools;
 
+/**
+ * PositionenPruefen ist die Hilfsklasse, die für benutzerdefiniertes Spiel notwendig, um die Platzirung von Agent,Gold,Wumpus,Pit zu prüfen.
+ * 
+ * @author Benjamin Werker
+ * @author Sergey Bagautdinov
+ * 
+ */
+
 public class PositionenPruefen {
 
 	public static String pruefePositionen(int[] positionen) {
@@ -17,7 +25,6 @@ public class PositionenPruefen {
 
 			}
 		}
-		// TODO: es soll noch die Fehlerfenster erscheinen. d.h. die Abfrage korrekt aber nach 2-3 mal sie blockirt nicht das Eingabe
 		if (nachligendePositionen(positionen) != "Nichts")
 			return "Im nahligende Position vom Agenten darf " + nachligendePositionen(positionen) + " nicht sein";
 		return "Nichts";

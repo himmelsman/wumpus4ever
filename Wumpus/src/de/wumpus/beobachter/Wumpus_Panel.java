@@ -7,6 +7,7 @@ import java.awt.Insets;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -14,6 +15,14 @@ import de.wumpus.beobachtet.WumpusWelt;
 import de.wumpus.tools.Bezeichnungen;
 import de.wumpus.tools.NachrichtenObjekt;
 import de.wumpus.tools.WumpusBitmapComponent;
+
+/**
+ * Wumpus_Panel ist die Hilfsklasse, die die WumpusWelt reprasentiert.
+ * 
+ * @author Benjamin Werker
+ * @author Sergey Bagautdinov
+ * 
+ */
 
 @SuppressWarnings("serial")
 public class Wumpus_Panel extends JPanel implements Observer {
@@ -81,9 +90,11 @@ public class Wumpus_Panel extends JPanel implements Observer {
 		removeAll(); // TODO: setze size so das erstmal passt
 		gridBagLayout = setzeLayout();
 		setLayout(gridBagLayout);
+		setBorder(BorderFactory.createTitledBorder("Wumpus Welt"));
 		imageArray = new WumpusBitmapComponent[anzahl][anzahl];
 		zeichneAxenBeschriftung();
 		zeichnen();
+		
 	}
 
 	/**

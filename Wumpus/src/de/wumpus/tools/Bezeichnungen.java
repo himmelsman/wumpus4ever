@@ -1,5 +1,13 @@
 package de.wumpus.tools;
 
+/**
+ * Bezeichnungen ist die Hilfsklasse, die meisten Bezeichnungen enthält.
+ * 
+ * @author Benjamin Werker
+ * @author Sergey Bagautdinov
+ * 
+ */
+
 public class Bezeichnungen {
 	/*
 	 * initialisierung der array 1 als Agend in dem Feld 2 als Gold in dem Feld 3 als Glitter in nahligenden Felder 4 als Wumpus in dem Feld 5 als Geruch in nahligenden Felder 6 als Pit in dem Feld 7 als Brize ind nahligenden Felder 9 als besuchtes
@@ -41,4 +49,5 @@ public class Bezeichnungen {
 	public static final String ICH_WEISS_WO_IST_WUMPUS = "ICH_WEISS_WO_IST_WUMPUS";
 	public static final String AUSGABE_SCHLUSSFOLGERUNG = "AUSGABE_SCHLUSSFOLGERUNG";
 	public static final String PUNKTE_ZURUECKSETZEN = "PUNKTE_ZURUECKSETZEN";
+	public static final String WDA = "WDA";
 }

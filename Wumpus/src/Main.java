@@ -1,11 +1,16 @@
-import javax.swing.SwingUtilities;
-
 import de.wumpus.beobachter.Agent;
 import de.wumpus.beobachter.WumpusGUI;
 import de.wumpus.beobachter.Wumpus_Panel;
 import de.wumpus.beobachtet.WumpusWelt;
 
- 
+/**
+ * Main ist die Hauptklasse, die alles aufruft.
+ * 
+ * @author Benjamin Werker
+ * @author Sergey Bagautdinov
+ * 
+ */
+
 
 class Main{
 	public static void main(String args[]){

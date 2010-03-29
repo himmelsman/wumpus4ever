@@ -5,6 +5,14 @@ import java.util.Observable;
 
 import de.wumpus.tools.*;
 
+/**
+ * WumpusWelt ist die Hilfsklasse, die WumpusWelt repräsentiert.
+ * 
+ * @author Benjamin Werker
+ * @author Sergey Bagautdinov
+ * 
+ */
+
 public class WumpusWelt extends Observable {
 
 	public FeldPositionieren positioniere = new FeldPositionieren();
@@ -74,18 +82,6 @@ public class WumpusWelt extends Observable {
 		}
 	}
 
-	/* Diese Methode bestimm die Position des Agentes */
-	// public void positiondesAgentes() {
-	// for (int i = 0; i < anzahl; i++) {
-	// for (int j = 0; j < anzahl; j++) {
-	// if (bestimmeDieErsteZahl(weltArray[i][j]) == 1) {
-	// //TODO: ob es sinnvoll??????????????????????????????????????????????
-	// setChanged();
-	// notifyObservers(new NachrichtenObjekt(i, j, new int[] { weltArray[i][j] }, Bezeichnungen.POSITION_DES_AGENTES));
-	// }
-	// }
-	// }
-	// }
 	/**
 	 * Die Methode bestimmt die erste Zahl, die in der Arrayposition abgespeichert ist. d.h. die erste Teil der Zahl. z.B. Zahl = 234 nach der Methode Zahl = 2
 	 * 
@@ -201,6 +197,7 @@ public class WumpusWelt extends Observable {
 			if (weltArray != null) {
 				int alteWahrnehmung = weltArray[agent_y][agent_x];
 				int neueWahrnehmung = weltArray[agent_y + y_r][agent_x + x_r];
+				String tempRichtung = Bezeichnungen.BENUTZE_PFEIL + " " + welcheRichtung(new Position(agent_y,agent_x), new Position(agent_y + y_r,agent_x + x_r));
 				if (!wumpusToeten) {
 					weltArray[agent_y][agent_x] = positioniere.checkLast(positioniere.checkFirst(alteWahrnehmung), 9);
 					weltArray[agent_y + y_r][agent_x + x_r] = positioniere.checkLast(neueWahrnehmung, 1);
@@ -228,8 +225,10 @@ public class WumpusWelt extends Observable {
 
 						if (agent_y + y_r >= 0 && agent_x + x_r + 1 >= 0 && agent_y + y_r < anzahl && agent_x + x_r + 1 < anzahl)
 							weltArray[agent_y + y_r][agent_x + x_r + 1] = positioniere.entferneWahnehmung(weltArray[agent_y + y_r][agent_x + x_r + 1], 5);
+						NachrichtenObjekt nO = new NachrichtenObjekt(agent_y + y_r, agent_x + x_r, null, Bezeichnungen.WUMPUS_WURDE_GETOETET);
+						nO.setzteNachricht(tempRichtung);
 						setChanged();
-						notifyObservers(new NachrichtenObjekt(agent_y + y_r, agent_x + x_r, null, Bezeichnungen.WUMPUS_WURDE_GETOETET));
+						notifyObservers(nO);
 					} else {
 						// WUMPUS WAR NICHT DA
 
@@ -334,4 +333,41 @@ public class WumpusWelt extends Observable {
 		setChanged();
 		notifyObservers(new NachrichtenObjekt(Bezeichnungen.AUSGABE_SCHLUSSFOLGERUNG, text));
 	}
+	/**
+	 * Diese Methode bestimmt die Richtung aus zwei Positionen.
+	 * @param von Startposition
+	 * @param nach Zielposition
+	 * @return Richtung(String)
+	 */
+	private String welcheRichtung(Position von, Position nach) {
+		if (von.y == nach.y) {
+			if (von.x > nach.x) {
+				return Bezeichnungen.LINKS;
+			} else if (von.x < nach.x) {
+				return Bezeichnungen.RECHTS;
+			}
+		} else if (von.x == nach.x) {
+			if (von.y > nach.y) {
+				return Bezeichnungen.UP;
+			} else if (von.y < nach.y) {
+				return Bezeichnungen.DOWN;
+			}
+		}
+		return "GEH NACH HAUSE!";
+	}
+	
+	/**
+	 * Zum Senden der Wissensbasis an das Panel.
+	 * 
+	 * @param _wissensbasis
+	 */
+	public void sendeAenderungsaufruf(Feld[][] _wissensbasis){
+		System.out.print("\n sendeAenderungsaufruf\n");
+		/*NachrichtenObjekt zur änderung des WissensbasisPanel*/
+		NachrichtenObjekt nO = new NachrichtenObjekt(-1, -1, null, Bezeichnungen.WDA);
+		nO.setzeWissensbasis(_wissensbasis);
+		setChanged();
+		notifyObservers(nO);
+	}
+	
 }

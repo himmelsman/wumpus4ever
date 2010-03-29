@@ -11,11 +11,17 @@ import java.awt.event.WindowEvent;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 
 import de.wumpus.beobachter.WumpusGUI;
 
+/**
+ * GameOver ist die Hilfsklasse, die fast alle Spielmeldungen/Dialoge aufruft und führt die Game weiter.
+ * 
+ * @author Benjamin Werker
+ * @author Sergey Bagautdinov
+ * 
+ */
+//@SuppressWarnings("serial")
 public class GameOver extends JFrame {
 
 	private WumpusGUI main;

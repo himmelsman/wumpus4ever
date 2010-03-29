@@ -1,11 +1,20 @@
 package de.wumpus.tools;
- 
+
+/**
+ * NachrichtenObjekt ist die Hilfsklasse, der einen eigenen Typ repräsentiert und wird für Nachrichten versendet genutzt.
+ * 
+ * @author Benjamin Werker
+ * @author Sergey Bagautdinov
+ * 
+ */
+
 public class NachrichtenObjekt {
 	
 	public int x,y;
 	public int[] wahrnehmung;
 	public String information;
 	public String nachricht;
+	public Feld[][] wissensbasis;
 	
 	
 	/**
@@ -24,5 +33,13 @@ public class NachrichtenObjekt {
 	public NachrichtenObjekt(String _info, String _nachricht){
 		information = _info;
 		nachricht = _nachricht;
+	}
+	
+	public void setzteNachricht(String _nachricht){
+		nachricht = _nachricht;
+	}
+	
+	public void setzeWissensbasis(Feld[][] _wissensbasis){
+		wissensbasis = _wissensbasis;
 	}
 }

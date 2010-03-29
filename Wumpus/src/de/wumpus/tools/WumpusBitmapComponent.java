@@ -1,15 +1,16 @@
 package de.wumpus.tools;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * Diese Klasse dient zum erstellen eines Bildes innerhalb eines Canvas, damit es als Componente verwendet werden kann.
  * 
  * @author Benjamin Werker
- *
+ * @author Sergey Bagautdinov
+ * 
  */
+
+@SuppressWarnings("serial")
 public class WumpusBitmapComponent extends Canvas {
 	private Image img;
 	private int imageWidth;

@@ -4,12 +4,13 @@ import java.awt.Image;
 import java.awt.image.ImageObserver;
 import java.awt.image.ImageProducer;
 
-//import javax.swing.Action;
-//import javax.swing.BorderFactory;
-//import javax.swing.Icon;
-//import javax.swing.ImageIcon;
-//import javax.swing.JButton;
-//import javax.swing.border.Border;
+/**
+ * WumpusFieldImage ist die Hilfsklasse, die nutzliche Methoden für mit Bilder hat.
+ * 
+ * @author Benjamin Werker
+ * @author Sergey Bagautdinov
+ * 
+ */
 
 public class WumpusFieldImage extends Image  {
 

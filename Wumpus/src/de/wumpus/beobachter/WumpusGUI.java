@@ -14,7 +14,11 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.*;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Observable;
+import java.util.Observer;
+
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -24,27 +28,39 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
+//import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
+//import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 import de.wumpus.beobachtet.WumpusWelt;
+import de.wumpus.tools.Ablauf;
 import de.wumpus.tools.AboutScreen;
 import de.wumpus.tools.Benutzerdefiniertes_Feld;
 import de.wumpus.tools.Bezeichnungen;
 import de.wumpus.tools.GameOver;
 import de.wumpus.tools.HelpScreen;
 import de.wumpus.tools.NachrichtenObjekt;
+import de.wumpus.tools.Position;
+import de.wumpus.tools.WDA;
 
 /**
  * This code was edited or generated using CloudGarden's Jigloo SWT/Swing GUI Builder, which is free for non-commercial use. If Jigloo is being used commercially (ie, by a corporation, company or business for any purpose whatever) then you should
  * purchase a license for each developer using Jigloo. Please visit www.cloudgarden.com for details. Use of Jigloo implies acceptance of these licensing terms. A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR THIS MACHINE, SO JIGLOO OR THIS CODE
  * CANNOT BE USED LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
  */
+
+/**
+ * WumpusGUI ist die Hilfsklasse, die GUI von WumpusWelt darstellt.
+ * 
+ * @author Benjamin Werker
+ * @author Sergey Bagautdinov
+ * 
+ */
+
 @SuppressWarnings("serial")
 public class WumpusGUI extends JFrame implements Observer, ActionListener {
 	private WumpusGUI guiFrame;
@@ -52,13 +68,13 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 	private JSeparator jSeparator1;
 	private JSeparator jSeparator2;
 	private JMenu fileMenu;
-	private JMenu optionen;
+//	private JMenu optionen;
 	// private JTextArea jTextArea1;
 	// private JTextArea statistik;
 	private JMenu help;
-	private JScrollPane ablaufScrollPanel;
+//	private JScrollPane ablaufScrollPanel;
 	private JScrollPane statistikScrollPanel;
-	private JTextArea ablaufTextArea;
+//	private JTextArea ablaufTextArea;
 	private JTextArea statistikTextArea;
 	private Wumpus_Panel wumpusPanel;
 	public WumpusWelt wump;
@@ -76,7 +92,7 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 	private JLabel ablaufWahrnehmung;
 	private JLabel ablaufPosition;
 	private JPanel ablaufPanel;
-	private JLabel wissenBasisDesAgentes;
+//	private JLabel wissenBasisDesAgentes;
 	private JLabel agentSteuerungLabel;
 	private JCheckBox jCheckBox1;
 	private JButton pfeilNachUnten;
@@ -86,11 +102,14 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 	private JLabel pfeilLabel;
 	private JPanel emulation_Tastatur_Panel;
 	private JTextArea wissensbasisTextArea;
-	private LinkedList<String> ablaufListe = new LinkedList<String>();
+//	private LinkedList<String> ablaufListe = new LinkedList<String>();
+	private LinkedList<Ablauf> ablaufListe2 = new LinkedList<Ablauf>();
+//	private Ablauf ablaufListe2 = new Ablauf(null,null,null);
 	private JButton jButton2;
 	private JButton jButton1;
 	private JScrollPane jPanel2;
-	private JPanel jPanel1;
+	private WDA wissensbasis;
+//	private JPanel jPanel1;
 	private boolean shiftPressed = false;
 	private int agentSchrittZahler = 0;
 	private int gesamtPunktenAnzahl = 10000;
@@ -104,10 +123,7 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 	private static final String FILEMENUITEM2 = "Feld 8x8  (Alt+2)";
 	// private static final String FILEMENUITEM3 = "Feld 16x16(Alt+3)";
 	private static final String FILEMENUITEM4 = "Def. Feld (Alt+D)";
-	private static final String FILEMENUITEM5 = "Exit (Alt+x)";
-	private static final String OPTIONMENUITEM1 = "Mensch";
-	private static final String OPTIONMENUITEM2 = "KI-Agent";
-	// private String OPTIONMENUITEM3 = "Geschwindigkeit";
+	private static final String FILEMENUITEM5 = "Exit (Alt+x)";	
 	private static final String HELPMENUITEM1 = "Hilfe (Alt+H)";
 	private static final String HELPMENUITEM2 = "About (Alt+A)";
 
@@ -121,7 +137,7 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 	private void initGUI() {
 		try {
 			{
-				setSize(800, 600);
+				setSize(850, 650);
 
 				setTitle("Wumpus Welt");
 				setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -138,7 +154,7 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 				{ /* Statistiklayout */
 					statistikScrollPanel = new JScrollPane();
 					statistikScrollPanel.setBorder(BorderFactory.createTitledBorder("Statistik"));
-					getContentPane().add(statistikScrollPanel, new GridBagConstraints(3, 0, 1, 4, 0.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+					getContentPane().add(statistikScrollPanel, new GridBagConstraints(3, 0, 1, 3, 0.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 					statistikScrollPanel.setPreferredSize(new java.awt.Dimension(100, 1));
 					{
 						statistikTextArea = new JTextArea();
@@ -150,7 +166,6 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 						statistikLayout.columnWeights = new double[] { 0.01, 0.1, 0.1, 0.01 };
 						statistikLayout.columnWidths = new int[] { 7, 7, 7, 7 };
 						statistikTextArea.setLayout(statistikLayout);
-						// TODO: Punkte und Schritte mit Zähler versehen, damit bei bewegung verwendet werden kann.ES KANN SEIN DASS DIE AUF DASS SELBE POSITION SIND
 						punkteLabel = new JLabel("Punkte");
 						punkteAnzahlLabel = new JLabel(String.valueOf(gesamtPunktenAnzahl));
 						statistikTextArea.add(punkteLabel, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
@@ -163,20 +178,26 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 					}
 				}
 				{
-					jPanel1 = new JPanel();
-					GridBagLayout jPanel1Layout = new GridBagLayout();
-					getContentPane().add(jPanel1, new GridBagConstraints(0, 6, 1, 2, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
-					jPanel1.setPreferredSize(new java.awt.Dimension(100, 1));
-					jPanel1Layout.rowWeights = new double[] { 0.02, 0.1, 0.1, 0.1 };
-					jPanel1Layout.rowHeights = new int[] { 7, 7, 7, 7 };
-					jPanel1Layout.columnWeights = new double[] { 0.01, 0.1, 0.03, 0.1, 0.01 };
-					jPanel1Layout.columnWidths = new int[] { 7, 7, 7, 7, 7 };
-					jPanel1.setLayout(jPanel1Layout);
-					{
-						wissenBasisDesAgentes = new JLabel();
-						jPanel1.add(wissenBasisDesAgentes, new GridBagConstraints(1, 0, 3, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
-						wissenBasisDesAgentes.setText("Wissenbasis des Agentes");
-					}
+//					jPanel1 = new JPanel();
+//					GridBagLayout jPanel1Layout = new GridBagLayout();
+//					getContentPane().add(jPanel1, new GridBagConstraints(3, 3, 2, 3, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+//					jPanel1.setPreferredSize(new java.awt.Dimension(100, 1));
+//					jPanel1Layout.rowWeights = new double[] { 0.02, 0.1, 0.1, 0.1 };
+//					jPanel1Layout.rowHeights = new int[] { 7, 7, 7, 7 };
+//					jPanel1Layout.columnWeights = new double[] { 0.01, 0.1, 0.03, 0.1, 0.01 };
+//					jPanel1Layout.columnWidths = new int[] { 7, 7, 7, 7, 7 };
+					/*WDA*/
+					wissensbasis = new WDA(wump.anzahl);
+					getContentPane().add(wissensbasis , new GridBagConstraints(3, 3, 2, 3, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+					wissensbasis.setBorder(BorderFactory.createTitledBorder("Wissenbasis des Agentes"));
+					wissensbasis.setPreferredSize(new java.awt.Dimension(100, 1));
+//					jPanel1.setLayout(jPanel1Layout);
+//					jPanel1.setBorder(BorderFactory.createTitledBorder("Wissenbasis des Agentes"));
+//					{
+//						wissenBasisDesAgentes = new JLabel();
+//						jPanel1.add(wissenBasisDesAgentes, new GridBagConstraints(1, 0, 3, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
+////						wissenBasisDesAgentes.setText("Wissenbasis des Agentes");
+//					}
 				}
 				{
 					jPanel2 = new JScrollPane();
@@ -193,19 +214,22 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 				}
 				{
 					emulation_Tastatur_Panel = new JPanel();
-					GridBagLayout jPanel3Layout = new GridBagLayout();
-					jPanel3Layout.columnWidths = new int[] { 7, 7, 7, 7, 7 };
-					jPanel3Layout.rowHeights = new int[] { 7, 7, 7, 7, 7, 7, 7 };
-					jPanel3Layout.columnWeights = new double[] { 0.02, 0.1, 0.1, 0.1, 0.02 };
-					jPanel3Layout.rowWeights = new double[] { 0.02, 0.1, 0.1, 0.1, 0.1, 0.02 };
-					getContentPane().add(emulation_Tastatur_Panel, new GridBagConstraints(3, 4, 1, 2, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+					GridBagLayout navigationsPanel = new GridBagLayout();
+					navigationsPanel.columnWidths = new int[] { 7, 7, 7, 7, 7 };
+					navigationsPanel.rowHeights = new int[] { 7, 7, 7, 7, 7, 7, 7 };
+					navigationsPanel.columnWeights = new double[] { 0.02, 0.1, 0.1, 0.1, 0.02 };
+					navigationsPanel.rowWeights = new double[] { 0.02, 0.1, 0.1, 0.1, 0.1, 0.02 };
+					getContentPane().add(emulation_Tastatur_Panel, new GridBagConstraints(0, 6, 1, 2, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 					emulation_Tastatur_Panel.setPreferredSize(new java.awt.Dimension(100, 1));
-					emulation_Tastatur_Panel.setLayout(jPanel3Layout);
+					emulation_Tastatur_Panel.setLayout(navigationsPanel);
+					emulation_Tastatur_Panel.setBorder(BorderFactory.createTitledBorder("Navigation"));
 					{
 						pfeilNachOben = new JButton();
 						emulation_Tastatur_Panel.add(pfeilNachOben, new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 						pfeilNachOben.setText("\u2191");
 						pfeilNachOben.setFocusable(false);
+						pfeilNachOben.setFont(new java.awt.Font("Arial",0,10));
+						pfeilNachOben.setSize(20, 20);
 						pfeilNachOben.addMouseListener(new MouseListener() {
 
 							@Override
@@ -240,7 +264,9 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 						pfeilNachLinks = new JButton();
 						emulation_Tastatur_Panel.add(pfeilNachLinks, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 						pfeilNachLinks.setText("\u2190");
+						pfeilNachLinks.setFont(new java.awt.Font("Arial",0,10));
 						pfeilNachLinks.setFocusable(false);
+						pfeilNachLinks.setSize(20, 20);
 						pfeilNachLinks.addMouseListener(new MouseListener() {
 
 							@Override
@@ -275,7 +301,9 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 						pfeilNachRechts = new JButton();
 						emulation_Tastatur_Panel.add(pfeilNachRechts, new GridBagConstraints(3, 3, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 						pfeilNachRechts.setText("\u2192");
+						pfeilNachRechts.setFont(new java.awt.Font("Arial",0,10));
 						pfeilNachRechts.setFocusable(false);
+						pfeilNachRechts.setSize(20, 20);
 						pfeilNachRechts.addMouseListener(new MouseListener() {
 
 							@Override
@@ -310,6 +338,7 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 						pfeilNachUnten = new JButton();
 						emulation_Tastatur_Panel.add(pfeilNachUnten, new GridBagConstraints(2, 3, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 						pfeilNachUnten.setText("\u2193");
+						pfeilNachUnten.setFont(new java.awt.Font("Arial",0,10));
 						pfeilNachUnten.setFocusable(false);
 						pfeilNachUnten.addMouseListener(new MouseListener() {
 
@@ -426,7 +455,8 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 					ablaufPanelLayout.rowHeights = new int[] {7, 7, 7, 7, 7, 7};
 					ablaufPanelLayout.columnWeights = new double[] {0.01, 0.1, 0.1, 0.01};
 					ablaufPanelLayout.rowWeights = new double[] {0.1, 0.1, 0.1, 0.1, 0.1, 0.1};
-					getContentPane().add(ablaufPanel, new GridBagConstraints(4, 0, 1, 4, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+					getContentPane().add(ablaufPanel, new GridBagConstraints(4, 0, 1, 3, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+					ablaufPanel.setBorder(BorderFactory.createTitledBorder("Ablauf"));
 					ablaufPanel.setLayout(ablaufPanelLayout);
 					{
 						ablaufPosition = new JLabel();
@@ -434,35 +464,15 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 						ablaufPosition.setText("Position Y,X");
 					}
 					{
-						ablaufScrollPanel = new JScrollPane();
-						ablaufPanel.add(ablaufScrollPanel, new GridBagConstraints(1, 1, 3, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
-						ablaufScrollPanel.setBorder(BorderFactory.createTitledBorder("Ablauf"));
-						ablaufScrollPanel.setPreferredSize(new java.awt.Dimension(100, 1));
-						{
-							ablaufTextArea = new JTextArea();
-							ablaufTextArea.setLineWrap(true);
-							ablaufScrollPanel.setViewportView(ablaufTextArea);
-							ablaufTextArea.setEnabled(false);
-							ablaufTextArea.setFont(new Font("Arial", Font.PLAIN, 14));
-							ablaufTextArea.setBackground(Color.white);
-							ablaufTextArea.setForeground(Color.black);
-							// ablaufTextArea.setEditable(false);
-							// TODO: Focuslistener funktioniert nicht mehr wenn TextArea enabled ist.
-						}
-						
-					}
-					{
 						ablaufWahrnehmung = new JLabel();
-						ablaufPanel.add(ablaufWahrnehmung, new GridBagConstraints(1, 2, 2, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+						ablaufPanel.add(ablaufWahrnehmung, new GridBagConstraints(1, 1, 2, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 						ablaufWahrnehmung.setText("Wahrnehmung(en)");
 					}
 					{
 						ablaufWahrnehmungAusgabe = new JTextArea();
-//						ablaufPanel.setLineWrap(true);
-						ablaufPanel.setFocusable(false);
-						ablaufPanel.add(ablaufWahrnehmungAusgabe, new GridBagConstraints(1, 3, 2, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
+						ablaufWahrnehmungAusgabe.setLineWrap(true);
+						ablaufPanel.add(ablaufWahrnehmungAusgabe, new GridBagConstraints(1, 2, 2, 2, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 						ablaufWahrnehmungAusgabe.setEnabled(false);
-//						ablaufWahrnehmungAusgabe.setText("Ausgabe von Wahrnehmungen");
 					}
 					{
 						ablaufBewegung = new JLabel();
@@ -694,13 +704,17 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 			jCheckBox1.setSelected(false);
 			jCheckBox1.setEnabled(false);
 			pfeil = false;
-
+			ablaufListe2.add(new Ablauf(ablaufListe2.getLast().getPosition(),"Der Agent hört den Todesschrei des Wumpus",((NachrichtenObjekt) arg).nachricht));
+			setzteAblauf(ablaufListe2.getLast());
+			
 		}
-		if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.POSITION)) {
-			String tempText = "\n" + "Position (" + (((NachrichtenObjekt) arg).y + 1) + "|" + (((NachrichtenObjekt) arg).x + 1) + ")";
-			ablaufListe.add(tempText);
-			ablaufTextArea.setText(listToString(ablaufListe));
-		}
+//		if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.POSITION)) {
+////			String tempText = "\n" + "Position (" + (((NachrichtenObjekt) arg).y + 1) + "|" + (((NachrichtenObjekt) arg).x + 1) + ")";
+////			ablaufListe.add(tempText);
+//			String tempText = "(" + (((NachrichtenObjekt) arg).y + 1) + "|" + (((NachrichtenObjekt) arg).x + 1) + ")";
+//			ablaufListe2.add(new Ablauf(tempText,"",""));
+//			ablaufTextArea.setText(listToString(ablaufListe));
+//		}
 		/*
 		 * 1 als Agend in dem Feld 2 als Gold in dem Feld 3 als Glitter in nahligenden Felder 4 als Wumpus in dem Feld 5 als Geruch in nahligenden Felder 6 als Pit in dem Feld 7 als Brize ind nahligenden Felder 9 als graues Feld als Besucht
 		 * bezeichnet
@@ -709,15 +723,14 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 		// Wahrnehmung auswerten
 		// TODO: Überarbeiten der Ablaufausgabe so dass Sätze zusammen kommen.
 		if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.WAHRNEHMUNGEN)) {
-			// System.out.println("Wahrnehmung Position (" + (((NachrichtenObjekt) arg).x + 1) + "|" + (((NachrichtenObjekt) arg).y+1) + ")\n" + "ABLAUFTEXT " + ablaufTextArea.getText());
+			Ablauf tempAblauf;
 			String tempText = "";
-			tempText = tempText.concat("Position (" + (((NachrichtenObjekt) arg).y + 1) + "|" + (((NachrichtenObjekt) arg).x + 1) + ")\n");
+			Position tempPosition = new Position((((NachrichtenObjekt) arg).y + 1),(((NachrichtenObjekt) arg).x + 1));
 			for (int j = 0, i = 0; i < ((NachrichtenObjekt) arg).wahrnehmung.length; i++) {
 				if (((NachrichtenObjekt) arg).wahrnehmung[i] == 1) {
 					// Agent
 				} else if (((NachrichtenObjekt) arg).wahrnehmung[i] == 2) {
-					// Gold
-					// TODO: Wenn Agent auf Gold, dann ENDE?
+					// Gold				
 					tempText = tempText.concat("Der Agent sieht das Gold");
 					j = 1;
 					i = ((NachrichtenObjekt) arg).wahrnehmung.length;
@@ -757,22 +770,32 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 					break;
 				}
 			}
-			ablaufListe.add(tempText);
-			ablaufTextArea.setText(listToString(ablaufListe));
+			//Warhnehmung wird in Ablaufvariable gesetzt
+			//letzte Bewegung wird anhand der letzten Position und der aktuellen Position
+			System.out.println("AblaufLsite2 " + ablaufListe2.size());
+			if(!ablaufListe2.isEmpty()){
+				Position letztePosition = ablaufListe2.getLast().getPosition();
+				String tempRichtung = welcheRichtung(letztePosition, tempPosition);
+				tempAblauf = new Ablauf(tempPosition, tempText, tempRichtung);
+			}else{
+				tempAblauf = new Ablauf(tempPosition, tempText, "");
+			}
+			ablaufListe2.add(tempAblauf);
+			setzteAblauf(ablaufListe2.getLast());
 		}
-		if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.ICH_WEISS_WO_IST_WUMPUS)) {
-			String tempText = "\n" + "Position des Wumpus(" + (((NachrichtenObjekt) arg).y + 1) + "|" + (((NachrichtenObjekt) arg).x + 1) + ")" + "\n";
-			ablaufListe.add(tempText);
-			ablaufTextArea.setText(listToString(ablaufListe));
-		}
+//		if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.ICH_WEISS_WO_IST_WUMPUS)) {
+//			String tempText = "\n" + "Position des Wumpus(" + (((NachrichtenObjekt) arg).y + 1) + "|" + (((NachrichtenObjekt) arg).x + 1) + ")" + "\n";
+//			ablaufListe.add(tempText);
+//			ablaufTextArea.setText(listToString(ablaufListe));
+//		}
 		if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.SPIEL_ZU_ENDE_WUMPUS)) {
-			new GameOver(guiFrame, "Agent ist tod, Wumpus hat ihm gefressen.");
+			new GameOver(guiFrame, "	Agent ist tod, Wumpus hat ihm gefressen.");
 		}
 		if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.SPIEL_ZU_ENDE_PIT)) {
-			new GameOver(guiFrame, "Agent ist tod, Agent in Fallgrube gefallen.");
+			new GameOver(guiFrame, "	Agent ist tod, Agent in Fallgrube gefallen.");
 		}
 		if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.SPIEL_ZU_ENDE_GOLD)) {
-			new GameOver(guiFrame, "Agent hat Gold gefunden.");
+			new GameOver(guiFrame, "	Agent hat Gold gefunden.");
 		}
 		if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.AUSGABE_SCHLUSSFOLGERUNG)) {
 			wissensbasisTextArea.append(((NachrichtenObjekt) arg).nachricht + "\n");
@@ -784,19 +807,30 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 				// schritteAnzahlLabel.setText(Integer.toString(agentSchrittZahler));//alternative
 				schritteAnzahlLabel.setText(String.valueOf(--agentSchrittZahler));
 				punkteAnzahlLabel.setText(String.valueOf(gesamtPunktenAnzahl));
-				ablaufListe.removeLast();
-				ablaufTextArea.setText(listToString(ablaufListe));
+				ablaufListe2.removeLast();
+				setzteAblauf(ablaufListe2.getLast());
 			} else if (((NachrichtenObjekt) arg).nachricht.charAt(0) == 'B') {
 				gesamtPunktenAnzahl = gesamtPunktenAnzahl + pfeilBenutzung;
 				punkteAnzahlLabel.setText(String.valueOf(gesamtPunktenAnzahl));
 				jCheckBox1.setSelected(false);
 				jCheckBox1.setEnabled(true);
 				pfeil = true;
+				ablaufListe2.removeLast();
+				setzteAblauf(ablaufListe2.getLast());
 				// TODO: Erst die Pfeilbenutzung als Text reinpacken.
 				// ablaufListe.removeLast();
 				// ablaufTextArea.setText(listToString(ablaufListe));
 
 			}
+		}
+		if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.NEUES_SPIEL)) {
+			Position tempPosition = new Position((((NachrichtenObjekt) arg).y + 1),(((NachrichtenObjekt) arg).x + 1));
+			ablaufListe2.add(new Ablauf(tempPosition,"",""));
+			setzteAblauf(ablaufListe2.getLast());
+		}
+		if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.WDA)) {
+			wissensbasis.aendereFeld(((NachrichtenObjekt) arg).wissensbasis);
+			System.out.println("GUI WDA");
 		}
 
 	}
@@ -847,21 +881,56 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 			setEnabled(false);
 			new Benutzerdefiniertes_Feld(guiFrame);
 		} else {
+			ablaufListe2.clear();
 			wump.neuesSpiel(i);
+//			wissensbasis.neueLaden(wump.anzahl);
 			gesamtPunktenAnzahl = 10000;
 			punkteAnzahlLabel.setText(gesamtPunktenAnzahl + "");
 			agentSchrittZahler = 0;
 			schritteAnzahlLabel.setText(agentSchrittZahler + "");
-			ablaufListe.clear();
-			ablaufListe.addFirst("");
-			ablaufTextArea.setText(listToString(ablaufListe));
+			pfeil = true;
 		}
 	}
+	
+	/**
+	 * Diese Methode bestimmt die Richtung aus zwei Positionen.
+	 * @param von Startposition
+	 * @param nach Zielposition
+	 * @return Richtung(String)
+	 */
+	private String welcheRichtung(Position von, Position nach) {
+		if (von.y == nach.y) {
+			if (von.x > nach.x) {
+				return Bezeichnungen.LINKS;
+			} else if (von.x < nach.x) {
+				return Bezeichnungen.RECHTS;
+			}
+		} else if (von.x == nach.x) {
+			if (von.y > nach.y) {
+				return Bezeichnungen.UP;
+			} else if (von.y < nach.y) {
+				return Bezeichnungen.DOWN;
+			}
+		}
+		return "GEH NACH HAUSE!";
+	}
+	
+	private void setzteAblauf(Ablauf _ablauf){
+		if(_ablauf.getPosition() != null){
+			ablaufPosition.setText("Position " + _ablauf.getPosition().toString());
+		}
+		if(_ablauf.getWahrnehmung() != ""){
+			ablaufWahrnehmungAusgabe.setText(_ablauf.getWahrnehmung());
+		}else{
+			ablaufWahrnehmungAusgabe.setText("");
+		}
+		if(_ablauf.getLetzteBewegung()!= ""){
+			ablaufBewegungAusgabe.setText(_ablauf.getLetzteBewegung());
+		}else{
+			ablaufBewegungAusgabe.setText("");
+		}
+	}
+
 }
 // TODO: Ablauf muss am anfang die Position des Agentes zeigen.
-// TODO: Schwarze Felder sind noch direkt als besuchte Felder, sollten aber nicht
-// TODO: Ereignisabfrage muss Spielbeinflussen. zB. Agent ist auf Gold, Spiel gewonnen, Agent ist auf Fallgrube, Spiel verloren
 // TODO: Die Listener fertig und funktionierend machen. Focus Listerner auf GUI ist vorhanden
-// TODO: KI Umschalter
-// TODO: KI
-// TODO: Geschwindkeitsregelung einbauen

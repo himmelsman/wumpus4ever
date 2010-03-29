@@ -1,15 +1,21 @@
 package de.wumpus.tools;
 
 import java.awt.*;
-import java.applet.Applet;
 import java.util.*;
-import java.io.*;
+
+/**
+ * Scroll ist die Hilfsklasse, die ermöglicht Text in Laufe der Zeit scrollbar darzustellen.
+ * 
+ * @author Benjamin Werker
+ * @author Sergey Bagautdinov
+ * 
+ */
 
 class Scroll {
 	private Font        scrollFont;
 	private Color       clr;
 	private FontMetrics fm;
-	private Vector      text;
+	private Vector     text;
 	private int         lines, ascent, height, leading, spacing;
 	
 	Scroll (Vector text, String font, int fAttr, int pSize, Color clr, Graphics g) {
