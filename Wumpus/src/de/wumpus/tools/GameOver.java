@@ -21,7 +21,7 @@ import de.wumpus.beobachter.WumpusGUI;
  * @author Sergey Bagautdinov
  * 
  */
-//@SuppressWarnings("serial")
+// @SuppressWarnings("serial")
 public class GameOver extends JFrame {
 
 	private WumpusGUI main;
@@ -179,8 +179,8 @@ public class GameOver extends JFrame {
 						if (e.getClickCount() >= 1) {
 							main.setEnabled(true);
 							main.neuesSpiel(4);
-							dispose();
 							gameOver.dispose();
+							dispose();
 						}
 					}
 
@@ -212,8 +212,8 @@ public class GameOver extends JFrame {
 						if (e.getClickCount() >= 1) {
 							main.setEnabled(true);
 							main.neuesSpiel(8);
-							dispose();
 							gameOver.dispose();
+							dispose();
 						}
 					}
 
@@ -246,8 +246,8 @@ public class GameOver extends JFrame {
 						if (e.getClickCount() >= 1) {
 							main.setEnabled(true);
 							main.neuesSpiel(-1);
-							dispose();
 							gameOver.dispose();
+							dispose();
 						}
 					}
 

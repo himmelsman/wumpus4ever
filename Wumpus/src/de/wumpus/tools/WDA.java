@@ -65,7 +65,10 @@ public class WDA extends javax.swing.JPanel {
 			e.printStackTrace();
 		}
 	}
-
+	/**
+	 * Diese Methode aendert das Feld in Wissensbasis des Agentes.
+	 * @param wissensbasis Array von Typ Feld für Wissensbasis des Agentes
+	 */
 	public void aendereFeld(Feld[][] wissensbasis) {
 		anzahl = wissensbasis.length;
 		removeAll();

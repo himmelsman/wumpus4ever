@@ -131,17 +131,7 @@ public class Agent implements Observer {
 					agentY = agentY + 1;
 				} else if (richtung.equals(Bezeichnungen.DOWN)) {
 					agentY = agentY - 1;
-				} else if (richtung.equals(Bezeichnungen.BENUTZE_PFEIL + " " + Bezeichnungen.RECHTS)) {
-					agentX = agentX - 1;
-					pfeil = true;
-				} else if (richtung.equals(Bezeichnungen.BENUTZE_PFEIL + " " + Bezeichnungen.LINKS)) {
-					agentX = agentX + 1;
-					pfeil = true;
-				} else if (richtung.equals(Bezeichnungen.BENUTZE_PFEIL + " " + Bezeichnungen.UP)) {
-					agentY = agentY + 1;
-					pfeil = true;
-				} else if (richtung.equals(Bezeichnungen.BENUTZE_PFEIL + " " + Bezeichnungen.DOWN)) {
-					agentY = agentY - 1;
+				} else if (richtung.equals(Bezeichnungen.BENUTZE_PFEIL + " " + Bezeichnungen.RECHTS) || richtung.equals(Bezeichnungen.BENUTZE_PFEIL + " " + Bezeichnungen.LINKS) || richtung.equals(Bezeichnungen.BENUTZE_PFEIL + " " + Bezeichnungen.UP) || richtung.equals(Bezeichnungen.BENUTZE_PFEIL + " " + Bezeichnungen.DOWN)) {
 					pfeil = true;
 				}
 				wump.sendeAenderungsaufruf(arraymitWissenBasis);
@@ -151,53 +141,56 @@ public class Agent implements Observer {
 			}
 		}
 	}
-//TODO: GOLD MUSS IN DER WISSENSBASIS GESETZT WERDEN UM IM PANEL SICHTBAR ZU WERDEN.
-//	public void ausgabe() {
-//		System.out.println("----------------------------------------------------------------------------------------------------------");
-//		for (int j = 0; j < anzahl; j++) {
-//			for (int i = 0; i < anzahl; i++) {
-//				if (arraymitWissenBasis[j][i] != null) {
-//					// TODO: Was wird hier bei der Ausgabe geändert
-//					// if (arraymitWissenBasis[j][i].istWahrnehmung()) {
-//					System.out.print("2:" + arraymitWissenBasis[j][i].gold + " 4:" + arraymitWissenBasis[j][i].wumpus + " 6:" + arraymitWissenBasis[j][i].fallgrube);
-//					// System.out.print("3:" + arraymitWissenBasis[j][i].glitter + " 5:" + arraymitWissenBasis[j][i].geruch + " 7:" + arraymitWissenBasis[j][i].brise);
-//					// } else {
-//					// System.out.print("no Wahr");
-//					// }
-//				} else {
-//					System.out.print("3:0 5:0 7:0");
-//				}
-//				System.out.print(" | ");
-//			}
-//			System.out.println("");
-//			System.out.println("----------------------------------------------------------------------------------------------------------");
-//		}
-//		System.out.println("----------------------------------------------------------------------------------------------------------");
-//		for (int j = 0; j < anzahl; j++) {
-//			for (int i = 0; i < anzahl; i++) {
-//				if (arraymitWissenBasis[j][i] != null) {
-//					// TODO: Was wird hier bei der Ausgabe geändert
-//					// if (arraymitWissenBasis[j][i].istWahrnehmung()) {
-//					// System.out.print("2:" + arraymitWissenBasis[j][i].gold + " 4:" + arraymitWissenBasis[j][i].wumpus+ " 6:" + arraymitWissenBasis[j][i].fallgrube);
-//					System.out.print("3:" + arraymitWissenBasis[j][i].glitter + " 5:" + arraymitWissenBasis[j][i].geruch + " 7:" + arraymitWissenBasis[j][i].brise);
-//					// } else {
-//					// System.out.print("no Wahr");
-//					// }
-//				} else {
-//					System.out.print("3:0 5:0 7:0");
-//				}
-//				System.out.print(" | ");
-//			}
-//			System.out.println("");
-//			System.out.println("----------------------------------------------------------------------------------------------------------");
-//		}
-//	}
+
+	// TODO: GOLD MUSS IN DER WISSENSBASIS GESETZT WERDEN UM IM PANEL SICHTBAR ZU WERDEN.
+	// public void ausgabe() {
+	// System.out.println("----------------------------------------------------------------------------------------------------------");
+	// for (int j = 0; j < anzahl; j++) {
+	// for (int i = 0; i < anzahl; i++) {
+	// if (arraymitWissenBasis[j][i] != null) {
+	// // TODO: Was wird hier bei der Ausgabe geändert
+	// // if (arraymitWissenBasis[j][i].istWahrnehmung()) {
+	// System.out.print("2:" + arraymitWissenBasis[j][i].gold + " 4:" + arraymitWissenBasis[j][i].wumpus + " 6:" + arraymitWissenBasis[j][i].fallgrube);
+	// // System.out.print("3:" + arraymitWissenBasis[j][i].glitter + " 5:" + arraymitWissenBasis[j][i].geruch + " 7:" + arraymitWissenBasis[j][i].brise);
+	// // } else {
+	// // System.out.print("no Wahr");
+	// // }
+	// } else {
+	// System.out.print("3:0 5:0 7:0");
+	// }
+	// System.out.print(" | ");
+	// }
+	// System.out.println("");
+	// System.out.println("----------------------------------------------------------------------------------------------------------");
+	// }
+	// System.out.println("----------------------------------------------------------------------------------------------------------");
+	// for (int j = 0; j < anzahl; j++) {
+	// for (int i = 0; i < anzahl; i++) {
+	// if (arraymitWissenBasis[j][i] != null) {
+	// // TODO: Was wird hier bei der Ausgabe geändert
+	// // if (arraymitWissenBasis[j][i].istWahrnehmung()) {
+	// // System.out.print("2:" + arraymitWissenBasis[j][i].gold + " 4:" + arraymitWissenBasis[j][i].wumpus+ " 6:" + arraymitWissenBasis[j][i].fallgrube);
+	// System.out.print("3:" + arraymitWissenBasis[j][i].glitter + " 5:" + arraymitWissenBasis[j][i].geruch + " 7:" + arraymitWissenBasis[j][i].brise);
+	// // } else {
+	// // System.out.print("no Wahr");
+	// // }
+	// } else {
+	// System.out.print("3:0 5:0 7:0");
+	// }
+	// System.out.print(" | ");
+	// }
+	// System.out.println("");
+	// System.out.println("----------------------------------------------------------------------------------------------------------");
+	// }
+	// }
 
 	/**
 	 * Diese Methode prueft, ob man nicht ausserhalb des vor gegebenes Bereiches nicht rausgeht. d.h. vermeidet ArrayIndexOutOfBoundsException gibt ein Bumb falls dieses doch vorkommt aus.
 	 * 
 	 * @param y
+	 *            Y-Koordinate des Agentes
 	 * @param x
+	 *            X-Koordinate des Agentes
 	 */
 	private boolean ichBinNichtAuserhalb(int y, int x) {
 		// System.err.println("Y: " + y + " X: " + x);
@@ -403,8 +396,7 @@ public class Agent implements Observer {
 						wump.bewegeAgent(Bezeichnungen.UP);
 						verarbeiteWahrnehmung(agentY, agentX);
 						weiterMachen = sitzeNichtAufGold(agentY, agentX);
-						if (!arraymitWissenBasis[agentY][agentX].gold && !arraymitWissenBasis[agentY][agentX].wumpus && !arraymitWissenBasis[agentY][agentX].geruch && !arraymitWissenBasis[agentY][agentX].fallgrube
-								&& !arraymitWissenBasis[agentY][agentX].brise) {
+						if (!arraymitWissenBasis[agentY][agentX].gold && !arraymitWissenBasis[agentY][agentX].wumpus && !arraymitWissenBasis[agentY][agentX].geruch && !arraymitWissenBasis[agentY][agentX].fallgrube && !arraymitWissenBasis[agentY][agentX].brise) {
 							setzeKeinGefahrWennKeineWahrnehmung(agentY, agentX);
 						}
 					} else if (!pruefeFeldNachGefahr(agentY - 1, agentX)) {
@@ -413,8 +405,7 @@ public class Agent implements Observer {
 							wump.bewegeAgent(Bezeichnungen.UP);
 							verarbeiteWahrnehmung(agentY, agentX);
 							weiterMachen = sitzeNichtAufGold(agentY, agentX);
-							if (!arraymitWissenBasis[agentY][agentX].gold && !arraymitWissenBasis[agentY][agentX].wumpus && !arraymitWissenBasis[agentY][agentX].geruch && !arraymitWissenBasis[agentY][agentX].fallgrube
-									&& !arraymitWissenBasis[agentY][agentX].brise) {
+							if (!arraymitWissenBasis[agentY][agentX].gold && !arraymitWissenBasis[agentY][agentX].wumpus && !arraymitWissenBasis[agentY][agentX].geruch && !arraymitWissenBasis[agentY][agentX].fallgrube && !arraymitWissenBasis[agentY][agentX].brise) {
 								setzeKeinGefahrWennKeineWahrnehmung(agentY, agentX);
 							}
 						}
@@ -430,8 +421,7 @@ public class Agent implements Observer {
 						wump.bewegeAgent(Bezeichnungen.DOWN);
 						verarbeiteWahrnehmung(agentY, agentX);
 						weiterMachen = sitzeNichtAufGold(agentY, agentX);
-						if (!arraymitWissenBasis[agentY][agentX].gold && !arraymitWissenBasis[agentY][agentX].wumpus && !arraymitWissenBasis[agentY][agentX].geruch && !arraymitWissenBasis[agentY][agentX].fallgrube
-								&& !arraymitWissenBasis[agentY][agentX].brise) {
+						if (!arraymitWissenBasis[agentY][agentX].gold && !arraymitWissenBasis[agentY][agentX].wumpus && !arraymitWissenBasis[agentY][agentX].geruch && !arraymitWissenBasis[agentY][agentX].fallgrube && !arraymitWissenBasis[agentY][agentX].brise) {
 							setzeKeinGefahrWennKeineWahrnehmung(agentY, agentX);
 						}
 					} else if (!pruefeFeldNachGefahr(agentY + 1, agentX)) {
@@ -440,8 +430,7 @@ public class Agent implements Observer {
 							wump.bewegeAgent(Bezeichnungen.DOWN);
 							verarbeiteWahrnehmung(agentY, agentX);
 							weiterMachen = sitzeNichtAufGold(agentY, agentX);
-							if (!arraymitWissenBasis[agentY][agentX].gold && !arraymitWissenBasis[agentY][agentX].wumpus && !arraymitWissenBasis[agentY][agentX].geruch && !arraymitWissenBasis[agentY][agentX].fallgrube
-									&& !arraymitWissenBasis[agentY][agentX].brise) {
+							if (!arraymitWissenBasis[agentY][agentX].gold && !arraymitWissenBasis[agentY][agentX].wumpus && !arraymitWissenBasis[agentY][agentX].geruch && !arraymitWissenBasis[agentY][agentX].fallgrube && !arraymitWissenBasis[agentY][agentX].brise) {
 								setzeKeinGefahrWennKeineWahrnehmung(agentY, agentX);
 							}
 						}
@@ -457,8 +446,7 @@ public class Agent implements Observer {
 						wump.bewegeAgent(Bezeichnungen.LINKS);
 						verarbeiteWahrnehmung(agentY, agentX);
 						weiterMachen = sitzeNichtAufGold(agentY, agentX);
-						if (!arraymitWissenBasis[agentY][agentX].gold && !arraymitWissenBasis[agentY][agentX].wumpus && !arraymitWissenBasis[agentY][agentX].geruch && !arraymitWissenBasis[agentY][agentX].fallgrube
-								&& !arraymitWissenBasis[agentY][agentX].brise) {
+						if (!arraymitWissenBasis[agentY][agentX].gold && !arraymitWissenBasis[agentY][agentX].wumpus && !arraymitWissenBasis[agentY][agentX].geruch && !arraymitWissenBasis[agentY][agentX].fallgrube && !arraymitWissenBasis[agentY][agentX].brise) {
 							setzeKeinGefahrWennKeineWahrnehmung(agentY, agentX);
 						}
 					} else if (!pruefeFeldNachGefahr(agentY, agentX - 1)) {
@@ -467,8 +455,7 @@ public class Agent implements Observer {
 							wump.bewegeAgent(Bezeichnungen.LINKS);
 							verarbeiteWahrnehmung(agentY, agentX);
 							weiterMachen = sitzeNichtAufGold(agentY, agentX);
-							if (!arraymitWissenBasis[agentY][agentX].gold && !arraymitWissenBasis[agentY][agentX].wumpus && !arraymitWissenBasis[agentY][agentX].geruch && !arraymitWissenBasis[agentY][agentX].fallgrube
-									&& !arraymitWissenBasis[agentY][agentX].brise) {
+							if (!arraymitWissenBasis[agentY][agentX].gold && !arraymitWissenBasis[agentY][agentX].wumpus && !arraymitWissenBasis[agentY][agentX].geruch && !arraymitWissenBasis[agentY][agentX].fallgrube && !arraymitWissenBasis[agentY][agentX].brise) {
 								setzeKeinGefahrWennKeineWahrnehmung(agentY, agentX);
 							}
 						}
@@ -484,8 +471,7 @@ public class Agent implements Observer {
 						wump.bewegeAgent(Bezeichnungen.RECHTS);
 						verarbeiteWahrnehmung(agentY, agentX);
 						weiterMachen = sitzeNichtAufGold(agentY, agentX);
-						if (!arraymitWissenBasis[agentY][agentX].gold && !arraymitWissenBasis[agentY][agentX].wumpus && !arraymitWissenBasis[agentY][agentX].geruch && !arraymitWissenBasis[agentY][agentX].fallgrube
-								&& !arraymitWissenBasis[agentY][agentX].brise) {
+						if (!arraymitWissenBasis[agentY][agentX].gold && !arraymitWissenBasis[agentY][agentX].wumpus && !arraymitWissenBasis[agentY][agentX].geruch && !arraymitWissenBasis[agentY][agentX].fallgrube && !arraymitWissenBasis[agentY][agentX].brise) {
 							setzeKeinGefahrWennKeineWahrnehmung(agentY, agentX);
 						}
 					} else if (!pruefeFeldNachGefahr(agentY, agentX + 1)) {
@@ -494,8 +480,7 @@ public class Agent implements Observer {
 							wump.bewegeAgent(Bezeichnungen.RECHTS);
 							verarbeiteWahrnehmung(agentY, agentX);
 							weiterMachen = sitzeNichtAufGold(agentY, agentX);
-							if (!arraymitWissenBasis[agentY][agentX].gold && !arraymitWissenBasis[agentY][agentX].wumpus && !arraymitWissenBasis[agentY][agentX].geruch && !arraymitWissenBasis[agentY][agentX].fallgrube
-									&& !arraymitWissenBasis[agentY][agentX].brise) {
+							if (!arraymitWissenBasis[agentY][agentX].gold && !arraymitWissenBasis[agentY][agentX].wumpus && !arraymitWissenBasis[agentY][agentX].geruch && !arraymitWissenBasis[agentY][agentX].fallgrube && !arraymitWissenBasis[agentY][agentX].brise) {
 								setzeKeinGefahrWennKeineWahrnehmung(agentY, agentX);
 							}
 						}
@@ -790,52 +775,75 @@ public class Agent implements Observer {
 			}
 		} else if (geheNichtNochmal == 2) {
 			if (erstesFeldMitGeruch.y + 2 == zweitesFeldMitGeruch.y && erstesFeldMitGeruch.x == zweitesFeldMitGeruch.x) {
-				// wump.agetSagt(erstesFeldMitGeruch.y - 1, erstesFeldMitGeruch.x);
+				wump.sendeSchlussfolgerung("Geruch(" + (erstesFeldMitGeruch.y + 1) + "|" + (erstesFeldMitGeruch.x + 1) + "),Geruch(" + (zweitesFeldMitGeruch.y + 1) + "|" + (zweitesFeldMitGeruch.x + 1) + ") => Wumpus(" + (erstesFeldMitGeruch.y + 1 + 1) + "|" + (erstesFeldMitGeruch.x + 1) + ")");
 				return new Position(erstesFeldMitGeruch.y - 1, erstesFeldMitGeruch.x);
 			} else if (erstesFeldMitGeruch.y == zweitesFeldMitGeruch.y && erstesFeldMitGeruch.x + 2 == zweitesFeldMitGeruch.x) {
-				// wump.agetSagt(erstesFeldMitGeruch.y, erstesFeldMitGeruch.x + 1);
+				wump.sendeSchlussfolgerung("Geruch(" + (erstesFeldMitGeruch.y + 1) + "|" + (erstesFeldMitGeruch.x + 1) + "),Geruch(" + (zweitesFeldMitGeruch.y + 1) + "|" + (zweitesFeldMitGeruch.x + 1) + ") => Wumpus(" + (erstesFeldMitGeruch.y + 1) + "|" + (erstesFeldMitGeruch.x + 1 + 1) + ")");
 				return new Position(erstesFeldMitGeruch.y, erstesFeldMitGeruch.x + 1);
-			} else if (erstesFeldMitGeruch.geruch && zweitesFeldMitGeruch.geruch && ichBinNichtAuserhalb(erstesFeldMitGeruch.y, erstesFeldMitGeruch.x + 1)) {
-				if (arraymitWissenBasis[erstesFeldMitGeruch.y][erstesFeldMitGeruch.x + 1].besucht) {
-					// wump.agetSagt(erstesFeldMitGeruch.y + 1, erstesFeldMitGeruch.x);
-					return new Position(erstesFeldMitGeruch.y + 1, erstesFeldMitGeruch.x);
-				}
-			} else if (erstesFeldMitGeruch.geruch && zweitesFeldMitGeruch.geruch && ichBinNichtAuserhalb(erstesFeldMitGeruch.y + 1, erstesFeldMitGeruch.x)) {
-				if (arraymitWissenBasis[erstesFeldMitGeruch.y + 1][erstesFeldMitGeruch.x].besucht) {
-					// wump.agetSagt(erstesFeldMitGeruch.y, erstesFeldMitGeruch.x + 1);
-					return new Position(erstesFeldMitGeruch.y, erstesFeldMitGeruch.x + 1);
-				}
-			} else if (erstesFeldMitGeruch.geruch && zweitesFeldMitGeruch.geruch && ichBinNichtAuserhalb(erstesFeldMitGeruch.y, erstesFeldMitGeruch.x - 1)) {
+			}
+			if (erstesFeldMitGeruch.y + 1 == zweitesFeldMitGeruch.y && erstesFeldMitGeruch.x - 1 == zweitesFeldMitGeruch.x) {
 				if (arraymitWissenBasis[erstesFeldMitGeruch.y][erstesFeldMitGeruch.x - 1].besucht) {
-					// wump.agetSagt(erstesFeldMitGeruch.y + 1, erstesFeldMitGeruch.x);
+					wump.sendeSchlussfolgerung("Geruch(" + (erstesFeldMitGeruch.y + 1) + "|" + (erstesFeldMitGeruch.x + 1) + "),Geruch(" + (zweitesFeldMitGeruch.y + 1) + "|" + (zweitesFeldMitGeruch.x + 1) + "),Besucht(" + (erstesFeldMitGeruch.y + 1) + "|" + (erstesFeldMitGeruch.x + 1 - 1) + ") => Wumpus(" + (erstesFeldMitGeruch.y + 1 + 1) + "|" + (erstesFeldMitGeruch.x + 1) + ")");
 					return new Position(erstesFeldMitGeruch.y + 1, erstesFeldMitGeruch.x);
-				}
-			} else if (erstesFeldMitGeruch.geruch && zweitesFeldMitGeruch.geruch && ichBinNichtAuserhalb(erstesFeldMitGeruch.y + 1, erstesFeldMitGeruch.x)) {
-				if (arraymitWissenBasis[erstesFeldMitGeruch.y + 1][erstesFeldMitGeruch.x].besucht) {
-					// wump.agetSagt(erstesFeldMitGeruch.y, erstesFeldMitGeruch.x - 1);
+				} else if (arraymitWissenBasis[erstesFeldMitGeruch.y + 1][erstesFeldMitGeruch.x].besucht) {
+					wump.sendeSchlussfolgerung("Geruch(" + (erstesFeldMitGeruch.y + 1) + "|" + (erstesFeldMitGeruch.x + 1) + "),Geruch(" + (zweitesFeldMitGeruch.y + 1) + "|" + (zweitesFeldMitGeruch.x + 1) + "),Besucht(" + (erstesFeldMitGeruch.y + 1 + 1) + "|" + (erstesFeldMitGeruch.x + 1) + ") => Wumpus(" + (erstesFeldMitGeruch.y + 1) + "|" + (erstesFeldMitGeruch.x + 1 - 1) + ")");
 					return new Position(erstesFeldMitGeruch.y, erstesFeldMitGeruch.x - 1);
 				}
+			} else if (erstesFeldMitGeruch.y + 1 == zweitesFeldMitGeruch.y && erstesFeldMitGeruch.x + 1 == zweitesFeldMitGeruch.x) {
+				if (arraymitWissenBasis[erstesFeldMitGeruch.y][erstesFeldMitGeruch.x + 1].besucht) {
+					wump.sendeSchlussfolgerung("Geruch(" + (erstesFeldMitGeruch.y + 1) + "|" + (erstesFeldMitGeruch.x + 1) + "),Geruch(" + (zweitesFeldMitGeruch.y + 1) + "|" + (zweitesFeldMitGeruch.x + 1) + "),Besucht(" + (erstesFeldMitGeruch.y + 1) + "|" + (erstesFeldMitGeruch.x + 1 + 1) + ") => Wumpus(" + (erstesFeldMitGeruch.y + 1 + 1) + "|" + (erstesFeldMitGeruch.x + 1) + ")");
+					return new Position(erstesFeldMitGeruch.y + 1, erstesFeldMitGeruch.x);
+				} else if (arraymitWissenBasis[erstesFeldMitGeruch.y + 1][erstesFeldMitGeruch.x].besucht) {
+					wump.sendeSchlussfolgerung("Geruch(" + (erstesFeldMitGeruch.y + 1) + "|" + (erstesFeldMitGeruch.x + 1) + "),Geruch(" + (zweitesFeldMitGeruch.y + 1) + "|" + (zweitesFeldMitGeruch.x + 1) + "),Besucht(" + (erstesFeldMitGeruch.y + 1 + 1) + "|" + (erstesFeldMitGeruch.x + 1) + ") => Wumpus(" + (erstesFeldMitGeruch.y + 1) + "|" + (erstesFeldMitGeruch.x + 1 + 1) + ")");
+					return new Position(erstesFeldMitGeruch.y, erstesFeldMitGeruch.x + 1);
+				}
+
 			}
+			// if (erstesFeldMitGeruch.geruch && zweitesFeldMitGeruch.geruch && ichBinNichtAuserhalb(erstesFeldMitGeruch.y, erstesFeldMitGeruch.x + 1)) {
+			// if (arraymitWissenBasis[erstesFeldMitGeruch.y][erstesFeldMitGeruch.x + 1].besucht) {
+			// // wump.agetSagt(erstesFeldMitGeruch.y + 1, erstesFeldMitGeruch.x);
+			// return new Position(erstesFeldMitGeruch.y + 1, erstesFeldMitGeruch.x);
+			// }
+			// }
+			// if (erstesFeldMitGeruch.geruch && zweitesFeldMitGeruch.geruch && ichBinNichtAuserhalb(erstesFeldMitGeruch.y + 1, erstesFeldMitGeruch.x)) {
+			// if (arraymitWissenBasis[erstesFeldMitGeruch.y + 1][erstesFeldMitGeruch.x].besucht) {
+			// // wump.agetSagt(erstesFeldMitGeruch.y, erstesFeldMitGeruch.x + 1);
+			// return new Position(erstesFeldMitGeruch.y, erstesFeldMitGeruch.x + 1);
+			// }
+			// }if (erstesFeldMitGeruch.geruch && zweitesFeldMitGeruch.geruch && ichBinNichtAuserhalb(erstesFeldMitGeruch.y, erstesFeldMitGeruch.x - 1)) {
+			// System.out.println("ich bin in else if " + erstesFeldMitGeruch.geruch + " " + zweitesFeldMitGeruch.geruch + " " + ichBinNichtAuserhalb(erstesFeldMitGeruch.y, erstesFeldMitGeruch.x - 1));
+			// if (arraymitWissenBasis[erstesFeldMitGeruch.y][erstesFeldMitGeruch.x - 1].besucht) {
+			// System.out.println("ich bin in if " + arraymitWissenBasis[erstesFeldMitGeruch.y][erstesFeldMitGeruch.x - 1].besucht);
+			// // wump.agetSagt(erstesFeldMitGeruch.y + 1, erstesFeldMitGeruch.x);
+			// return new Position(erstesFeldMitGeruch.y + 1, erstesFeldMitGeruch.x);
+			// }
+			// }
+			// if (erstesFeldMitGeruch.geruch && zweitesFeldMitGeruch.geruch && ichBinNichtAuserhalb(erstesFeldMitGeruch.y + 1, erstesFeldMitGeruch.x)) {
+			// if (arraymitWissenBasis[erstesFeldMitGeruch.y + 1][erstesFeldMitGeruch.x].besucht) {
+			// // wump.agetSagt(erstesFeldMitGeruch.y, erstesFeldMitGeruch.x - 1);
+			// return new Position(erstesFeldMitGeruch.y, erstesFeldMitGeruch.x - 1);
+			// }
+			// }
 		} else if (geheNichtNochmal == 3) {
 			if (erstesFeldMitGeruch.y + 1 == drittesFeldMitGeruch.y && erstesFeldMitGeruch.x + 1 == drittesFeldMitGeruch.x) {
 				if (erstesFeldMitGeruch.y == zweitesFeldMitGeruch.y && erstesFeldMitGeruch.x + 2 == zweitesFeldMitGeruch.x) {
-					wump.agetSagt(erstesFeldMitGeruch.y, erstesFeldMitGeruch.x + 1);
+					wump.sendeSchlussfolgerung("Geruch(" + (erstesFeldMitGeruch.y + 1) + "|" + (erstesFeldMitGeruch.x + 1) + "),Geruch(" + (zweitesFeldMitGeruch.y + 1) + "|" + (zweitesFeldMitGeruch.x + 1) + "),Geruch(" + (drittesFeldMitGeruch.y + 1) + "|" + (drittesFeldMitGeruch.x + 1) + ")=>Wumpus(" + (erstesFeldMitGeruch.y + 1) + "|" + (erstesFeldMitGeruch.x + 1 + 1) + ")");
 					return new Position(erstesFeldMitGeruch.y, erstesFeldMitGeruch.x + 1);
-				}
-			} else if (erstesFeldMitGeruch.y + 1 == zweitesFeldMitGeruch.y && erstesFeldMitGeruch.x - 1 == zweitesFeldMitGeruch.x) {
-				wump.agetSagt(erstesFeldMitGeruch.y, erstesFeldMitGeruch.x + 1);
-				return new Position(erstesFeldMitGeruch.y, erstesFeldMitGeruch.x + 1);
-			} else if (erstesFeldMitGeruch.y + 2 == drittesFeldMitGeruch.y && erstesFeldMitGeruch.x == drittesFeldMitGeruch.x) {
-				if (erstesFeldMitGeruch.y + 1 == zweitesFeldMitGeruch.y && erstesFeldMitGeruch.x - 1 == zweitesFeldMitGeruch.x) {
-					wump.agetSagt(erstesFeldMitGeruch.y + 1, erstesFeldMitGeruch.x);
+
+				} else if (erstesFeldMitGeruch.y + 1 == zweitesFeldMitGeruch.y && erstesFeldMitGeruch.x - 1 == zweitesFeldMitGeruch.x) {
+					wump.sendeSchlussfolgerung("Geruch(" + (erstesFeldMitGeruch.y + 1) + "|" + (erstesFeldMitGeruch.x + 1) + "),Geruch(" + (zweitesFeldMitGeruch.y + 1) + "|" + (zweitesFeldMitGeruch.x + 1) + "),Geruch(" + (drittesFeldMitGeruch.y + 1) + "|" + (drittesFeldMitGeruch.x + 1) + ")=>Wumpus(" + (erstesFeldMitGeruch.y + 1 + 1) + "|" + (erstesFeldMitGeruch.x + 1) + ")");
 					return new Position(erstesFeldMitGeruch.y + 1, erstesFeldMitGeruch.x);
 				}
-			} else if (erstesFeldMitGeruch.y + 1 == zweitesFeldMitGeruch.y && erstesFeldMitGeruch.x + 1 == zweitesFeldMitGeruch.x) {
-				wump.agetSagt(erstesFeldMitGeruch.y + 1, erstesFeldMitGeruch.x);
-				return new Position(erstesFeldMitGeruch.y + 1, erstesFeldMitGeruch.x);
+			} else if (erstesFeldMitGeruch.y + 2 == drittesFeldMitGeruch.y && erstesFeldMitGeruch.x == drittesFeldMitGeruch.x) {
+				if (erstesFeldMitGeruch.y + 1 == zweitesFeldMitGeruch.y && erstesFeldMitGeruch.x - 1 == zweitesFeldMitGeruch.x) {
+					wump.sendeSchlussfolgerung("Geruch(" + (erstesFeldMitGeruch.y + 1) + "|" + (erstesFeldMitGeruch.x + 1) + "),Geruch(" + (zweitesFeldMitGeruch.y + 1) + "|" + (zweitesFeldMitGeruch.x + 1) + "),Geruch(" + (drittesFeldMitGeruch.y + 1) + "|" + (drittesFeldMitGeruch.x + 1) + ")=>Wumpus(" + (erstesFeldMitGeruch.y + 1 + 1) + "|" + (erstesFeldMitGeruch.x + 1) + ")");
+					return new Position(erstesFeldMitGeruch.y + 1, erstesFeldMitGeruch.x);
+				} else if (erstesFeldMitGeruch.y + 1 == zweitesFeldMitGeruch.y && erstesFeldMitGeruch.x + 1 == zweitesFeldMitGeruch.x) {
+					wump.sendeSchlussfolgerung("Geruch(" + (erstesFeldMitGeruch.y + 1) + "|" + (erstesFeldMitGeruch.x + 1) + "),Geruch(" + (zweitesFeldMitGeruch.y + 1) + "|" + (zweitesFeldMitGeruch.x + 1) + "),Geruch(" + (drittesFeldMitGeruch.y + 1) + "|" + (drittesFeldMitGeruch.x + 1) + ")=>Wumpus(" + (erstesFeldMitGeruch.y + 1 + 1) + "|" + (erstesFeldMitGeruch.x + 1) + ")");
+					return new Position(erstesFeldMitGeruch.y + 1, erstesFeldMitGeruch.x);
+				}
 			}
 		} else if (geheNichtNochmal == 4) {
-			wump.agetSagt(erstesFeldMitGeruch.y + 1, erstesFeldMitGeruch.x);
 			return new Position(erstesFeldMitGeruch.y + 1, erstesFeldMitGeruch.x);
 		}
 		return null;
@@ -965,70 +973,98 @@ public class Agent implements Observer {
 
 		}
 
-		if (geheNichtNochmal == 1) {
-
-			// return null;
-			Feld unteresFeld = null;
-			Feld oberesFeld = null;
-			Feld linkesFeld = null;
-			Feld rechtesFeld = null;
-			if (erstesFeldMitGlitter.y - 1 >= 0) {
-				oberesFeld = arraymitWissenBasis[erstesFeldMitGlitter.y - 1][erstesFeldMitGlitter.x];
-			}
-			if (erstesFeldMitGlitter.y + 1 < anzahl) {
-				unteresFeld = arraymitWissenBasis[erstesFeldMitGlitter.y + 1][erstesFeldMitGlitter.x];
-			}
-			if (erstesFeldMitGlitter.x - 1 >= 0) {
-				linkesFeld = arraymitWissenBasis[erstesFeldMitGlitter.y][erstesFeldMitGlitter.x - 1];
-			}
-			if (erstesFeldMitGlitter.x + 1 < anzahl) {
-				rechtesFeld = arraymitWissenBasis[erstesFeldMitGlitter.y][erstesFeldMitGlitter.x + 1];
-			}
-
-			if (linkesFeld != null && !linkesFeld.besucht && !linkesFeld.gefahr && istGoldNichtDa(linkesFeld.y - 1, linkesFeld.x) && istGoldNichtDa(linkesFeld.y + 1, linkesFeld.x) && istGoldNichtDa(linkesFeld.y, linkesFeld.x - 1)) {
-				return new Position(linkesFeld.y, linkesFeld.x);
-			} else if (rechtesFeld != null && rechtesFeld.besucht && !rechtesFeld.gefahr && istGoldNichtDa(rechtesFeld.y - 1, rechtesFeld.x) && istGoldNichtDa(rechtesFeld.y + 1, rechtesFeld.x) && istGoldNichtDa(rechtesFeld.y, rechtesFeld.x + 1)) {
-				return new Position(rechtesFeld.y, rechtesFeld.x);
-			} else if (oberesFeld != null && oberesFeld.besucht && !oberesFeld.gefahr && istGoldNichtDa(oberesFeld.y - 1, oberesFeld.x) && istGoldNichtDa(oberesFeld.y, oberesFeld.x - 1) && istGoldNichtDa(oberesFeld.y, oberesFeld.x + 1)) {
-				return new Position(oberesFeld.y, oberesFeld.x);
-			} else if (unteresFeld != null && unteresFeld.besucht && !unteresFeld.gefahr && istGoldNichtDa(unteresFeld.y + 1, unteresFeld.x) && istGoldNichtDa(unteresFeld.y, unteresFeld.x - 1) && istGoldNichtDa(unteresFeld.y, unteresFeld.x + 1)) {
-				return new Position(unteresFeld.y, unteresFeld.x);
-			}
-		} else if (geheNichtNochmal == 2) {
+		// if (geheNichtNochmal == 1) {
+		//
+		// // return null;
+		// Feld unteresFeld = null;
+		// Feld oberesFeld = null;
+		// Feld linkesFeld = null;
+		// Feld rechtesFeld = null;
+		// if (erstesFeldMitGlitter.y - 1 >= 0) {
+		// oberesFeld = arraymitWissenBasis[erstesFeldMitGlitter.y - 1][erstesFeldMitGlitter.x];
+		// }
+		// if (erstesFeldMitGlitter.y + 1 < anzahl) {
+		// unteresFeld = arraymitWissenBasis[erstesFeldMitGlitter.y + 1][erstesFeldMitGlitter.x];
+		// }
+		// if (erstesFeldMitGlitter.x - 1 >= 0) {
+		// linkesFeld = arraymitWissenBasis[erstesFeldMitGlitter.y][erstesFeldMitGlitter.x - 1];
+		// }
+		// if (erstesFeldMitGlitter.x + 1 < anzahl) {
+		// rechtesFeld = arraymitWissenBasis[erstesFeldMitGlitter.y][erstesFeldMitGlitter.x + 1];
+		// }
+		//
+		// if (linkesFeld != null && !linkesFeld.besucht && !linkesFeld.gefahr && istGoldNichtDa(linkesFeld.y - 1, linkesFeld.x) && istGoldNichtDa(linkesFeld.y + 1, linkesFeld.x) && istGoldNichtDa(linkesFeld.y, linkesFeld.x - 1)) {
+		// return new Position(linkesFeld.y, linkesFeld.x);
+		// } else if (rechtesFeld != null && rechtesFeld.besucht && !rechtesFeld.gefahr && istGoldNichtDa(rechtesFeld.y - 1, rechtesFeld.x) && istGoldNichtDa(rechtesFeld.y + 1, rechtesFeld.x) && istGoldNichtDa(rechtesFeld.y, rechtesFeld.x + 1)) {
+		// return new Position(rechtesFeld.y, rechtesFeld.x);
+		// } else if (oberesFeld != null && oberesFeld.besucht && !oberesFeld.gefahr && istGoldNichtDa(oberesFeld.y - 1, oberesFeld.x) && istGoldNichtDa(oberesFeld.y, oberesFeld.x - 1) && istGoldNichtDa(oberesFeld.y, oberesFeld.x + 1)) {
+		// return new Position(oberesFeld.y, oberesFeld.x);
+		// } else if (unteresFeld != null && unteresFeld.besucht && !unteresFeld.gefahr && istGoldNichtDa(unteresFeld.y + 1, unteresFeld.x) && istGoldNichtDa(unteresFeld.y, unteresFeld.x - 1) && istGoldNichtDa(unteresFeld.y, unteresFeld.x + 1)) {
+		// return new Position(unteresFeld.y, unteresFeld.x);
+		// }
+		// } else
+		if (geheNichtNochmal == 2) {
 			if (erstesFeldMitGlitter.y + 2 == zweitesFeldMitGlitter.y && erstesFeldMitGlitter.x == zweitesFeldMitGlitter.x) {
+				wump.sendeSchlussfolgerung("Glitter(" + (erstesFeldMitGlitter.y + 1) + "|" + (erstesFeldMitGlitter.x + 1) + "),Glitter(" + (zweitesFeldMitGlitter.y + 1) + "|" + (zweitesFeldMitGlitter.x + 1) + ") => Gold(" + (erstesFeldMitGlitter.y - 1 + 1) + "|" + (erstesFeldMitGlitter.x + 1 + 1) + ")");
 				return new Position(erstesFeldMitGlitter.y - 1, erstesFeldMitGlitter.x);
 			} else if (erstesFeldMitGlitter.y == zweitesFeldMitGlitter.y && erstesFeldMitGlitter.x + 2 == zweitesFeldMitGlitter.x) {
+				wump.sendeSchlussfolgerung("Glitter(" + (erstesFeldMitGlitter.y + 1) + "|" + (erstesFeldMitGlitter.x + 1) + "),Glitter(" + (zweitesFeldMitGlitter.y + 1) + "|" + (zweitesFeldMitGlitter.x + 1) + ") => Gold(" + (erstesFeldMitGlitter.y + 1) + "|" + (erstesFeldMitGlitter.x + 1 + 1) + ")");
 				return new Position(erstesFeldMitGlitter.y, erstesFeldMitGlitter.x + 1);
-			} else if (erstesFeldMitGlitter.glitter && zweitesFeldMitGlitter.glitter && ichBinNichtAuserhalb(erstesFeldMitGlitter.y, erstesFeldMitGlitter.x + 1)) {
-				if (arraymitWissenBasis[erstesFeldMitGlitter.y][erstesFeldMitGlitter.x + 1].besucht) {
-					return new Position(erstesFeldMitGlitter.y + 1, erstesFeldMitGlitter.x);
-				}
-			} else if (erstesFeldMitGlitter.glitter && zweitesFeldMitGlitter.glitter && ichBinNichtAuserhalb(erstesFeldMitGlitter.y + 1, erstesFeldMitGlitter.x)) {
-				if (arraymitWissenBasis[erstesFeldMitGlitter.y + 1][erstesFeldMitGlitter.x].besucht) {
-					return new Position(erstesFeldMitGlitter.y, erstesFeldMitGlitter.x + 1);
-				}
-			} else if (erstesFeldMitGlitter.glitter && zweitesFeldMitGlitter.glitter && ichBinNichtAuserhalb(erstesFeldMitGlitter.y, erstesFeldMitGlitter.x - 1)) {
+			}
+			if (erstesFeldMitGlitter.y + 1 == zweitesFeldMitGlitter.y && erstesFeldMitGlitter.x - 1 == zweitesFeldMitGlitter.x) {
 				if (arraymitWissenBasis[erstesFeldMitGlitter.y][erstesFeldMitGlitter.x - 1].besucht) {
+					wump.sendeSchlussfolgerung("Glitter(" + (erstesFeldMitGlitter.y + 1) + "|" + (erstesFeldMitGlitter.x + 1) + "),Glitter(" + (zweitesFeldMitGlitter.y + 1) + "|" + (zweitesFeldMitGlitter.x + 1) + "),Besucht(" + (erstesFeldMitGlitter.y + 1) + "|" + (erstesFeldMitGlitter.x - 1 + 1) + ") => Gold(" + (erstesFeldMitGlitter.y + 1 + 1) + "|" + (erstesFeldMitGlitter.x + 1) + ")");
 					return new Position(erstesFeldMitGlitter.y + 1, erstesFeldMitGlitter.x);
-				}
-			} else if (erstesFeldMitGlitter.glitter && zweitesFeldMitGlitter.glitter && ichBinNichtAuserhalb(erstesFeldMitGlitter.y + 1, erstesFeldMitGlitter.x)) {
-				if (arraymitWissenBasis[erstesFeldMitGlitter.y + 1][erstesFeldMitGlitter.x].besucht) {
+				} else if (arraymitWissenBasis[erstesFeldMitGlitter.y + 1][erstesFeldMitGlitter.x].besucht) {
+					wump.sendeSchlussfolgerung("Glitter(" + (erstesFeldMitGlitter.y + 1) + "|" + (erstesFeldMitGlitter.x + 1) + "),Glitter(" + (zweitesFeldMitGlitter.y + 1) + "|" + (zweitesFeldMitGlitter.x + 1) + "),Besucht(" + (erstesFeldMitGlitter.y + 1 + 1) + "|" + (erstesFeldMitGlitter.x + 1) + ") => Gold(" + (erstesFeldMitGlitter.y + 1) + "|" + (erstesFeldMitGlitter.x - 1 + 1) + ")");
 					return new Position(erstesFeldMitGlitter.y, erstesFeldMitGlitter.x - 1);
 				}
+			} else if (erstesFeldMitGlitter.y + 1 == zweitesFeldMitGlitter.y && erstesFeldMitGlitter.x + 1 == zweitesFeldMitGlitter.x) {
+				if (arraymitWissenBasis[erstesFeldMitGlitter.y][erstesFeldMitGlitter.x + 1].besucht) {
+					wump.sendeSchlussfolgerung("Glitter(" + (erstesFeldMitGlitter.y + 1) + "|" + (erstesFeldMitGlitter.x + 1) + "),Glitter(" + (zweitesFeldMitGlitter.y + 1) + "|" + (zweitesFeldMitGlitter.x + 1) + "),Besucht(" + (erstesFeldMitGlitter.y + 1) + "|" + (erstesFeldMitGlitter.x + 1 + 1) + ") => Gold(" + (erstesFeldMitGlitter.y + 1 + 1) + "|" + (erstesFeldMitGlitter.x + 1) + ")");
+					return new Position(erstesFeldMitGlitter.y + 1, erstesFeldMitGlitter.x);
+				} else if (arraymitWissenBasis[erstesFeldMitGlitter.y + 1][erstesFeldMitGlitter.x].besucht) {
+					wump.sendeSchlussfolgerung("Glitter(" + (erstesFeldMitGlitter.y + 1) + "|" + (erstesFeldMitGlitter.x + 1) + "),Glitter(" + (zweitesFeldMitGlitter.y + 1) + "|" + (zweitesFeldMitGlitter.x + 1) + "),Besucht(" + (erstesFeldMitGlitter.y + 1 + 1) + "|" + (erstesFeldMitGlitter.x + 1) + ") => Gold(" + (erstesFeldMitGlitter.y + 1) + "|" + (erstesFeldMitGlitter.x + 1 + 1) + ")");
+					return new Position(erstesFeldMitGlitter.y, erstesFeldMitGlitter.x + 1);
+				}
 			}
+			// if (erstesFeldMitGlitter.glitter && zweitesFeldMitGlitter.glitter && ichBinNichtAuserhalb(erstesFeldMitGlitter.y, erstesFeldMitGlitter.x + 1)) {
+			// if (arraymitWissenBasis[erstesFeldMitGlitter.y][erstesFeldMitGlitter.x + 1].besucht) {
+			// return new Position(erstesFeldMitGlitter.y + 1, erstesFeldMitGlitter.x);
+			// }
+			// }
+			// if (erstesFeldMitGlitter.glitter && zweitesFeldMitGlitter.glitter && ichBinNichtAuserhalb(erstesFeldMitGlitter.y + 1, erstesFeldMitGlitter.x)) {
+			// if (arraymitWissenBasis[erstesFeldMitGlitter.y + 1][erstesFeldMitGlitter.x].besucht) {
+			// return new Position(erstesFeldMitGlitter.y, erstesFeldMitGlitter.x + 1);
+			// }
+			// }
+			// if (erstesFeldMitGlitter.glitter && zweitesFeldMitGlitter.glitter && ichBinNichtAuserhalb(erstesFeldMitGlitter.y, erstesFeldMitGlitter.x - 1)) {
+			// if (arraymitWissenBasis[erstesFeldMitGlitter.y][erstesFeldMitGlitter.x - 1].besucht) {
+			// return new Position(erstesFeldMitGlitter.y + 1, erstesFeldMitGlitter.x);
+			// }
+			// }
+			// if (erstesFeldMitGlitter.glitter && zweitesFeldMitGlitter.glitter && ichBinNichtAuserhalb(erstesFeldMitGlitter.y + 1, erstesFeldMitGlitter.x)) {
+			// if (arraymitWissenBasis[erstesFeldMitGlitter.y + 1][erstesFeldMitGlitter.x].besucht) {
+			// return new Position(erstesFeldMitGlitter.y, erstesFeldMitGlitter.x - 1);
+			// }
+			// }
 		} else if (geheNichtNochmal == 3) {
 			if (erstesFeldMitGlitter.y + 1 == drittesFeldMitGlitter.y && erstesFeldMitGlitter.x + 1 == drittesFeldMitGlitter.x) {
 				if (erstesFeldMitGlitter.y == zweitesFeldMitGlitter.y && erstesFeldMitGlitter.x + 2 == zweitesFeldMitGlitter.x) {
+					wump.sendeSchlussfolgerung("Glitter(" + (erstesFeldMitGlitter.y + 1) + "|" + (erstesFeldMitGlitter.x + 1) + "),Glitter(" + (zweitesFeldMitGlitter.y + 1) + "|" + (zweitesFeldMitGlitter.x + 1) + "),Glitter(" + (drittesFeldMitGlitter.y + 1) + "|" + (drittesFeldMitGlitter.x + 1) + ")=>Gold(" + (erstesFeldMitGlitter.y + 1) + "|" + (erstesFeldMitGlitter.x + 1 + 1) + ")");
 					return new Position(erstesFeldMitGlitter.y, erstesFeldMitGlitter.x + 1);
-				}
-			} else if (erstesFeldMitGlitter.y + 1 == zweitesFeldMitGlitter.y && erstesFeldMitGlitter.x - 1 == zweitesFeldMitGlitter.x) {
-				return new Position(erstesFeldMitGlitter.y, erstesFeldMitGlitter.x + 1);
-			} else if (erstesFeldMitGlitter.y + 2 == drittesFeldMitGlitter.y && erstesFeldMitGlitter.x == drittesFeldMitGlitter.x) {
-				if (erstesFeldMitGlitter.y + 1 == zweitesFeldMitGlitter.y && erstesFeldMitGlitter.x - 1 == zweitesFeldMitGlitter.x) {
+				} else if (erstesFeldMitGlitter.y + 1 == zweitesFeldMitGlitter.y && erstesFeldMitGlitter.x - 1 == zweitesFeldMitGlitter.x) {
+					wump.sendeSchlussfolgerung("Glitter(" + (erstesFeldMitGlitter.y + 1) + "|" + (erstesFeldMitGlitter.x + 1) + "),Glitter(" + (zweitesFeldMitGlitter.y + 1) + "|" + (zweitesFeldMitGlitter.x + 1) + "),Glitter(" + (drittesFeldMitGlitter.y + 1) + "|" + (drittesFeldMitGlitter.x + 1) + ")=>Gold(" + (erstesFeldMitGlitter.y + 1 + 1) + "|" + (erstesFeldMitGlitter.x + 1) + ")");
 					return new Position(erstesFeldMitGlitter.y + 1, erstesFeldMitGlitter.x);
 				}
-			} else if (erstesFeldMitGlitter.y + 1 == zweitesFeldMitGlitter.y && erstesFeldMitGlitter.x + 1 == zweitesFeldMitGlitter.x) {
-				return new Position(erstesFeldMitGlitter.y + 1, erstesFeldMitGlitter.x);
+			} else if (erstesFeldMitGlitter.y + 2 == drittesFeldMitGlitter.y && erstesFeldMitGlitter.x == drittesFeldMitGlitter.x) {
+				if (erstesFeldMitGlitter.y + 1 == zweitesFeldMitGlitter.y && erstesFeldMitGlitter.x - 1 == zweitesFeldMitGlitter.x) {
+					wump.sendeSchlussfolgerung("Glitter(" + (erstesFeldMitGlitter.y + 1) + "|" + (erstesFeldMitGlitter.x + 1) + "),Glitter(" + (zweitesFeldMitGlitter.y + 1) + "|" + (zweitesFeldMitGlitter.x + 1) + "),Glitter(" + (drittesFeldMitGlitter.y + 1) + "|" + (drittesFeldMitGlitter.x + 1) + ")=>Gold(" + (erstesFeldMitGlitter.y + 1 + 1) + "|" + (erstesFeldMitGlitter.x + 1) + ")");
+					return new Position(erstesFeldMitGlitter.y + 1, erstesFeldMitGlitter.x);
+				} else if (erstesFeldMitGlitter.y + 1 == zweitesFeldMitGlitter.y && erstesFeldMitGlitter.x + 1 == zweitesFeldMitGlitter.x) {
+					wump.sendeSchlussfolgerung("Glitter(" + (erstesFeldMitGlitter.y + 1) + "|" + (erstesFeldMitGlitter.x + 1) + "),Glitter(" + (zweitesFeldMitGlitter.y + 1) + "|" + (zweitesFeldMitGlitter.x + 1) + "),Glitter(" + (drittesFeldMitGlitter.y + 1) + "|" + (drittesFeldMitGlitter.x + 1) + ")=>Gold(" + (erstesFeldMitGlitter.y + 1 + 1) + "|" + (erstesFeldMitGlitter.x + 1) + ")");
+					return new Position(erstesFeldMitGlitter.y + 1, erstesFeldMitGlitter.x);
+				}
 			}
 		} else if (geheNichtNochmal == 4) {
 			return new Position(erstesFeldMitGlitter.y + 1, erstesFeldMitGlitter.x);
@@ -1068,12 +1104,16 @@ public class Agent implements Observer {
 			rechtesFeld = arraymitWissenBasis[y][x + 1];
 		}
 		if (linkesFeld != null && linkesFeld.besucht && linkesFeld.glitter /* && !linkesFeld.gefahr */&& istGoldNichtDa(y - 1, x - 1) && istGoldNichtDa(y + 1, x - 1) && istGoldNichtDa(y, x - 2)) {
+			wump.sendeSchlussfolgerung("Glitter(" + (linkesFeld.y + 1) + "|" + (linkesFeld.x + 1) + "),\u00AC Gold(" + (linkesFeld.y + 1 + 1) + "|" + (linkesFeld.x + 1) + "),\u00AC Gold(" + (linkesFeld.y + 1) + "|" + (linkesFeld.x + 1 - 1) + "),\u00AC Gold(" + (linkesFeld.y + 1 - 1) + "|" + (linkesFeld.x + 1) + ")=>Gold(" + (linkesFeld.y + 1) + "|" + (linkesFeld.x + 1 + 1) + ")");
 			return true;
 		} else if (rechtesFeld != null && rechtesFeld.besucht && rechtesFeld.glitter /* && !rechtesFeld.gefahr */&& istGoldNichtDa(y - 1, x + 1) && istGoldNichtDa(y + 1, x + 1) && istGoldNichtDa(y, x + 2)) {
+			wump.sendeSchlussfolgerung("Glitter(" + (rechtesFeld.y + 1) + "|" + (rechtesFeld.x + 1) + "),\u00AC Gold(" + (rechtesFeld.y + 1 + 1) + "|" + (rechtesFeld.x + 1) + "),\u00AC Gold(" + (rechtesFeld.y + 1) + "|" + (rechtesFeld.x + 1 + 1) + "),\u00AC Gold(" + (rechtesFeld.y + 1 - 1) + "|" + (rechtesFeld.x + 1) + ")=>Gold(" + (rechtesFeld.y + 1) + "|" + (rechtesFeld.x + 1 - 1) + ")");
 			return true;
 		} else if (oberesFeld != null && oberesFeld.besucht && oberesFeld.glitter /* && !oberesFeld.gefahr */&& istGoldNichtDa(y - 2, x) && istGoldNichtDa(y - 1, x - 1) && istGoldNichtDa(y - 1, x + 1)) {
+			wump.sendeSchlussfolgerung("Glitter(" + (oberesFeld.y + 1) + "|" + (oberesFeld.x + 1) + "),\u00AC Gold(" + (oberesFeld.y + 1) + "|" + (oberesFeld.x + 1 - 1) + "),\u00AC Gold(" + (oberesFeld.y + 1 - 1) + "|" + (oberesFeld.x + 1) + "),\u00AC Gold(" + (oberesFeld.y + 1) + "|" + (oberesFeld.x + 1 + 1) + ")=>Gold(" + (oberesFeld.y + 1 + 1) + "|" + (oberesFeld.x + 1) + ")");
 			return true;
 		} else if (unteresFeld != null && unteresFeld.besucht && unteresFeld.glitter /* && !unteresFeld.gefahr */&& istGoldNichtDa(y + 2, x) && istGoldNichtDa(y + 1, x - 1) && istGoldNichtDa(y + 1, x + 1)) {
+			wump.sendeSchlussfolgerung("Glitter(" + (unteresFeld.y + 1) + "|" + (unteresFeld.x + 1) + "),\u00AC Gold(" + (unteresFeld.y + 1) + "|" + (unteresFeld.x + 1 - 1) + "),\u00AC Gold(" + (unteresFeld.y + 1 + 1) + "|" + (unteresFeld.x + 1) + "),\u00AC Gold(" + (unteresFeld.y + 1) + "|" + (unteresFeld.x + 1 + 1) + ")=>Gold(" + (unteresFeld.y + 1 - 1) + "|" + (unteresFeld.x + 1) + ")");
 			return true;
 		}
 		return false;
@@ -1111,8 +1151,7 @@ public class Agent implements Observer {
 			if (x + 1 < anzahl) {
 				rechtesFeld = arraymitWissenBasis[y][x + 1];
 			}
-			if (linkesFeld != null && linkesFeld.besucht && !linkesFeld.geruch || rechtesFeld != null && rechtesFeld.besucht && !rechtesFeld.geruch || oberesFeld != null && oberesFeld.besucht && !oberesFeld.geruch || unteresFeld != null
-					&& unteresFeld.besucht && !unteresFeld.geruch) {
+			if (linkesFeld != null && linkesFeld.besucht && !linkesFeld.geruch || rechtesFeld != null && rechtesFeld.besucht && !rechtesFeld.geruch || oberesFeld != null && oberesFeld.besucht && !oberesFeld.geruch || unteresFeld != null && unteresFeld.besucht && !unteresFeld.geruch) {
 				return true;
 			}
 		}
@@ -1151,8 +1190,7 @@ public class Agent implements Observer {
 			if (x + 1 < anzahl) {
 				rechtesFeld = arraymitWissenBasis[y][x + 1];
 			}
-			if (linkesFeld != null && linkesFeld.besucht && !linkesFeld.brise || rechtesFeld != null && rechtesFeld.besucht && !rechtesFeld.brise || oberesFeld != null && oberesFeld.besucht && !oberesFeld.brise || unteresFeld != null
-					&& unteresFeld.besucht && !unteresFeld.brise) {
+			if (linkesFeld != null && linkesFeld.besucht && !linkesFeld.brise || rechtesFeld != null && rechtesFeld.besucht && !rechtesFeld.brise || oberesFeld != null && oberesFeld.besucht && !oberesFeld.brise || unteresFeld != null && unteresFeld.besucht && !unteresFeld.brise) {
 				return true;
 			}
 		}
@@ -1253,8 +1291,12 @@ public class Agent implements Observer {
 	 *            X-Koordinate des Zieles
 	 * @return
 	 */
-	private LinkedList<Position> gibMirDieRichtungZumZiel(int agentY, int agentX, int zielY, int zielX) {
-		if (!arraymitWissenBasis[agentY][agentX].besucht || arraymitWissenBasis[zielY][zielX].besucht || agentY == zielY && agentX == zielX)
+	// TODO: es kann sein dass diese methode nicht korrekt laeut
+	private LinkedList<Position> gibMirDieRichtungZumZiel(int agentY, int agentX, int _zielY, int _zielX) {
+		int zielY = new Integer(_zielY);
+		int zielX = new Integer(_zielX);
+		System.out.println("gibMirDieRichtungZumZiel:" + zielY + " " + zielX);
+		if (!arraymitWissenBasis[agentY][agentX].besucht || agentY == zielY && agentX == zielX)
 			return new LinkedList<Position>();
 		int[][] bewertung = new int[anzahl][anzahl];
 		for (int j = 0; j < anzahl; j++) {
@@ -1389,7 +1431,7 @@ public class Agent implements Observer {
 		boolean wumpusToeten = false;
 		System.out.println("Suche die Route");
 		int zielY = -1, zielX = -1;
-		wump.sendeSchlussfolgerung("Agent versucht zu schlussfolgern wo das Gold ist.");
+		// wump.sendeSchlussfolgerung("Agent versucht zu schlussfolgern wo das Gold ist.");
 		Position woIstGold = istGoldDa();
 		if (woIstGold == null) {
 			for (int y = 0; y < anzahl; y++) {
@@ -1406,11 +1448,13 @@ public class Agent implements Observer {
 		} else {
 			zielY = woIstGold.y;
 			zielX = woIstGold.x;
+			arraymitWissenBasis[zielY][zielX].gold = true;
 		}
+		System.out.println("2 ziely, zielx " + zielY + " " + zielX);
 		/* Wenn kein Gold findbar, weil wissensbasis nicht ausreichend, dann suche nächstes sicheres nicht besuchtes Feld */
 		if (zielY == -1 && zielX == -1) {
 			// Agent konnte nicht sagen wo gold ist AUSGABE
-			wump.sendeSchlussfolgerung("Agent konnte nicht herausfinden wo das Gold ist und versucht nun das nächste sichere Feld zu finden.");
+			// wump.sendeSchlussfolgerung("Agent konnte nicht herausfinden wo das Gold ist und versucht nun das nächste sichere Feld zu finden.");
 			double zielentfernung = 0;
 			for (int y = 0; y < anzahl; y++) {
 				for (int x = 0; x < anzahl; x++) {
@@ -1432,8 +1476,10 @@ public class Agent implements Observer {
 				}
 			}
 		}
+		/* Suche wumpus zu toten */
+		System.out.println("3 ziely, zielx " + zielY + " " + zielX);
 		if (zielY == -1 && zielX == -1) {
-			wump.sendeSchlussfolgerung("Der Agent konnte kein sicheres Feld finden und versucht nun seinen wertvollen Pfeil sicher in die atomare Hülle vom Wumpus zu versenken.");
+			// wump.sendeSchlussfolgerung("Der Agent konnte kein sicheres Feld finden und versucht nun seinen wertvollen Pfeil sicher in die atomare Hülle vom Wumpus zu versenken.");
 			Position woIstWumpus = istWumpusDa();
 			if (woIstWumpus == null) {
 				for (int y = 0; y < anzahl; y++) {
@@ -1443,30 +1489,57 @@ public class Agent implements Observer {
 							zielY = y;
 							zielX = x;
 							wumpusToeten = true;
-//							verarbeiteWahrnehmung(zielY, zielX);
+							// verarbeiteWahrnehmung(zielY, zielX);
 						}
 					}
 				}
 			} else {
-				System.out.println("Wumpus zum Toeten zuweisen " + (woIstWumpus.y - 1) + " " + (woIstWumpus.x - 1));
-				zielY = woIstWumpus.y - 1;
-				zielX = woIstWumpus.x - 1;
+				System.out.println("Wumpus zum Toeten zuweisen " + woIstWumpus.y + " " + woIstWumpus.x);
+				zielY = woIstWumpus.y;
+				zielX = woIstWumpus.x;
 				// wump.agetSagt(zielY, zielX);
 				wumpusToeten = true;
-//				verarbeiteWahrnehmung(zielY, zielX);
+				// verarbeiteWahrnehmung(zielY, zielX);
 			}
 		}
+		/* wenn agent nicht weiss, wohin er gehen muss */
+		System.out.println("4 ziely, zielx " + zielY + " " + zielX);
+		if (zielY == -1 && zielX == -1) {
+			double zielentfernung = 0;
+			for (int y = 0; y < anzahl; y++) {
+				for (int x = 0; x < anzahl; x++) {
+					if (dieNahligendeFelderBesucht(y, x)) {
+						if (!arraymitWissenBasis[y][x].besucht && !pruefeFeldNachSicherheit(y, x)) {
+							double entfernung = Math.sqrt((agentY - y) * (agentY - y) + (agentX - x) * (agentX - x));
+							if (zielY == -1 && zielX == -1) {
+								System.out.println("Kein sicheres Feld zuweisen");
+								zielY = y;
+								zielX = x;
+								zielentfernung = entfernung;
+							} else if (zielentfernung > entfernung) {
+								zielY = y;
+								zielX = x;
+								zielentfernung = entfernung;
+							}
+						}
+					}
+				}
+			}
+			// positionenListe = gibMirDieRichtungZumZiel(_y, _x, zielY, zielX);
+			// bewegungsListe.add(welcheRichtung(positionenListe.poll(), positionenListe.peek()));
+		}
 
+		System.out.println("5 ziely, zielx " + zielY + " " + zielX);
 		if (zielY != -1 && zielX != -1) {
 			if (!positionenListe.isEmpty()) {
 				positionenListe.clear();
 			}
 			positionenListe = gibMirDieRichtungZumZiel(_y, _x, zielY, zielX);
+			System.out.println("5 ziely, zielx " + zielY + " " + zielX + " positionenListe:" + positionenListe.size());
 			// TODO: Wenn eine Liste ausgegeben wird, muss getestet werden ob überhaupt etwas enthält, bzw. ob Ziel und Anfang drin ist
 			// if (!listeKomplett(positionenListe, new Position(_y, _x), new Position(zielY, zielX))) {
 			// positionenListe.clear();
 			// }
-
 			if (!bewegungsListe.isEmpty()) {
 				bewegungsListe.clear();
 			}
@@ -1494,30 +1567,6 @@ public class Agent implements Observer {
 			for (int i = 0; i < bewegungsListe.size(); i++) {
 				System.out.println(i + ". " + bewegungsListe.get(i));
 			}
-		}
-		if (zielY == -1 && zielX == -1) {
-			double zielentfernung = 0;
-			for (int y = 0; y < anzahl; y++) {
-				for (int x = 0; x < anzahl; x++) {
-					if (dieNahligendeFelderBesucht(y, x)) {
-						if (!arraymitWissenBasis[y][x].besucht && !pruefeFeldNachSicherheit(y, x)) {
-							double entfernung = Math.sqrt((agentY - y) * (agentY - y) + (agentX - x) * (agentX - x));
-							if (zielY == -1 && zielX == -1) {
-								System.out.println("Kein sicheres Feld zuweisen");
-								zielY = y;
-								zielX = x;
-								zielentfernung = entfernung;
-							} else if (zielentfernung > entfernung) {
-								zielY = y;
-								zielX = x;
-								zielentfernung = entfernung;
-							}
-						}
-					}
-				}
-			}
-			positionenListe = gibMirDieRichtungZumZiel(_y, _x, zielY, zielX);
-			bewegungsListe.add(welcheRichtung(positionenListe.poll(), positionenListe.peek()));
 		}
 
 		// TODO: Bewegung anhand der bewegungsListe muss eingeleitet werden.
@@ -1584,8 +1633,7 @@ public class Agent implements Observer {
 			if (x + 1 < anzahl) {
 				rechtesFeld = arraymitWissenBasis[y][x + 1];
 			}
-			if (linkesFeld != null && linkesFeld.besucht && !linkesFeld.glitter || rechtesFeld != null && rechtesFeld.besucht && !rechtesFeld.glitter || oberesFeld != null && oberesFeld.besucht && !oberesFeld.glitter || unteresFeld != null
-					&& unteresFeld.besucht && !unteresFeld.glitter) {
+			if (linkesFeld != null && linkesFeld.besucht && !linkesFeld.glitter || rechtesFeld != null && rechtesFeld.besucht && !rechtesFeld.glitter || oberesFeld != null && oberesFeld.besucht && !oberesFeld.glitter || unteresFeld != null && unteresFeld.besucht && !unteresFeld.glitter) {
 				return true;
 			}
 		}

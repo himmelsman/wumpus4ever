@@ -212,7 +212,9 @@ public class WumpusWelt extends Observable {
 					notifyObservers(new NachrichtenObjekt(agent_y, agent_x, wahrnemungen, Bezeichnungen.AGENT));
 				} else {
 					int temp = weltArray[agent_y + y_r][agent_x + x_r];
+					System.out.println("1.weltArray:" + weltArray[agent_y + y_r][agent_x + x_r]);
 					weltArray[agent_y + y_r][agent_x + x_r] = positioniere.entferneWahnehmung(weltArray[agent_y + y_r][agent_x + x_r], 4);
+					System.out.println("2.weltArray:" + weltArray[agent_y + y_r][agent_x + x_r]);
 					if (temp != weltArray[agent_y + y_r][agent_x + x_r]) {
 						if (agent_y + y_r - 1 >= 0 && agent_x + x_r >= 0 && agent_y + y_r - 1 < anzahl && agent_x + x_r < anzahl)
 							weltArray[agent_y + y_r - 1][agent_x + x_r] = positioniere.entferneWahnehmung(weltArray[agent_y + y_r - 1][agent_x + x_r], 5);
@@ -368,6 +370,10 @@ public class WumpusWelt extends Observable {
 		nO.setzeWissensbasis(_wissensbasis);
 		setChanged();
 		notifyObservers(nO);
+	}
+	
+	public void leereListe(){
+		globaleListe.clear();
 	}
 	
 }

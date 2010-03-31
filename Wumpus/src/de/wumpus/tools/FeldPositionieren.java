@@ -68,7 +68,7 @@ public class FeldPositionieren {
 			// System.out.println("Element: "+element + " Zahl: 1"+
 			// "istarray: " + istarray[element]);
 		}
-		int j = 1, x, y;
+		int j = 1, x, y,h=0,k=0;
 		for (Iterator<Integer> it = numberSet.iterator(); it.hasNext();) {
 			Integer element = it.next();
 			// System.err.println("element:" +element);
@@ -103,8 +103,11 @@ public class FeldPositionieren {
 					istarray[x][y] = value;
 				} else {
 					int value = 4;
-					istarray[x][y] = istarray[x][y] * 10 + value;
+					System.out.println("vor wumpus" + istarray[x][y]);
+					istarray[x][y] = checkLast(istarray[x][y], value);
 				}
+				System.out.println("nach wumpus" + istarray[x][y]);
+				h = x; k = y;
 				/* Ende von dieses Teil */
 				setUmfeld(x, y, 5, anzahl, istarray);
 				// System.out.println("Element: "+element + " Zahl: 3"+
@@ -132,6 +135,7 @@ public class FeldPositionieren {
 			}
 			j++;
 		}
+		System.out.println("nach wumpus" + istarray[h][k]);
 		// for (int i = 0; i < anzahl; i++)
 		// for (int h = 0; h < anzahl; h++)
 		// System.out.println("Position: " + i + "," + h + " Wert: " + istarray[h][i]);
@@ -385,9 +389,9 @@ public class FeldPositionieren {
 		return temp;
 
 	}
-	// public static void main(String[] args) {
-	// FeldPositionieren fp = new FeldPositionieren();
-	// System.out.println(fp.letzteStelle(0));
+	 public static void main(String[] args) {
+	 FeldPositionieren fp = new FeldPositionieren();
+	 System.out.println(fp.entferneWahnehmung(34, 4));
 	// int temp = fp.entferneWahnehmung(123456, 4);
 	// System.out.println("Temp: " + temp);
 	// // int[] array = fp.separateWahrnehmungen(1230);
@@ -406,5 +410,5 @@ public class FeldPositionieren {
 	// // System.out.println("Feld(" + (y) + "|" + x + ") " + test[y][x]);
 	// // }
 	// // }
-	// }
+	 }
 }

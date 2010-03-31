@@ -62,7 +62,7 @@ public class Feld {
 			temp.brise = true;	
 		}
 		if(geruch){
-			temp.brise = true;	
+			temp.geruch = true;	
 		}
 		if(glitter){
 			temp.glitter = true;	
