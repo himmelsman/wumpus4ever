@@ -1,5 +1,6 @@
 package de.wumpus.tools;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -7,8 +8,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.net.URL;
 
 import javax.swing.JButton;
+import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -26,14 +29,7 @@ public class AboutScreen extends JFrame {
 	ScrollText scr;
 	private JScrollPane jScrollPane1;
 	private JButton jButton1;
-	private JTextArea aboutTextArea;
-	private String aboutText = 
-		"Wumpus Welt\n" +
-		"Ein AI-Projekt von:\n" +
-		"	Bagautdinov Sergey\n" +
-		"	Naydich Igor\n" +
-		"	Werker Benjamin\n\n" +
-		"Im Auftrag von Prof. Dr. H. Klocke";
+	private JEditorPane aboutTextArea;
 	public AboutScreen(JFrame _main){
 		main = _main;
 		initGUI();
@@ -57,20 +53,23 @@ public class AboutScreen extends JFrame {
 				GridBagLayout thisLayout = new GridBagLayout();
 				setPreferredSize(new java.awt.Dimension(700, 500));
 				setSize(new java.awt.Dimension(700, 500));
-				thisLayout.rowWeights = new double[] {0.1, 0.1, 0.1, 0.01};
+				thisLayout.rowWeights = new double[] {0.01, 0.1, 0.1, 0.01};
 				thisLayout.rowHeights = new int[] {7, 7, 7, 7};
 				thisLayout.columnWeights = new double[] {0.1, 0.1, 0.1, 0.1};
 				thisLayout.columnWidths = new int[] {7, 7, 7, 7};
 				getContentPane().setLayout(thisLayout);
 				{
 					jScrollPane1 = new JScrollPane();
+					jScrollPane1.setSize(new Dimension(100,10));
 					getContentPane().add(jScrollPane1, new GridBagConstraints(0, 0, 4, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 					{
-						aboutTextArea = new JTextArea();
+						aboutTextArea = new JEditorPane();
 						jScrollPane1.setViewportView(aboutTextArea);
-						aboutTextArea.setText(aboutText);
-						aboutTextArea.setLineWrap(true);
+						//TODO: Abfrage ob aus Jar oder nicht
+//						aboutTextArea.setPage(ClassLoader.getSystemResource("inhalte/about.html"));
+						aboutTextArea.setPage(new URL("file:inhalte/about.html"));
 						aboutTextArea.setEditable(false);
+						
 					}
 				}
 				{

@@ -43,17 +43,18 @@ public class WDA extends javax.swing.JPanel {
 	private void initGUI() {
 		try {
 			GridLayout thisLayout = new GridLayout(anzahl, anzahl);
-			thisLayout.setColumns(4);
+			thisLayout.setColumns(anzahl);
 			thisLayout.setHgap(1);
 			thisLayout.setVgap(1);
-			thisLayout.setRows(4);
+			thisLayout.setRows(anzahl);
 			setLayout(thisLayout);
 			labelArray = new JTextArea[anzahl][anzahl];
 			for (int i = 0; i < anzahl; i++) {
 				for (int j = 0; j < anzahl; j++) {
 					labelArray[i][j] = new JTextArea(i + "\n" + j);
-					labelArray[i][j].setFont(new java.awt.Font("Arial", 0, 10));
-					labelArray[i][j].setEnabled(false);
+					labelArray[i][j].setFont(new java.awt.Font(this.getFont().getFamily(), 0, 10));
+					labelArray[i][j].setFocusable(false);
+					labelArray[i][j].setEditable(false);
 					if(anzahl>3){
 						add(labelArray[i][j]);
 					}
@@ -77,32 +78,106 @@ public class WDA extends javax.swing.JPanel {
 		for (int i = 0; i < anzahl; i++) {
 			for (int j = 0; j < anzahl; j++) {
 				tempString = "";
+				int count = 0;
 				if (wissensbasis[i][j].besucht) {
-					tempString += "BE\n";
+					if(count == 1 || count == 3){
+						tempString += " ";
+						count++;
+					}else if(count == 2){
+						tempString += "\n";
+						count++;
+					}else 
+						count++;
+					tempString += "BE";
+					
 				}
 				if (wissensbasis[i][j].versteckt) {
-					tempString += "UN\n";
+					if(count == 1 || count == 3){
+						tempString += " ";
+						count++;
+					}else if(count == 2){
+						tempString += "\n";
+						count++;
+					}else 
+						count++;
+					tempString += "UN";
 				}
 				if (wissensbasis[i][j].gefahr) {
-					tempString += "TO\n";
+					if(count == 1 || count == 3){
+						tempString += " ";
+						count++;
+					}else if(count == 2){
+						tempString += "\n";
+						count++;
+					}else 
+						count++;
+					tempString += "TO";
 				}
 				if (wissensbasis[i][j].wumpus) {
-					tempString += "WU\n";
+					if(count == 1 || count == 3){
+						tempString += " ";
+						count++;
+					}else if(count == 2){
+						tempString += "\n";
+						count++;
+					}else 
+						count++;
+					tempString += "WU";
 				}
 				if (wissensbasis[i][j].fallgrube) {
-					tempString += "FA\n";
+					if(count == 1 || count == 3){
+						tempString += " ";
+						count++;
+					}else if(count == 2){
+						tempString += "\n";
+						count++;
+					}else 
+						count++;
+					tempString += "FA";
 				}
 				if (wissensbasis[i][j].gold) {
-					tempString += "GO\n";
+					if(count == 1 || count == 3){
+						tempString += " ";
+						count++;
+					}else if(count == 2){
+						tempString += "\n";
+						count++;
+					}else 
+						count++;
+					tempString += "GO";
 				}
 				if (wissensbasis[i][j].brise) {
-					tempString += "BR\n";
+					if(count == 1 || count == 3){
+						tempString += " ";
+						count++;
+					}else if(count == 2){
+						tempString += "\n";
+						count++;
+					}else 
+						count++;
+					tempString += "BR";
 				}
 				if (wissensbasis[i][j].geruch) {
-					tempString += "GE\n";
+					if(count == 1 || count == 3){
+						tempString += " ";
+						count++;
+					}else if(count == 2){
+						tempString += "\n";
+						count++;
+					}else 
+						count++;
+					tempString += "GE";
 				}
 				if (wissensbasis[i][j].glitter) {
-					tempString += "GL\n";
+					if(count == 1 || count == 3){
+						tempString += " ";
+						count++;
+					}else if(count == 2){
+						tempString += "\n";
+						count++;
+					}else 
+						count++;
+					tempString += "GL";
 				}
 				// if(wandO){
 				// temp.wandO = true;

@@ -8,8 +8,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.net.URL;
+
 import javax.swing.JButton;
 
+import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -28,17 +31,8 @@ public class HelpScreen extends JFrame {
 	JFrame main;
 	private JScrollPane jScrollPane1;
 	private JButton jButton1;
-	private JTextArea helpTextArea;
-	private String helpText = "Die Wumpus-Welt\n" + "Ein Agent erforscht eine Höhle auf der Suche nach einem Goldschatz. Die" + "Höhle besteht aus mehreren miteinander verbundenen Räumen. Irgendwo in"
-			+ "der Höhle lauert der Wumpus, ein Ungeheuer, das jeden frisst, der in seine" + "Nähe kommt. Obendrein gibt es Fallgruben (PITs), in die der Agent stürzen" + "kann. Die Höhle besteht aus 4x4 Feldern (Räumen). Auf dem Feld, auf dem"
-			+ "sich der Wumpus befindet, und in den unmittelbar benachbarten Feldern" + "nimmt man einen unangenehmen Geruch wahr (Stench). Auf Feldern, die" + "unmittelbar neben einer Fallgrube liegen, spürt man einen Luftzug (Breeze).\n\n"
-			+ "Ziel\n" + "Hole das Gold ohne in eines der Löcher zu fallen ohne auf den Wumpus zu stoßen und kehre zum Start zurück.\n" + "- Das Gold erkennt man am Glitzern (Glitter)\n"
-			+ "- Falls der Agent gegen eine Wand läuft, spürt er einen Stoß\n" + "- Der Agent besitzt (genau) einen Pfeil, mit dem er den Wumpus töten kann\n" + "- Wird der Wumpus getötet, so ist sein Todesschrei überall in der Höhle zu hören\n"
-			+ "- Der Agent stirbt, wenn er in eine Fallgrube fällt oder dem lebenden Wumpus begegnet\n" + "- Perzeptionen werden als 5-Tupel dargestellt\n" + "- z.B. Geruch, Luftzug, Glitzern, kein Stoß, kein Schrei\n"
-			+ "- [Stench, Breeze, Glitter, None, None]\n\n" +
-
-			"Die Regeln\n" + "- Gold +1000, gefressen -1000\n" + "- 1 pro ein Schritt, -10 für Pfeilschuss\n" + "- Quadrate in direkter Nachbarschaft" + "zum Wumpus sind “smelly(geruch)”\n" + "- Quadrate in direkter Nachbarschaft"
-			+ "zu Pits sind “breezy(brise)”\n" + "- Quadrate in direkter Nachbarschaft" + "zum Gold sind “glitter”\n" + "- Pfeilschuss tötet den Wumpus bei direktem Gegenüberstehen\n" + "- Nur ein Pfeil steht zur Verfügung";
+	private JEditorPane helpTextArea;
+//	private URL helpFile = new URL("file://localhost/D:/help.html");
 
 	public HelpScreen(JFrame _main) {
 		main = _main;
@@ -70,10 +64,11 @@ public class HelpScreen extends JFrame {
 					jScrollPane1 = new JScrollPane();
 					getContentPane().add(jScrollPane1, new GridBagConstraints(0, 0, 4, 3, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 					{
-						helpTextArea = new JTextArea();
+						helpTextArea = new JEditorPane();
 						jScrollPane1.setViewportView(helpTextArea);
-						helpTextArea.setText(helpText);
-						helpTextArea.setLineWrap(true);
+						//TODO: Abfrage ob aus Jar oder nicht
+//						helpTextArea.setPage(ClassLoader.getSystemResource("inhalte/help.html"));
+						helpTextArea.setPage(new URL("file:inhalte/help.html"));
 						helpTextArea.setEditable(false);
 					}
 				}

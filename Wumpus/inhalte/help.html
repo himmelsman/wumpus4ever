@@ -1,0 +1,87 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=windows-1252">
+	<TITLE></TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 3.1  (Win32)">
+	<META NAME="CREATED" CONTENT="20100409;10140600">
+	<META NAME="CHANGED" CONTENT="20100409;10171100">
+	<STYLE TYPE="text/css">
+	<!--
+		@page { margin: 2cm }
+		P { margin-bottom: 0.21cm }
+	-->
+	</STYLE>
+</HEAD>
+<BODY LANG="de-DE" DIR="LTR">
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT FACE="Arial, serif"><B>Die
+Wumpus-Welt</B></FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT FACE="Arial, serif">Ein
+Agent erforscht eine H&ouml;hle auf der Suche nach einem Goldschatz.
+Die H&ouml;hle besteht aus mehreren miteinander verbundenen R&auml;umen.
+Irgendwo in der H&ouml;hle lauert der </FONT><FONT FACE="Arial, serif"><I>Wumpus</I></FONT><FONT FACE="Arial, serif">,
+ein Ungeheuer, das jeden frisst, der in seine N&auml;he kommt.
+Obendrein gibt es Fallgruben (</FONT><FONT FACE="Arial, serif"><I>PITs</I></FONT><FONT FACE="Arial, serif">),
+in die der Agent st&uuml;rzen kann. Die H&ouml;hle besteht aus 4x4
+Feldern (R&auml;umen). Auf dem Feld, auf dem sich der Wumpus
+befindet, und in den unmittelbar benachbarten Feldern nimmt man einen
+unangenehmen Geruch wahr (</FONT><FONT FACE="Arial, serif"><I>Stench</I></FONT><FONT FACE="Arial, serif">).
+Auf Feldern, die unmittelbar neben einer Fallgrube liegen, sp&uuml;rt
+man einen Luftzug (</FONT><FONT FACE="Arial, serif"><I>Breeze</I></FONT><FONT FACE="Arial, serif">).</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT FACE="Arial, serif"><B>Ziel</B></FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT FACE="Arial, serif">Hole
+das Gold ohne in eines der L&ouml;cher zu fallen ohne auf den Wumpus
+zu sto&szlig;en und kehre zum Start zur&uuml;ck.</FONT></P>
+<UL>
+	<LI><P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT FACE="Arial, serif">Das
+	Gold erkennt man am Glitzern (</FONT><FONT FACE="Arial, serif"><I>Glitter</I></FONT><FONT FACE="Arial, serif">)</FONT></P>
+	<LI><P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT FACE="Arial, serif">Falls
+	der Agent gegen eine Wand l&auml;uft, sp&uuml;rt er einen Sto&szlig;</FONT></P>
+	<LI><P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT FACE="Arial, serif">Der
+	Agent besitzt (genau) einen Pfeil, mit dem er den Wumpus t&ouml;ten
+	kann</FONT></P>
+	<LI><P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT FACE="Arial, serif">Wird
+	der Wumpus get&ouml;tet, so ist sein Todesschrei &uuml;berall in der
+	H&ouml;hle zu h&ouml;ren</FONT></P>
+	<LI><P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT FACE="Arial, serif">Der
+	Agent stirbt, wenn er in eine Fallgrube f&auml;llt oder dem lebenden
+	Wumpus begegnet</FONT></P>
+	<LI><P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT FACE="Arial, serif">Perzeptionen
+	werden als 5-Tupel dargestellt</FONT></P>
+	<LI><P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT FACE="Arial, serif">z.B.
+	Geruch, Luftzug, Glitzern, kein Sto&szlig;, kein Schrei</FONT></P>
+	<LI><P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT FACE="Arial, serif"><SPAN LANG="en-US">[Geruch,
+	Brise, Glitter, Besucht, T&ouml;dlich, Unbekannt]</SPAN></FONT></P>
+</UL>
+<P LANG="en-US" ALIGN=LEFT STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT FACE="Arial, serif"><SPAN LANG="en-US"><B>Die
+</B></SPAN></FONT><FONT FACE="Arial, serif"><B>Regeln</B></FONT></P>
+<UL>
+	<LI><P STYLE="margin-bottom: 0cm"><FONT FACE="Arial, serif">Gold
+	+1000, gefressen -1000</FONT></P>
+	<LI><P STYLE="margin-bottom: 0cm"><FONT FACE="Arial, serif">1 pro
+	step, -10 f&uuml;r Pfeilschuss</FONT></P>
+	<LI><P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT FACE="Arial, serif">Quadrate
+	in direkter Nachbarschaft</FONT></P>
+</UL>
+<P STYLE="margin-left: 1.88cm; margin-bottom: 0cm"><FONT FACE="Arial, serif">zum
+Wumpus sind &ldquo;smelly&rdquo;</FONT></P>
+<UL>
+	<LI><P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT FACE="Arial, serif">Quadrate
+	in direkter Nachbarschaft</FONT></P>
+</UL>
+<P STYLE="margin-left: 1.88cm; margin-bottom: 0cm"><FONT FACE="Arial, serif">zu
+Pits sind &ldquo;breezy&rdquo;</FONT></P>
+<UL>
+	<LI><P STYLE="margin-bottom: 0cm"><FONT FACE="Arial, serif">Glitzern
+	bei Gold im gleichen Quadrat</FONT></P>
+	<LI><P STYLE="margin-bottom: 0cm"><FONT FACE="Arial, serif">Pfeilschuss
+	t&ouml;tet den Wumpus bei direktem Gegen&uuml;berstehen</FONT></P>
+	<LI><P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT FACE="Arial, serif">Nur
+	ein Pfeil steht zur Verf&uuml;gung</FONT></P>
+</UL>
+</BODY>
+</HTML>

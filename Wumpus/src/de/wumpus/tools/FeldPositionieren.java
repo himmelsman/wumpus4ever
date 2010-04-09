@@ -411,4 +411,14 @@ public class FeldPositionieren {
 	// // }
 	// // }
 	 }
+
+	public boolean beinhaltet(int wahrnehmung, int zahl) {
+		int[] sepWahrnehmung = separateWahrnehmungen(wahrnehmung);
+		for(int i = 0;i<sepWahrnehmung.length;i++){
+			if(sepWahrnehmung[i] == zahl){
+				return true;
+			}
+		}
+		return false;
+	}
 }

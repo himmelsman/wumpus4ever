@@ -1,5 +1,8 @@
 package de.wumpus.beobachter;
 
+
+//TODO: wissenbasis for 8x8 nicht funktioniert. d.h. falsche ausgabelol2
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -137,7 +140,6 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 		try {
 			{
 				setSize(850, 650);
-
 				setTitle("Wumpus Welt");
 				setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 				thisLayout.rowWeights = new double[] { 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1 };
@@ -201,13 +203,22 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 				{
 					jPanel2 = new JScrollPane();
 					jPanel2.setBorder(BorderFactory.createTitledBorder("SchlussFolgerungen des Agentes"));
+//					jPanel2.setForeground(Color.yellow);
+//					jPanel2.setFont(new java.awt.Font("Arial", 0, 20));
+//					jPanel2.setForeground(new Color(255,10,20));
 					getContentPane().add(jPanel2, new GridBagConstraints(1, 6, 4, 2, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 					jPanel2.setPreferredSize(new java.awt.Dimension(100, 1));
 					{
 						wissensbasisTextArea = new JTextArea();
+						wissensbasisTextArea.setWrapStyleWord(true);
 						wissensbasisTextArea.setLineWrap(true);
-						jPanel2.setViewportView(wissensbasisTextArea);
-						wissensbasisTextArea.setEnabled(false);
+						wissensbasisTextArea.setFont(this.getFont());
+						wissensbasisTextArea.setEditable(false);
+						wissensbasisTextArea.setFocusable(false);
+//						wissensbasisTextArea.setForeground(new Color(255,10,20));
+//						Font f = new Font("Dialog", Font.PLAIN, 100);						
+						jPanel2.setViewportView(wissensbasisTextArea);						
+//						wissensbasisTextArea.setEnabled(false);
 						wissensbasisTextArea.setPreferredSize(new java.awt.Dimension(389, 112));
 					}
 				}
@@ -469,9 +480,11 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 					}
 					{
 						ablaufWahrnehmungAusgabe = new JTextArea();
+						ablaufWahrnehmungAusgabe.setWrapStyleWord(true);
 						ablaufWahrnehmungAusgabe.setLineWrap(true);
 						ablaufPanel.add(ablaufWahrnehmungAusgabe, new GridBagConstraints(1, 2, 2, 2, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
-						ablaufWahrnehmungAusgabe.setEnabled(false);
+						ablaufWahrnehmungAusgabe.setFocusable(false);
+						ablaufWahrnehmungAusgabe.setEditable(false);
 					}
 					{
 						ablaufBewegung = new JLabel();
@@ -480,10 +493,9 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 					}
 					{
 						ablaufBewegungAusgabe = new JTextArea();
-						ablaufPanel.setFocusable(false);
-						;
 						ablaufPanel.add(ablaufBewegungAusgabe, new GridBagConstraints(1, 5, 2, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
-						ablaufBewegungAusgabe.setEnabled(false);
+						ablaufBewegungAusgabe.setEditable(false);
+						ablaufBewegungAusgabe.setFocusable(false);
 						// ablaufBewegungAusgabe.setText("Ausgabe von lentzten Bewegung");
 					}
 				}
@@ -706,6 +718,14 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 			ablaufListe2.add(new Ablauf(ablaufListe2.getLast().getPosition(), "Der Agent hört den Todesschrei des Wumpus", ((NachrichtenObjekt) arg).nachricht));
 			setzteAblauf(ablaufListe2.getLast());
 
+		} else if(((NachrichtenObjekt) arg).information.equals(Bezeichnungen.WUMPUS_WURDE_NICHT_GETOETET)) {
+			gesamtPunktenAnzahl = gesamtPunktenAnzahl - pfeilBenutzung;
+			punkteAnzahlLabel.setText(String.valueOf(gesamtPunktenAnzahl));
+			jCheckBox1.setSelected(false);
+			jCheckBox1.setEnabled(false);
+			pfeil = false;
+			ablaufListe2.add(new Ablauf(ablaufListe2.getLast().getPosition(), "Der Agent vernimmt eine verängstigende Stille.", ((NachrichtenObjekt) arg).nachricht));
+			setzteAblauf(ablaufListe2.getLast());
 		}
 		// if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.POSITION)) {
 		// // String tempText = "\n" + "Position (" + (((NachrichtenObjekt) arg).y + 1) + "|" + (((NachrichtenObjekt) arg).x + 1) + ")";

@@ -35,23 +35,23 @@ public class Wumpus_Panel extends JPanel implements Observer {
 	// Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 	// private static int panelGrosse;
 
-	String schwarz = "Black.JPG";
-	String grau = "Gray.JPG";
-	String glitter = "Glitter.JPG";
-	String agent = "Agent.JPG";
-	String gold = "Gold.JPG";
-	String wumpus2 = "Wumpus.JPG";
-	String pit = "Pit.JPG";
-	String breeze = "Breeze.JPG";
-	String smell = "Smell.JPG";
-	String breezeGold = "BreezeGold.JPG";
-	String smellGold = "SmellGold.JPG";
-	String breezeSmell = "BreezeSmell.JPG";
-	String breezeSmellGold = "BreezeSmellGold.JPG";
-	String breezeGlitter = "BreezeGlitter.JPG";
-	String smellGlitter = "SmellGlitter.JPG";
-	String breezeSmellGlitter = "BreezeSmellGlitter.JPG";
-	public boolean DEBUG = true;
+	String schwarz = "inhalte/Black.JPG";
+	String grau = "inhalte/Gray.JPG";
+	String glitter = "inhalte/Glitter.JPG";
+	String agent = "inhalte/Agent.JPG";
+	String gold = "inhalte/Gold.jpg";
+	String wumpus2 = "inhalte/Wumpus.jpg";
+	String pit = "inhalte/Pit.jpg";
+	String breeze = "inhalte/Breeze.JPG";
+	String smell = "inhalte/Smell.JPG";
+	String breezeGold = "inhalte/BreezeGold.JPG";
+	String smellGold = "inhalte/SmellGold.JPG";
+	String breezeSmell = "inhalte/BreezeSmell.JPG";
+	String breezeSmellGold = "inhalte/BreezeSmellGold.JPG";
+	String breezeGlitter = "inhalte/BreezeGlitter.jpg";
+	String smellGlitter = "inhalte/SmellGlitter.jpg";
+	String breezeSmellGlitter = "inhalte/BreezeSmellGlitter.jpg";
+	public boolean DEBUG = false;
 
 	public Wumpus_Panel(WumpusWelt _wump) {
 		super();
