@@ -1,6 +1,5 @@
 package de.wumpus.beobachter;
 
-
 //TODO: wissenbasis for 8x8 nicht funktioniert. d.h. falsche ausgabelol2
 
 import java.awt.Color;
@@ -128,6 +127,7 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 	private static final String FILEMENUITEM5 = "Exit (Alt+x)";
 	private static final String HELPMENUITEM1 = "Hilfe (Alt+H)";
 	private static final String HELPMENUITEM2 = "About (Alt+A)";
+	private static final String HELPMENUITEM3 = "Debug (Shift+D)";
 
 	public WumpusGUI(Wumpus_Panel panel, WumpusWelt _wump) {
 		wumpusPanel = panel;
@@ -203,9 +203,9 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 				{
 					jPanel2 = new JScrollPane();
 					jPanel2.setBorder(BorderFactory.createTitledBorder("SchlussFolgerungen des Agentes"));
-//					jPanel2.setForeground(Color.yellow);
-//					jPanel2.setFont(new java.awt.Font("Arial", 0, 20));
-//					jPanel2.setForeground(new Color(255,10,20));
+					// jPanel2.setForeground(Color.yellow);
+					// jPanel2.setFont(new java.awt.Font("Arial", 0, 20));
+					// jPanel2.setForeground(new Color(255,10,20));
 					getContentPane().add(jPanel2, new GridBagConstraints(1, 6, 4, 2, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 					jPanel2.setPreferredSize(new java.awt.Dimension(100, 1));
 					{
@@ -215,10 +215,10 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 						wissensbasisTextArea.setFont(this.getFont());
 						wissensbasisTextArea.setEditable(false);
 						wissensbasisTextArea.setFocusable(false);
-//						wissensbasisTextArea.setForeground(new Color(255,10,20));
-//						Font f = new Font("Dialog", Font.PLAIN, 100);						
-						jPanel2.setViewportView(wissensbasisTextArea);						
-//						wissensbasisTextArea.setEnabled(false);
+						// wissensbasisTextArea.setForeground(new Color(255,10,20));
+						// Font f = new Font("Dialog", Font.PLAIN, 100);
+						jPanel2.setViewportView(wissensbasisTextArea);
+						// wissensbasisTextArea.setEnabled(false);
 						wissensbasisTextArea.setPreferredSize(new java.awt.Dimension(389, 112));
 					}
 				}
@@ -558,6 +558,9 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 							JMenuItem about = new JMenuItem(HELPMENUITEM2);
 							about.addActionListener(this);
 							help.add(about);
+							JMenuItem debug = new JMenuItem(HELPMENUITEM3);
+							debug.addActionListener(this);
+							help.add(debug);
 						}
 					}
 				}
@@ -718,7 +721,7 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 			ablaufListe2.add(new Ablauf(ablaufListe2.getLast().getPosition(), "Der Agent hört den Todesschrei des Wumpus", ((NachrichtenObjekt) arg).nachricht));
 			setzteAblauf(ablaufListe2.getLast());
 
-		} else if(((NachrichtenObjekt) arg).information.equals(Bezeichnungen.WUMPUS_WURDE_NICHT_GETOETET)) {
+		} else if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.WUMPUS_WURDE_NICHT_GETOETET)) {
 			gesamtPunktenAnzahl = gesamtPunktenAnzahl - pfeilBenutzung;
 			punkteAnzahlLabel.setText(String.valueOf(gesamtPunktenAnzahl));
 			jCheckBox1.setSelected(false);
@@ -887,6 +890,13 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 		} else if (actionBefehl.equals(HELPMENUITEM2)) {
 			setEnabled(false);
 			new AboutScreen(guiFrame);
+		} else if (actionBefehl.equals(HELPMENUITEM3)) {
+//			setEnabled(false);
+			if (!wumpusPanel.DEBUG) {
+				wumpusPanel.DEBUG = true;
+			} else if (wumpusPanel.DEBUG) {
+				wumpusPanel.DEBUG = false;
+			}
 		}
 	}
 
