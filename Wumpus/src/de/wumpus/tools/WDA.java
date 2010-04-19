@@ -1,5 +1,6 @@
 package de.wumpus.tools;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 
@@ -192,6 +193,9 @@ public class WDA extends javax.swing.JPanel {
 				// temp.wandR = true;
 				// }
 				labelArray[i][j].setText(tempString);
+				if(wissensbasis[i][j].agent){
+					labelArray[i][j].setBackground(Color.GREEN);
+				}
 			}
 		}
 	}

@@ -36,6 +36,7 @@ public class Wumpus_Panel extends JPanel implements Observer {
 	// private static int panelGrosse;
 
 	String schwarz = "inhalte/Black.JPG";
+	String weiss = "inhalte/Weiss.jpg";
 	String grau = "inhalte/Gray.JPG";
 	String glitter = "inhalte/Glitter.JPG";
 	String agent = "inhalte/Agent.JPG";
@@ -233,10 +234,16 @@ public class Wumpus_Panel extends JPanel implements Observer {
 		} else if (wump.bestimmeDieErsteZahl(wahrnehmung) == 9) {
 			return new WumpusBitmapComponent(grau, this.getSize().height / anzahl, this.getSize().width / anzahl);
 		} else if (wump.bestimmeDieErsteZahl(wahrnehmung) == 0) {
+			if(DEBUG){
+				return new WumpusBitmapComponent(weiss, this.getSize().height / anzahl, this.getSize().width / anzahl);
+			}else 
 			return new WumpusBitmapComponent(schwarz, this.getSize().height / anzahl, this.getSize().width / anzahl);
 		}
 		// Weil muss etwas returnen
 		System.out.println("Wahrnehmung war:" + wahrnehmung + " und gab keinen eindeutige erkenntnis daher schwarz eingesetzt");
+		if(DEBUG){
+			return new WumpusBitmapComponent(weiss, this.getSize().height / anzahl, this.getSize().width / anzahl);
+		}else		
 		return new WumpusBitmapComponent(schwarz, this.getSize().height / anzahl, this.getSize().width / anzahl);
 
 	}
@@ -337,12 +344,46 @@ public class Wumpus_Panel extends JPanel implements Observer {
 			System.out.println("letzteStelle:"+ wump.positioniere.letzteStelle(wahrnehmung));
 			imageArray[schwarzY][schwarzX] = welchesBild(wahrnehmung);
 		}else {
+			if(DEBUG){
+//				imageArray[schwarzY][schwarzX] = new WumpusBitmapComponent(weiss, getSize().height / anzahl, getSize().width / anzahl);
+				imageArray[schwarzY][schwarzX] = new WumpusBitmapComponent(gibMirDieWahrnehmungsName(wahrnehmung), getSize().height / anzahl, getSize().width / anzahl);
+			}else			
 			imageArray[schwarzY][schwarzX] = new WumpusBitmapComponent(schwarz, getSize().height / anzahl, getSize().width / anzahl);
+//				imageArray[schwarzY][schwarzX] = new WumpusBitmapComponent(gibMirDieWahrnehmungsName(wahrnehmung), getSize().height / anzahl, getSize().width / anzahl);	
 		}
 		add(imageArray[schwarzY][schwarzX], new GridBagConstraints(schwarzX + 1, schwarzY + 1, 1, 1, 0.1, 0.1, GridBagConstraints.SOUTH, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 		remove(imageArray[agentY][agentX]);
 		imageArray[agentY][agentX] = new WumpusBitmapComponent(agent, getSize().height / anzahl, getSize().width / anzahl);
 		add(imageArray[agentY][agentX], new GridBagConstraints(agentX + 1, agentY + 1, 1, 1, 0.1, 0.1, GridBagConstraints.SOUTH, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 		validate();
+	}
+	/**
+	 * Diese Methode bestimmt anhand der Warhenmung(Zahl) und gibt als String zurueck.
+	 * @param wahrnehmung die erste Wahrnehmung auf dem Feld
+	 * @return die erste Wahrnehmung als string.
+	 */
+	public String gibMirDieWahrnehmungsName(int wahrnehmung){
+		if(wump.positioniere.bestimmeDieErsteZahl(wahrnehmung) == 2){
+			return gold;
+		}
+		if(wump.positioniere.bestimmeDieErsteZahl(wahrnehmung) == 3){
+			return glitter;
+		}
+		if(wump.positioniere.bestimmeDieErsteZahl(wahrnehmung) == 4){
+			return wumpus2;
+		}
+		if(wump.positioniere.bestimmeDieErsteZahl(wahrnehmung) == 5){
+			return smell;
+		}
+		if(wump.positioniere.bestimmeDieErsteZahl(wahrnehmung) == 6){
+			return pit;
+		}
+		if(wump.positioniere.bestimmeDieErsteZahl(wahrnehmung) == 7){
+			return breeze;
+		}
+		if(DEBUG){
+			return weiss;
+		}else
+		return schwarz;
 	}
 }

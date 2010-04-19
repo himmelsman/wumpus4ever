@@ -1,6 +1,6 @@
 package de.wumpus.beobachter;
 
-//TODO: wissenbasis for 8x8 nicht funktioniert. d.h. falsche ausgabelol2
+
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -695,7 +695,11 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 		});
 
 	}
-
+	/**
+	 * Diese Methode faengt alle Nachrichten ab, die von WumpusWelt verschickt werden.
+	 * @param obj
+	 * @param arg Argument
+	 */
 	public void update(Observable obj, Object arg) {
 		if (((NachrichtenObjekt) arg).information == Bezeichnungen.GUI) {
 			// System.out.println("update() ist aufgeruffen, fount ist gleich "
@@ -912,9 +916,14 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 		return tempText;
 	}
 
+	/**
+	 * Diese Methode erstellt ein neues Spiel.
+	 * @param i die Grosse des Feldes.
+	 */
 	public void neuesSpiel(int i) {
 		{
-			ablaufListe2.clear();
+			wump.schickeAgentZurueck();
+			ablaufListe2.clear();			
 			schlussfolgerungsListe.clear();
 			gesamtPunktenAnzahl = 10000;
 			punkteAnzahlLabel.setText(gesamtPunktenAnzahl + "");

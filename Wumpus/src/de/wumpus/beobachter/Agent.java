@@ -58,19 +58,32 @@ public class Agent implements Observer {
 
 	public void update(Observable obj, Object arg) {
 		if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.AGENT)) {
+			if(arraymitWissenBasis!= null && arraymitWissenBasis[agentY][agentX]!=null){
+				arraymitWissenBasis[agentY][agentX].agent = false;
+			}
 			agentY = ((NachrichtenObjekt) arg).y;
 			agentX = ((NachrichtenObjekt) arg).x;
+			if(arraymitWissenBasis!= null && arraymitWissenBasis[agentY][agentX]!=null){
+				arraymitWissenBasis[agentY][agentX].agent = true;
+			}
 			verarbeiteWahrnehmung(agentY, agentX);
 			System.out.print("\n agent sendeAenderungsaufruf");
 			wump.sendeAenderungsaufruf(arraymitWissenBasis);
 		}
 		if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.NEUES_SPIEL)) {
+			if(arraymitWissenBasis!= null && arraymitWissenBasis[agentY][agentX]!=null){
+				arraymitWissenBasis[agentY][agentX].agent = false;
+			}
 			agentY = ((NachrichtenObjekt) arg).y;
 			agentX = ((NachrichtenObjekt) arg).x;
 			neuesSpiel();
+			if(arraymitWissenBasis!= null && arraymitWissenBasis[agentY][agentX]!=null){
+				arraymitWissenBasis[agentY][agentX].agent = true;
+			}
 			verarbeiteWahrnehmung(agentY, agentX);
 			System.out.print("\n neuesSpiel sendeAenderungsaufruf");
 			wump.sendeAenderungsaufruf(arraymitWissenBasis);
+			
 
 		}
 		if (((NachrichtenObjekt) arg).information.equals(Bezeichnungen.BEWEGE_AGENT)) {
@@ -387,6 +400,9 @@ public class Agent implements Observer {
 		} else if (bewegungsListe.isEmpty()) {
 			System.out.println("Bewegungsliste war leer, random wird verwendet.");
 			richtung = bestimmeDieRichtung(agentY, agentX);
+			if(arraymitWissenBasis!= null && arraymitWissenBasis[agentY][agentX]!=null){
+				arraymitWissenBasis[agentY][agentX].agent = false;
+			}
 			switch (richtung) {
 			case 1: {
 				System.out.println("Agent(" + agentY + "|" + agentX + ") versucht nach oben zu gehen");
@@ -489,6 +505,9 @@ public class Agent implements Observer {
 				break;
 			}
 			}
+		}
+		if(arraymitWissenBasis!= null && arraymitWissenBasis[agentY][agentX]!=null){
+			arraymitWissenBasis[agentY][agentX].agent = true;
 		}
 		ersteSchritt = true;
 		if (weiterMachen) {
@@ -775,26 +794,35 @@ public class Agent implements Observer {
 			}
 		} else if (geheNichtNochmal == 2) {
 			if (erstesFeldMitGeruch.y + 2 == zweitesFeldMitGeruch.y && erstesFeldMitGeruch.x == zweitesFeldMitGeruch.x) {
-				wump.sendeSchlussfolgerung("Geruch(" + (erstesFeldMitGeruch.y + 1) + "|" + (erstesFeldMitGeruch.x + 1) + "),Geruch(" + (zweitesFeldMitGeruch.y + 1) + "|" + (zweitesFeldMitGeruch.x + 1) + ") => Wumpus(" + (erstesFeldMitGeruch.y + 1 + 1) + "|" + (erstesFeldMitGeruch.x + 1) + ")");
+				// 1.Geruch() => wumpu ()()()(),2. Geruch() & 1. => Wumpus()(), 3. Besucht() & 2. => Wumpus()
+				// wump.sendeSchlussfolgerung("Geruch(" + (erstesFeldMitGeruch.y + 1) + "|" + (erstesFeldMitGeruch.x + 1) + "),Geruch(" + (zweitesFeldMitGeruch.y + 1) + "|" + (zweitesFeldMitGeruch.x + 1) + ") => Wumpus(" + (erstesFeldMitGeruch.y + 1
+				// + 1) + "|" + (erstesFeldMitGeruch.x + 1) + ")");
+				schlussfolgerungsString(erstesFeldMitGeruch, zweitesFeldMitGeruch, null);
 				return new Position(erstesFeldMitGeruch.y - 1, erstesFeldMitGeruch.x);
 			} else if (erstesFeldMitGeruch.y == zweitesFeldMitGeruch.y && erstesFeldMitGeruch.x + 2 == zweitesFeldMitGeruch.x) {
-				wump.sendeSchlussfolgerung("Geruch(" + (erstesFeldMitGeruch.y + 1) + "|" + (erstesFeldMitGeruch.x + 1) + "),Geruch(" + (zweitesFeldMitGeruch.y + 1) + "|" + (zweitesFeldMitGeruch.x + 1) + ") => Wumpus(" + (erstesFeldMitGeruch.y + 1) + "|" + (erstesFeldMitGeruch.x + 1 + 1) + ")");
+				// wump.sendeSchlussfolgerung("Geruch(" + (erstesFeldMitGeruch.y + 1) + "|" + (erstesFeldMitGeruch.x + 1) + "),Geruch(" + (zweitesFeldMitGeruch.y + 1) + "|" + (zweitesFeldMitGeruch.x + 1) + ") => Wumpus(" + (erstesFeldMitGeruch.y + 1)
+				// + "|" + (erstesFeldMitGeruch.x + 1 + 1) + ")");
+				schlussfolgerungsString(erstesFeldMitGeruch, zweitesFeldMitGeruch, null);
 				return new Position(erstesFeldMitGeruch.y, erstesFeldMitGeruch.x + 1);
 			}
 			if (erstesFeldMitGeruch.y + 1 == zweitesFeldMitGeruch.y && erstesFeldMitGeruch.x - 1 == zweitesFeldMitGeruch.x) {
 				if (arraymitWissenBasis[erstesFeldMitGeruch.y][erstesFeldMitGeruch.x - 1].besucht) {
-					wump.sendeSchlussfolgerung("Geruch(" + (erstesFeldMitGeruch.y + 1) + "|" + (erstesFeldMitGeruch.x + 1) + "),Geruch(" + (zweitesFeldMitGeruch.y + 1) + "|" + (zweitesFeldMitGeruch.x + 1) + "),Besucht(" + (erstesFeldMitGeruch.y + 1) + "|" + (erstesFeldMitGeruch.x + 1 - 1) + ") => Wumpus(" + (erstesFeldMitGeruch.y + 1 + 1) + "|" + (erstesFeldMitGeruch.x + 1) + ")");
+					//wump.sendeSchlussfolgerung("Geruch(" + (erstesFeldMitGeruch.y + 1) + "|" + (erstesFeldMitGeruch.x + 1) + "),Geruch(" + (zweitesFeldMitGeruch.y + 1) + "|" + (zweitesFeldMitGeruch.x + 1) + "),Besucht(" + (erstesFeldMitGeruch.y + 1) + "|" + (erstesFeldMitGeruch.x + 1 - 1) + ") => Wumpus(" + (erstesFeldMitGeruch.y + 1 + 1) + "|" + (erstesFeldMitGeruch.x + 1) + ")");
+					schlussfolgerungsString(erstesFeldMitGeruch, zweitesFeldMitGeruch, arraymitWissenBasis[erstesFeldMitGeruch.y][erstesFeldMitGeruch.x - 1]);
 					return new Position(erstesFeldMitGeruch.y + 1, erstesFeldMitGeruch.x);
 				} else if (arraymitWissenBasis[erstesFeldMitGeruch.y + 1][erstesFeldMitGeruch.x].besucht) {
-					wump.sendeSchlussfolgerung("Geruch(" + (erstesFeldMitGeruch.y + 1) + "|" + (erstesFeldMitGeruch.x + 1) + "),Geruch(" + (zweitesFeldMitGeruch.y + 1) + "|" + (zweitesFeldMitGeruch.x + 1) + "),Besucht(" + (erstesFeldMitGeruch.y + 1 + 1) + "|" + (erstesFeldMitGeruch.x + 1) + ") => Wumpus(" + (erstesFeldMitGeruch.y + 1) + "|" + (erstesFeldMitGeruch.x + 1 - 1) + ")");
+					//wump.sendeSchlussfolgerung("Geruch(" + (erstesFeldMitGeruch.y + 1) + "|" + (erstesFeldMitGeruch.x + 1) + "),Geruch(" + (zweitesFeldMitGeruch.y + 1) + "|" + (zweitesFeldMitGeruch.x + 1) + "),Besucht(" + (erstesFeldMitGeruch.y + 1 + 1) + "|" + (erstesFeldMitGeruch.x + 1) + ") => Wumpus(" + (erstesFeldMitGeruch.y + 1) + "|" + (erstesFeldMitGeruch.x + 1 - 1) + ")");
+					schlussfolgerungsString(erstesFeldMitGeruch, zweitesFeldMitGeruch, arraymitWissenBasis[erstesFeldMitGeruch.y + 1][erstesFeldMitGeruch.x]);
 					return new Position(erstesFeldMitGeruch.y, erstesFeldMitGeruch.x - 1);
 				}
 			} else if (erstesFeldMitGeruch.y + 1 == zweitesFeldMitGeruch.y && erstesFeldMitGeruch.x + 1 == zweitesFeldMitGeruch.x) {
 				if (arraymitWissenBasis[erstesFeldMitGeruch.y][erstesFeldMitGeruch.x + 1].besucht) {
-					wump.sendeSchlussfolgerung("Geruch(" + (erstesFeldMitGeruch.y + 1) + "|" + (erstesFeldMitGeruch.x + 1) + "),Geruch(" + (zweitesFeldMitGeruch.y + 1) + "|" + (zweitesFeldMitGeruch.x + 1) + "),Besucht(" + (erstesFeldMitGeruch.y + 1) + "|" + (erstesFeldMitGeruch.x + 1 + 1) + ") => Wumpus(" + (erstesFeldMitGeruch.y + 1 + 1) + "|" + (erstesFeldMitGeruch.x + 1) + ")");
+					//wump.sendeSchlussfolgerung("Geruch(" + (erstesFeldMitGeruch.y + 1) + "|" + (erstesFeldMitGeruch.x + 1) + "),Geruch(" + (zweitesFeldMitGeruch.y + 1) + "|" + (zweitesFeldMitGeruch.x + 1) + "),Besucht(" + (erstesFeldMitGeruch.y + 1) + "|" + (erstesFeldMitGeruch.x + 1 + 1) + ") => Wumpus(" + (erstesFeldMitGeruch.y + 1 + 1) + "|" + (erstesFeldMitGeruch.x + 1) + ")");
+					schlussfolgerungsString(erstesFeldMitGeruch, zweitesFeldMitGeruch, arraymitWissenBasis[erstesFeldMitGeruch.y][erstesFeldMitGeruch.x + 1]);
 					return new Position(erstesFeldMitGeruch.y + 1, erstesFeldMitGeruch.x);
 				} else if (arraymitWissenBasis[erstesFeldMitGeruch.y + 1][erstesFeldMitGeruch.x].besucht) {
-					wump.sendeSchlussfolgerung("Geruch(" + (erstesFeldMitGeruch.y + 1) + "|" + (erstesFeldMitGeruch.x + 1) + "),Geruch(" + (zweitesFeldMitGeruch.y + 1) + "|" + (zweitesFeldMitGeruch.x + 1) + "),Besucht(" + (erstesFeldMitGeruch.y + 1 + 1) + "|" + (erstesFeldMitGeruch.x + 1) + ") => Wumpus(" + (erstesFeldMitGeruch.y + 1) + "|" + (erstesFeldMitGeruch.x + 1 + 1) + ")");
+					//wump.sendeSchlussfolgerung("Geruch(" + (erstesFeldMitGeruch.y + 1) + "|" + (erstesFeldMitGeruch.x + 1) + "),Geruch(" + (zweitesFeldMitGeruch.y + 1) + "|" + (zweitesFeldMitGeruch.x + 1) + "),Besucht(" + (erstesFeldMitGeruch.y + 1 + 1) + "|" + (erstesFeldMitGeruch.x + 1) + ") => Wumpus(" + (erstesFeldMitGeruch.y + 1) + "|" + (erstesFeldMitGeruch.x + 1 + 1) + ")");
+					schlussfolgerungsString(erstesFeldMitGeruch, zweitesFeldMitGeruch, arraymitWissenBasis[erstesFeldMitGeruch.y + 1][erstesFeldMitGeruch.x]);
 					return new Position(erstesFeldMitGeruch.y, erstesFeldMitGeruch.x + 1);
 				}
 
@@ -827,19 +855,23 @@ public class Agent implements Observer {
 		} else if (geheNichtNochmal == 3) {
 			if (erstesFeldMitGeruch.y + 1 == drittesFeldMitGeruch.y && erstesFeldMitGeruch.x + 1 == drittesFeldMitGeruch.x) {
 				if (erstesFeldMitGeruch.y == zweitesFeldMitGeruch.y && erstesFeldMitGeruch.x + 2 == zweitesFeldMitGeruch.x) {
-					wump.sendeSchlussfolgerung("Geruch(" + (erstesFeldMitGeruch.y + 1) + "|" + (erstesFeldMitGeruch.x + 1) + "),Geruch(" + (zweitesFeldMitGeruch.y + 1) + "|" + (zweitesFeldMitGeruch.x + 1) + "),Geruch(" + (drittesFeldMitGeruch.y + 1) + "|" + (drittesFeldMitGeruch.x + 1) + ")=>Wumpus(" + (erstesFeldMitGeruch.y + 1) + "|" + (erstesFeldMitGeruch.x + 1 + 1) + ")");
+					//wump.sendeSchlussfolgerung("Geruch(" + (erstesFeldMitGeruch.y + 1) + "|" + (erstesFeldMitGeruch.x + 1) + "),Geruch(" + (zweitesFeldMitGeruch.y + 1) + "|" + (zweitesFeldMitGeruch.x + 1) + "),Geruch(" + (drittesFeldMitGeruch.y + 1) + "|" + (drittesFeldMitGeruch.x + 1) + ")=>Wumpus(" + (erstesFeldMitGeruch.y + 1) + "|" + (erstesFeldMitGeruch.x + 1 + 1) + ")");
+					schlussfolgerungsString(erstesFeldMitGeruch, zweitesFeldMitGeruch, drittesFeldMitGeruch);
 					return new Position(erstesFeldMitGeruch.y, erstesFeldMitGeruch.x + 1);
 
 				} else if (erstesFeldMitGeruch.y + 1 == zweitesFeldMitGeruch.y && erstesFeldMitGeruch.x - 1 == zweitesFeldMitGeruch.x) {
-					wump.sendeSchlussfolgerung("Geruch(" + (erstesFeldMitGeruch.y + 1) + "|" + (erstesFeldMitGeruch.x + 1) + "),Geruch(" + (zweitesFeldMitGeruch.y + 1) + "|" + (zweitesFeldMitGeruch.x + 1) + "),Geruch(" + (drittesFeldMitGeruch.y + 1) + "|" + (drittesFeldMitGeruch.x + 1) + ")=>Wumpus(" + (erstesFeldMitGeruch.y + 1 + 1) + "|" + (erstesFeldMitGeruch.x + 1) + ")");
+					//wump.sendeSchlussfolgerung("Geruch(" + (erstesFeldMitGeruch.y + 1) + "|" + (erstesFeldMitGeruch.x + 1) + "),Geruch(" + (zweitesFeldMitGeruch.y + 1) + "|" + (zweitesFeldMitGeruch.x + 1) + "),Geruch(" + (drittesFeldMitGeruch.y + 1) + "|" + (drittesFeldMitGeruch.x + 1) + ")=>Wumpus(" + (erstesFeldMitGeruch.y + 1 + 1) + "|" + (erstesFeldMitGeruch.x + 1) + ")");
+					schlussfolgerungsString(erstesFeldMitGeruch, zweitesFeldMitGeruch, drittesFeldMitGeruch);
 					return new Position(erstesFeldMitGeruch.y + 1, erstesFeldMitGeruch.x);
 				}
 			} else if (erstesFeldMitGeruch.y + 2 == drittesFeldMitGeruch.y && erstesFeldMitGeruch.x == drittesFeldMitGeruch.x) {
 				if (erstesFeldMitGeruch.y + 1 == zweitesFeldMitGeruch.y && erstesFeldMitGeruch.x - 1 == zweitesFeldMitGeruch.x) {
-					wump.sendeSchlussfolgerung("Geruch(" + (erstesFeldMitGeruch.y + 1) + "|" + (erstesFeldMitGeruch.x + 1) + "),Geruch(" + (zweitesFeldMitGeruch.y + 1) + "|" + (zweitesFeldMitGeruch.x + 1) + "),Geruch(" + (drittesFeldMitGeruch.y + 1) + "|" + (drittesFeldMitGeruch.x + 1) + ")=>Wumpus(" + (erstesFeldMitGeruch.y + 1 + 1) + "|" + (erstesFeldMitGeruch.x + 1) + ")");
+					//wump.sendeSchlussfolgerung("Geruch(" + (erstesFeldMitGeruch.y + 1) + "|" + (erstesFeldMitGeruch.x + 1) + "),Geruch(" + (zweitesFeldMitGeruch.y + 1) + "|" + (zweitesFeldMitGeruch.x + 1) + "),Geruch(" + (drittesFeldMitGeruch.y + 1) + "|" + (drittesFeldMitGeruch.x + 1) + ")=>Wumpus(" + (erstesFeldMitGeruch.y + 1 + 1) + "|" + (erstesFeldMitGeruch.x + 1) + ")");
+					schlussfolgerungsString(erstesFeldMitGeruch, zweitesFeldMitGeruch, drittesFeldMitGeruch);
 					return new Position(erstesFeldMitGeruch.y + 1, erstesFeldMitGeruch.x);
 				} else if (erstesFeldMitGeruch.y + 1 == zweitesFeldMitGeruch.y && erstesFeldMitGeruch.x + 1 == zweitesFeldMitGeruch.x) {
-					wump.sendeSchlussfolgerung("Geruch(" + (erstesFeldMitGeruch.y + 1) + "|" + (erstesFeldMitGeruch.x + 1) + "),Geruch(" + (zweitesFeldMitGeruch.y + 1) + "|" + (zweitesFeldMitGeruch.x + 1) + "),Geruch(" + (drittesFeldMitGeruch.y + 1) + "|" + (drittesFeldMitGeruch.x + 1) + ")=>Wumpus(" + (erstesFeldMitGeruch.y + 1 + 1) + "|" + (erstesFeldMitGeruch.x + 1) + ")");
+					//wump.sendeSchlussfolgerung("Geruch(" + (erstesFeldMitGeruch.y + 1) + "|" + (erstesFeldMitGeruch.x + 1) + "),Geruch(" + (zweitesFeldMitGeruch.y + 1) + "|" + (zweitesFeldMitGeruch.x + 1) + "),Geruch(" + (drittesFeldMitGeruch.y + 1) + "|" + (drittesFeldMitGeruch.x + 1) + ")=>Wumpus(" + (erstesFeldMitGeruch.y + 1 + 1) + "|" + (erstesFeldMitGeruch.x + 1) + ")");
+					schlussfolgerungsString(erstesFeldMitGeruch, zweitesFeldMitGeruch, drittesFeldMitGeruch);
 					return new Position(erstesFeldMitGeruch.y + 1, erstesFeldMitGeruch.x);
 				}
 			}
@@ -1005,26 +1037,32 @@ public class Agent implements Observer {
 		// } else
 		if (geheNichtNochmal == 2) {
 			if (erstesFeldMitGlitter.y + 2 == zweitesFeldMitGlitter.y && erstesFeldMitGlitter.x == zweitesFeldMitGlitter.x) {
-				wump.sendeSchlussfolgerung("Glitter(" + (erstesFeldMitGlitter.y + 1) + "|" + (erstesFeldMitGlitter.x + 1) + "),Glitter(" + (zweitesFeldMitGlitter.y + 1) + "|" + (zweitesFeldMitGlitter.x + 1) + ") => Gold(" + (erstesFeldMitGlitter.y - 1 + 1) + "|" + (erstesFeldMitGlitter.x + 1 + 1) + ")");
+//				wump.sendeSchlussfolgerung("Glitter(" + (erstesFeldMitGlitter.y + 1) + "|" + (erstesFeldMitGlitter.x + 1) + "),Glitter(" + (zweitesFeldMitGlitter.y + 1) + "|" + (zweitesFeldMitGlitter.x + 1) + ") => Gold(" + (erstesFeldMitGlitter.y - 1 + 1) + "|" + (erstesFeldMitGlitter.x + 1 + 1) + ")");
+				schlussfolgerungsString(erstesFeldMitGlitter, zweitesFeldMitGlitter, null);
 				return new Position(erstesFeldMitGlitter.y - 1, erstesFeldMitGlitter.x);
 			} else if (erstesFeldMitGlitter.y == zweitesFeldMitGlitter.y && erstesFeldMitGlitter.x + 2 == zweitesFeldMitGlitter.x) {
-				wump.sendeSchlussfolgerung("Glitter(" + (erstesFeldMitGlitter.y + 1) + "|" + (erstesFeldMitGlitter.x + 1) + "),Glitter(" + (zweitesFeldMitGlitter.y + 1) + "|" + (zweitesFeldMitGlitter.x + 1) + ") => Gold(" + (erstesFeldMitGlitter.y + 1) + "|" + (erstesFeldMitGlitter.x + 1 + 1) + ")");
+//				wump.sendeSchlussfolgerung("Glitter(" + (erstesFeldMitGlitter.y + 1) + "|" + (erstesFeldMitGlitter.x + 1) + "),Glitter(" + (zweitesFeldMitGlitter.y + 1) + "|" + (zweitesFeldMitGlitter.x + 1) + ") => Gold(" + (erstesFeldMitGlitter.y + 1) + "|" + (erstesFeldMitGlitter.x + 1 + 1) + ")");
+				schlussfolgerungsString(erstesFeldMitGlitter, zweitesFeldMitGlitter, null);
 				return new Position(erstesFeldMitGlitter.y, erstesFeldMitGlitter.x + 1);
 			}
 			if (erstesFeldMitGlitter.y + 1 == zweitesFeldMitGlitter.y && erstesFeldMitGlitter.x - 1 == zweitesFeldMitGlitter.x) {
 				if (arraymitWissenBasis[erstesFeldMitGlitter.y][erstesFeldMitGlitter.x - 1].besucht) {
-					wump.sendeSchlussfolgerung("Glitter(" + (erstesFeldMitGlitter.y + 1) + "|" + (erstesFeldMitGlitter.x + 1) + "),Glitter(" + (zweitesFeldMitGlitter.y + 1) + "|" + (zweitesFeldMitGlitter.x + 1) + "),Besucht(" + (erstesFeldMitGlitter.y + 1) + "|" + (erstesFeldMitGlitter.x - 1 + 1) + ") => Gold(" + (erstesFeldMitGlitter.y + 1 + 1) + "|" + (erstesFeldMitGlitter.x + 1) + ")");
+//					wump.sendeSchlussfolgerung("Glitter(" + (erstesFeldMitGlitter.y + 1) + "|" + (erstesFeldMitGlitter.x + 1) + "),Glitter(" + (zweitesFeldMitGlitter.y + 1) + "|" + (zweitesFeldMitGlitter.x + 1) + "),Besucht(" + (erstesFeldMitGlitter.y + 1) + "|" + (erstesFeldMitGlitter.x - 1 + 1) + ") => Gold(" + (erstesFeldMitGlitter.y + 1 + 1) + "|" + (erstesFeldMitGlitter.x + 1) + ")");
+					schlussfolgerungsString(erstesFeldMitGlitter, zweitesFeldMitGlitter, arraymitWissenBasis[erstesFeldMitGlitter.y][erstesFeldMitGlitter.x - 1]);
 					return new Position(erstesFeldMitGlitter.y + 1, erstesFeldMitGlitter.x);
 				} else if (arraymitWissenBasis[erstesFeldMitGlitter.y + 1][erstesFeldMitGlitter.x].besucht) {
-					wump.sendeSchlussfolgerung("Glitter(" + (erstesFeldMitGlitter.y + 1) + "|" + (erstesFeldMitGlitter.x + 1) + "),Glitter(" + (zweitesFeldMitGlitter.y + 1) + "|" + (zweitesFeldMitGlitter.x + 1) + "),Besucht(" + (erstesFeldMitGlitter.y + 1 + 1) + "|" + (erstesFeldMitGlitter.x + 1) + ") => Gold(" + (erstesFeldMitGlitter.y + 1) + "|" + (erstesFeldMitGlitter.x - 1 + 1) + ")");
+//					wump.sendeSchlussfolgerung("Glitter(" + (erstesFeldMitGlitter.y + 1) + "|" + (erstesFeldMitGlitter.x + 1) + "),Glitter(" + (zweitesFeldMitGlitter.y + 1) + "|" + (zweitesFeldMitGlitter.x + 1) + "),Besucht(" + (erstesFeldMitGlitter.y + 1 + 1) + "|" + (erstesFeldMitGlitter.x + 1) + ") => Gold(" + (erstesFeldMitGlitter.y + 1) + "|" + (erstesFeldMitGlitter.x - 1 + 1) + ")");
+					schlussfolgerungsString(erstesFeldMitGlitter, zweitesFeldMitGlitter, arraymitWissenBasis[erstesFeldMitGlitter.y + 1][erstesFeldMitGlitter.x]);
 					return new Position(erstesFeldMitGlitter.y, erstesFeldMitGlitter.x - 1);
 				}
 			} else if (erstesFeldMitGlitter.y + 1 == zweitesFeldMitGlitter.y && erstesFeldMitGlitter.x + 1 == zweitesFeldMitGlitter.x) {
 				if (arraymitWissenBasis[erstesFeldMitGlitter.y][erstesFeldMitGlitter.x + 1].besucht) {
-					wump.sendeSchlussfolgerung("Glitter(" + (erstesFeldMitGlitter.y + 1) + "|" + (erstesFeldMitGlitter.x + 1) + "),Glitter(" + (zweitesFeldMitGlitter.y + 1) + "|" + (zweitesFeldMitGlitter.x + 1) + "),Besucht(" + (erstesFeldMitGlitter.y + 1) + "|" + (erstesFeldMitGlitter.x + 1 + 1) + ") => Gold(" + (erstesFeldMitGlitter.y + 1 + 1) + "|" + (erstesFeldMitGlitter.x + 1) + ")");
+//					wump.sendeSchlussfolgerung("Glitter(" + (erstesFeldMitGlitter.y + 1) + "|" + (erstesFeldMitGlitter.x + 1) + "),Glitter(" + (zweitesFeldMitGlitter.y + 1) + "|" + (zweitesFeldMitGlitter.x + 1) + "),Besucht(" + (erstesFeldMitGlitter.y + 1) + "|" + (erstesFeldMitGlitter.x + 1 + 1) + ") => Gold(" + (erstesFeldMitGlitter.y + 1 + 1) + "|" + (erstesFeldMitGlitter.x + 1) + ")");
+					schlussfolgerungsString(erstesFeldMitGlitter, zweitesFeldMitGlitter, arraymitWissenBasis[erstesFeldMitGlitter.y][erstesFeldMitGlitter.x + 1]);
 					return new Position(erstesFeldMitGlitter.y + 1, erstesFeldMitGlitter.x);
 				} else if (arraymitWissenBasis[erstesFeldMitGlitter.y + 1][erstesFeldMitGlitter.x].besucht) {
-					wump.sendeSchlussfolgerung("Glitter(" + (erstesFeldMitGlitter.y + 1) + "|" + (erstesFeldMitGlitter.x + 1) + "),Glitter(" + (zweitesFeldMitGlitter.y + 1) + "|" + (zweitesFeldMitGlitter.x + 1) + "),Besucht(" + (erstesFeldMitGlitter.y + 1 + 1) + "|" + (erstesFeldMitGlitter.x + 1) + ") => Gold(" + (erstesFeldMitGlitter.y + 1) + "|" + (erstesFeldMitGlitter.x + 1 + 1) + ")");
+//					wump.sendeSchlussfolgerung("Glitter(" + (erstesFeldMitGlitter.y + 1) + "|" + (erstesFeldMitGlitter.x + 1) + "),Glitter(" + (zweitesFeldMitGlitter.y + 1) + "|" + (zweitesFeldMitGlitter.x + 1) + "),Besucht(" + (erstesFeldMitGlitter.y + 1 + 1) + "|" + (erstesFeldMitGlitter.x + 1) + ") => Gold(" + (erstesFeldMitGlitter.y + 1) + "|" + (erstesFeldMitGlitter.x + 1 + 1) + ")");
+					schlussfolgerungsString(erstesFeldMitGlitter, zweitesFeldMitGlitter, arraymitWissenBasis[erstesFeldMitGlitter.y + 1][erstesFeldMitGlitter.x]);
 					return new Position(erstesFeldMitGlitter.y, erstesFeldMitGlitter.x + 1);
 				}
 			}
@@ -1051,18 +1089,22 @@ public class Agent implements Observer {
 		} else if (geheNichtNochmal == 3) {
 			if (erstesFeldMitGlitter.y + 1 == drittesFeldMitGlitter.y && erstesFeldMitGlitter.x + 1 == drittesFeldMitGlitter.x) {
 				if (erstesFeldMitGlitter.y == zweitesFeldMitGlitter.y && erstesFeldMitGlitter.x + 2 == zweitesFeldMitGlitter.x) {
-					wump.sendeSchlussfolgerung("Glitter(" + (erstesFeldMitGlitter.y + 1) + "|" + (erstesFeldMitGlitter.x + 1) + "),Glitter(" + (zweitesFeldMitGlitter.y + 1) + "|" + (zweitesFeldMitGlitter.x + 1) + "),Glitter(" + (drittesFeldMitGlitter.y + 1) + "|" + (drittesFeldMitGlitter.x + 1) + ")=>Gold(" + (erstesFeldMitGlitter.y + 1) + "|" + (erstesFeldMitGlitter.x + 1 + 1) + ")");
+//					wump.sendeSchlussfolgerung("Glitter(" + (erstesFeldMitGlitter.y + 1) + "|" + (erstesFeldMitGlitter.x + 1) + "),Glitter(" + (zweitesFeldMitGlitter.y + 1) + "|" + (zweitesFeldMitGlitter.x + 1) + "),Glitter(" + (drittesFeldMitGlitter.y + 1) + "|" + (drittesFeldMitGlitter.x + 1) + ")=>Gold(" + (erstesFeldMitGlitter.y + 1) + "|" + (erstesFeldMitGlitter.x + 1 + 1) + ")");
+					schlussfolgerungsString(erstesFeldMitGlitter, zweitesFeldMitGlitter, drittesFeldMitGlitter);
 					return new Position(erstesFeldMitGlitter.y, erstesFeldMitGlitter.x + 1);
 				} else if (erstesFeldMitGlitter.y + 1 == zweitesFeldMitGlitter.y && erstesFeldMitGlitter.x - 1 == zweitesFeldMitGlitter.x) {
-					wump.sendeSchlussfolgerung("Glitter(" + (erstesFeldMitGlitter.y + 1) + "|" + (erstesFeldMitGlitter.x + 1) + "),Glitter(" + (zweitesFeldMitGlitter.y + 1) + "|" + (zweitesFeldMitGlitter.x + 1) + "),Glitter(" + (drittesFeldMitGlitter.y + 1) + "|" + (drittesFeldMitGlitter.x + 1) + ")=>Gold(" + (erstesFeldMitGlitter.y + 1 + 1) + "|" + (erstesFeldMitGlitter.x + 1) + ")");
+//					wump.sendeSchlussfolgerung("Glitter(" + (erstesFeldMitGlitter.y + 1) + "|" + (erstesFeldMitGlitter.x + 1) + "),Glitter(" + (zweitesFeldMitGlitter.y + 1) + "|" + (zweitesFeldMitGlitter.x + 1) + "),Glitter(" + (drittesFeldMitGlitter.y + 1) + "|" + (drittesFeldMitGlitter.x + 1) + ")=>Gold(" + (erstesFeldMitGlitter.y + 1 + 1) + "|" + (erstesFeldMitGlitter.x + 1) + ")");
+					schlussfolgerungsString(erstesFeldMitGlitter, zweitesFeldMitGlitter, drittesFeldMitGlitter);
 					return new Position(erstesFeldMitGlitter.y + 1, erstesFeldMitGlitter.x);
 				}
 			} else if (erstesFeldMitGlitter.y + 2 == drittesFeldMitGlitter.y && erstesFeldMitGlitter.x == drittesFeldMitGlitter.x) {
 				if (erstesFeldMitGlitter.y + 1 == zweitesFeldMitGlitter.y && erstesFeldMitGlitter.x - 1 == zweitesFeldMitGlitter.x) {
-					wump.sendeSchlussfolgerung("Glitter(" + (erstesFeldMitGlitter.y + 1) + "|" + (erstesFeldMitGlitter.x + 1) + "),Glitter(" + (zweitesFeldMitGlitter.y + 1) + "|" + (zweitesFeldMitGlitter.x + 1) + "),Glitter(" + (drittesFeldMitGlitter.y + 1) + "|" + (drittesFeldMitGlitter.x + 1) + ")=>Gold(" + (erstesFeldMitGlitter.y + 1 + 1) + "|" + (erstesFeldMitGlitter.x + 1) + ")");
+//					wump.sendeSchlussfolgerung("Glitter(" + (erstesFeldMitGlitter.y + 1) + "|" + (erstesFeldMitGlitter.x + 1) + "),Glitter(" + (zweitesFeldMitGlitter.y + 1) + "|" + (zweitesFeldMitGlitter.x + 1) + "),Glitter(" + (drittesFeldMitGlitter.y + 1) + "|" + (drittesFeldMitGlitter.x + 1) + ")=>Gold(" + (erstesFeldMitGlitter.y + 1 + 1) + "|" + (erstesFeldMitGlitter.x + 1) + ")");
+					schlussfolgerungsString(erstesFeldMitGlitter, zweitesFeldMitGlitter, drittesFeldMitGlitter);
 					return new Position(erstesFeldMitGlitter.y + 1, erstesFeldMitGlitter.x);
 				} else if (erstesFeldMitGlitter.y + 1 == zweitesFeldMitGlitter.y && erstesFeldMitGlitter.x + 1 == zweitesFeldMitGlitter.x) {
-					wump.sendeSchlussfolgerung("Glitter(" + (erstesFeldMitGlitter.y + 1) + "|" + (erstesFeldMitGlitter.x + 1) + "),Glitter(" + (zweitesFeldMitGlitter.y + 1) + "|" + (zweitesFeldMitGlitter.x + 1) + "),Glitter(" + (drittesFeldMitGlitter.y + 1) + "|" + (drittesFeldMitGlitter.x + 1) + ")=>Gold(" + (erstesFeldMitGlitter.y + 1 + 1) + "|" + (erstesFeldMitGlitter.x + 1) + ")");
+//					wump.sendeSchlussfolgerung("Glitter(" + (erstesFeldMitGlitter.y + 1) + "|" + (erstesFeldMitGlitter.x + 1) + "),Glitter(" + (zweitesFeldMitGlitter.y + 1) + "|" + (zweitesFeldMitGlitter.x + 1) + "),Glitter(" + (drittesFeldMitGlitter.y + 1) + "|" + (drittesFeldMitGlitter.x + 1) + ")=>Gold(" + (erstesFeldMitGlitter.y + 1 + 1) + "|" + (erstesFeldMitGlitter.x + 1) + ")");
+					schlussfolgerungsString(erstesFeldMitGlitter, zweitesFeldMitGlitter, drittesFeldMitGlitter);
 					return new Position(erstesFeldMitGlitter.y + 1, erstesFeldMitGlitter.x);
 				}
 			}
@@ -1700,5 +1742,213 @@ public class Agent implements Observer {
 	 */
 	private void sendeSpeichern(String temp) {
 		wump.speichereBewegung(temp, arraymitWissenBasis, wump.weltArray);
+	}
+
+	private void schlussfolgerungsString(Feld erstesFeld, Feld zweitesFeld, Feld drittesFeld) {
+		/* ZweiFelder [G][W][G] */
+		if (drittesFeld == null && erstesFeld != null && zweitesFeld != null) {
+			if (erstesFeld.geruch && zweitesFeld.geruch) {
+				String tmp = "1. Geruch(" + (erstesFeld.y+1) + "|" + (erstesFeld.x+1) + ") => ";
+				/* Oben */
+				if (ichBinNichtAuserhalb(erstesFeld.y - 1, erstesFeld.x)) {
+					tmp += "Wumpus(" + (erstesFeld.y - 1+1) + "|" + (erstesFeld.x+1) + ") ";
+				}
+				/* Unten */
+				if (ichBinNichtAuserhalb(erstesFeld.y + 1, erstesFeld.x)) {
+					tmp += "Wumpus(" + (erstesFeld.y + 1+1) + "|" + (erstesFeld.x+1) + ") ";
+				}
+				/* Links */
+				if (ichBinNichtAuserhalb(erstesFeld.y, erstesFeld.x - 1)) {
+					tmp += "Wumpus(" + (erstesFeld.y+1) + "|" + (erstesFeld.x - 1+1) + ") ";
+				}
+				/* Rechts */
+				if (ichBinNichtAuserhalb(erstesFeld.y, erstesFeld.x + 1)) {
+					tmp += "Wumpus(" + (erstesFeld.y+1) + "|" + (erstesFeld.x + 1+1) + ")";
+				}
+				if (erstesFeld.y + 2 == zweitesFeld.y && erstesFeld.x == zweitesFeld.x) {
+					tmp += "\n2. Geruch(" + (zweitesFeld.y+1) + "|" + (zweitesFeld.x+1) + ") && 1. => Wumpus(" + (erstesFeld.y + 1+1) + "|" + (erstesFeld.x+1) + ")";
+				} else if (erstesFeld.y == zweitesFeld.y && erstesFeld.x + 2 == zweitesFeld.x) {
+					tmp += "\n2. Geruch(" + (zweitesFeld.y+1) + "|" + (zweitesFeld.x+1) + ") && 1. => Wumpus(" + (erstesFeld.y+1) + "|" + (erstesFeld.x + 1+1) + ")";
+				}
+				wump.sendeSchlussfolgerung(tmp);
+			} else if (erstesFeld.glitter && zweitesFeld.glitter) {
+				String tmp = "1. Glitter(" + (erstesFeld.y+1) + "|" + (erstesFeld.x+1) + ") => ";
+				/* Oben */
+				if (ichBinNichtAuserhalb(erstesFeld.y - 1, erstesFeld.x)) {
+					tmp += "Gold(" + (erstesFeld.y - 1+1) + "|" + (erstesFeld.x+1) + ") ";
+				}
+				/* Unten */
+				if (ichBinNichtAuserhalb(erstesFeld.y + 1, erstesFeld.x)) {
+					tmp += "Gold(" + (erstesFeld.y + 1+1) + "|" + (erstesFeld.x+1) + ") ";
+				}
+				/* Links */
+				if (ichBinNichtAuserhalb(erstesFeld.y, erstesFeld.x - 1)) {
+					tmp += "Gold(" + (erstesFeld.y+1) + "|" + (erstesFeld.x - 1+1) + ") ";
+				}
+				/* Rechts */
+				if (ichBinNichtAuserhalb(erstesFeld.y, erstesFeld.x + 1)) {
+					tmp += "Gold(" + (erstesFeld.y+1) + "|" + (erstesFeld.x + 1+1) + ")";
+				}
+				if (erstesFeld.y + 2 == zweitesFeld.y && erstesFeld.x == zweitesFeld.x) {
+					tmp += "\n2. Glitter(" + (zweitesFeld.y+1) + "|" + (zweitesFeld.x+1) + ") && 1. => Gold(" + (erstesFeld.y + 1+1) + "|" + (erstesFeld.x+1) + ")";
+				} else if (erstesFeld.y == zweitesFeld.y && erstesFeld.x + 2 == zweitesFeld.x) {
+					tmp += "\n2. Glitter(" + (zweitesFeld.y+1) + "|" + (zweitesFeld.x+1) + ") && 1. => Gold(" + (erstesFeld.y+1) + "|" + (erstesFeld.x + 1+1) + ")";
+				}
+				wump.sendeSchlussfolgerung(tmp);
+			}
+		}/*
+		 * DreiFelder 
+		 * 1.[B][G]
+		 * 2.[G][W]
+		 */
+		else if (erstesFeld != null && zweitesFeld != null && drittesFeld != null) {
+			if (erstesFeld.geruch && zweitesFeld.geruch && !drittesFeld.geruch) {
+				String tmp = "1. Geruch(" + (erstesFeld.y+1) + "|" + (erstesFeld.x+1) + ") => ";
+				/* Oben */
+				if (ichBinNichtAuserhalb(erstesFeld.y - 1, erstesFeld.x)) {
+					tmp += "Wumpus(" + (erstesFeld.y - 1+1) + "|" + (erstesFeld.x+1) + ") ";
+				}
+				/* Unten */
+				if (ichBinNichtAuserhalb(erstesFeld.y + 1, erstesFeld.x)) {
+					tmp += "Wumpus(" + (erstesFeld.y + 1+1) + "|" + (erstesFeld.x+1) + ") ";
+				}
+				/* Links */
+				if (ichBinNichtAuserhalb(erstesFeld.y, erstesFeld.x - 1)) {
+					tmp += "Wumpus(" + (erstesFeld.y+1) + "|" + (erstesFeld.x - 1+1) + ") ";
+				}
+				/* Rechts */
+				if (ichBinNichtAuserhalb(erstesFeld.y, erstesFeld.x + 1)) {
+					tmp += "Wumpus(" + (erstesFeld.y+1) + "|" + (erstesFeld.x + 1+1) + ")";
+				}
+				 if (erstesFeld.y + 1 == zweitesFeld.y && erstesFeld.x - 1 == zweitesFeld.x) {
+					if ((erstesFeld.y) == drittesFeld.y && (erstesFeld.x - 1) == drittesFeld.x) {
+						tmp += "\n2. Geruch(" + (zweitesFeld.y+1) + "|" + (zweitesFeld.x+1) + ") && 1. => Wumpus(" + (erstesFeld.y+1) + "|" + (erstesFeld.x -1+1) + ") Wumpus (" + (erstesFeld.y + 1+1) + "|" + (erstesFeld.x+1) + ")";
+						tmp += "\n3. Besucht(" + (drittesFeld.y+1) + "|" + (drittesFeld.x+1) + ") && 2. => Wumpus(" + (erstesFeld.y + 1+1) + "|" + (erstesFeld.x+1) + ")";
+					} else if ((erstesFeld.y + 1) == drittesFeld.y && (erstesFeld.x) == drittesFeld.x) {
+						tmp += "\n2. Geruch(" + (zweitesFeld.y+1) + "|" + (zweitesFeld.x+1) + ") && 1. => Wumpus(" + (erstesFeld.y+1) + "|" + (erstesFeld.x -1+1) + ") Wumpus (" + (erstesFeld.y + 1+1) + "|" + (erstesFeld.x+1) + ")";
+						tmp += "\n3. Besucht(" + (drittesFeld.y+1) + "|" + (drittesFeld.x+1) + ") && 2. => Wumpus(" + (erstesFeld.y+1) + "|" + (erstesFeld.x -1+1) + ")";
+					}
+				}else if (erstesFeld.y + 1 == zweitesFeld.y && erstesFeld.x + 1 == zweitesFeld.x) {
+					if ((erstesFeld.y) == drittesFeld.y && (erstesFeld.x + 1) == drittesFeld.x) {
+						tmp += "\n2. Geruch(" + (zweitesFeld.y+1) + "|" + (zweitesFeld.x+1) + ") && 1. => Wumpus(" + (erstesFeld.y +1+1) + "|" + (erstesFeld.x+1) + ") Wumpus (" + (erstesFeld.y+1) + "|" + (erstesFeld.x +1+1) + ")";
+						tmp += "\n3. Besucht(" + (drittesFeld.y+1) + "|" + (drittesFeld.x+1) + ") && 2. => Wumpus(" + (erstesFeld.y + 1+1) + "|" + (erstesFeld.x+1) + ")";
+					} else if ((erstesFeld.y- 1) == drittesFeld.y && (erstesFeld.x ) == drittesFeld.x) {
+						tmp += "\n2. Geruch(" + (zweitesFeld.y+1) + "|" + (zweitesFeld.x+1) + ") && 1. => Wumpus(" + (erstesFeld.y +1+1) + "|" + (erstesFeld.x+1) + ") Wumpus (" + (erstesFeld.y+1) + "|" + (erstesFeld.x +1+1) + ")";
+						tmp += "\n3. Besucht(" + (drittesFeld.y+1) + "|" + (drittesFeld.x+1) + ") && 2. => Wumpus(" + (erstesFeld.y+1) + "|" + (erstesFeld.x+1+1) + ")";
+					}
+
+				}
+				wump.sendeSchlussfolgerung(tmp);
+			} else if (erstesFeld.glitter && zweitesFeld.glitter && !drittesFeld.glitter) {
+				String tmp = "1. Glitter(" + (erstesFeld.y+1) + "|" + (erstesFeld.x+1) + ") => ";
+				/* Oben */
+				if (ichBinNichtAuserhalb(erstesFeld.y - 1, erstesFeld.x)) {
+					tmp += "Gold(" + (erstesFeld.y - 1+1) + "|" + (erstesFeld.x+1) + ") ";
+				}
+				/* Unten */
+				if (ichBinNichtAuserhalb(erstesFeld.y + 1, erstesFeld.x)) {
+					tmp += "Gold(" + (erstesFeld.y + 1+1) + "|" + (erstesFeld.x+1) + ") ";
+				}
+				/* Links */
+				if (ichBinNichtAuserhalb(erstesFeld.y, erstesFeld.x - 1)) {
+					tmp += "Gold(" + (erstesFeld.y+1) + "|" + (erstesFeld.x - 1+1) + ") ";
+				}
+				/* Rechts */
+				if (ichBinNichtAuserhalb(erstesFeld.y, erstesFeld.x + 1)) {
+					tmp += "Gold(" + (erstesFeld.y+1) + "|" + (erstesFeld.x + 1+1) + ")";
+				}
+				 if (erstesFeld.y + 1 == zweitesFeld.y && erstesFeld.x - 1 == zweitesFeld.x) {
+						if ((erstesFeld.y) == drittesFeld.y && (erstesFeld.x - 1) == drittesFeld.x) {
+							tmp += "\n2. Glitter(" + (zweitesFeld.y+1) + "|" + (zweitesFeld.x+1) + ") && 1. => Gold(" + (erstesFeld.y+1) + "|" + (erstesFeld.x -1+1) + ") Gold (" + (erstesFeld.y + 1+1) + "|" + (erstesFeld.x+1) + ")";
+							tmp += "\n3. Besucht(" + (drittesFeld.y+1) + "|" + (drittesFeld.x+1) + ") && 2. => Gold(" + (erstesFeld.y + 1+1) + "|" + (erstesFeld.x+1) + ")";
+						} else if ((erstesFeld.y + 1) == drittesFeld.y && (erstesFeld.x) == drittesFeld.x) {
+							tmp += "\n2. Glitter(" + (zweitesFeld.y+1) + "|" + (zweitesFeld.x+1) + ") && 1. => Gold(" + (erstesFeld.y+1) + "|" + (erstesFeld.x -1+1) + ") Gold (" + (erstesFeld.y + 1+1) + "|" + (erstesFeld.x+1) + ")";
+							tmp += "\n3. Besucht(" + (drittesFeld.y+1) + "|" + (drittesFeld.x+1) + ") && 2. => Gold(" + (erstesFeld.y+1) + "|" + (erstesFeld.x -1+1) + ")";
+						}
+					}else if (erstesFeld.y + 1 == zweitesFeld.y && erstesFeld.x + 1 == zweitesFeld.x) {
+						if ((erstesFeld.y) == drittesFeld.y && (erstesFeld.x + 1) == drittesFeld.x) {
+							tmp += "\n2. Glitter(" + (zweitesFeld.y+1) + "|" + (zweitesFeld.x+1) + ") && 1. => Gold(" + (erstesFeld.y +1+1) + "|" + (erstesFeld.x+1) + ") Gold (" + (erstesFeld.y+1) + "|" + (erstesFeld.x +1+1) + ")";
+							tmp += "\n3. Besucht(" + (drittesFeld.y+1) + "|" + (drittesFeld.x+1) + ") && 2. => Gold(" + (erstesFeld.y + 1+1) + "|" + (erstesFeld.x+1) + ")";
+						} else if ((erstesFeld.y- 1) == drittesFeld.y && (erstesFeld.x ) == drittesFeld.x) {
+							tmp += "\n2. Glitter(" + (zweitesFeld.y+1) + "|" + (zweitesFeld.x+1) + ") && 1. => Gold(" + (erstesFeld.y +1+1) + "|" + (erstesFeld.x+1) + ") Gold (" + (erstesFeld.y+1) + "|" + (erstesFeld.x +1+1) + ")";
+							tmp += "\n3. Besucht(" + (drittesFeld.y+1) + "|" + (drittesFeld.x+1) + ") && 2. => Gold(" + (erstesFeld.y+1) + "|" + (erstesFeld.x+1+1) + ")";
+						}
+
+					}
+				wump.sendeSchlussfolgerung(tmp);
+			}
+		}else if(erstesFeld != null && zweitesFeld != null && drittesFeld != null){
+			if(erstesFeld.geruch && zweitesFeld.geruch && drittesFeld.geruch){
+				String tmp = "1. Geruch(" + (erstesFeld.y+1) + "|" + (erstesFeld.x+1) + ") => ";
+				/* Oben */
+				if (ichBinNichtAuserhalb(erstesFeld.y - 1, erstesFeld.x)) {
+					tmp += "Wumpus(" + (erstesFeld.y - 1+1) + "|" + (erstesFeld.x+1) + ") ";
+				}
+				/* Unten */
+				if (ichBinNichtAuserhalb(erstesFeld.y + 1, erstesFeld.x)) {
+					tmp += "Wumpus(" + (erstesFeld.y + 1+1) + "|" + (erstesFeld.x+1) + ") ";
+				}
+				/* Links */
+				if (ichBinNichtAuserhalb(erstesFeld.y, erstesFeld.x - 1)) {
+					tmp += "Wumpus(" + (erstesFeld.y+1) + "|" + (erstesFeld.x - 1+1) + ") ";
+				}
+				/* Rechts */
+				if (ichBinNichtAuserhalb(erstesFeld.y, erstesFeld.x + 1)) {
+					tmp += "Wumpus(" + (erstesFeld.y+1) + "|" + (erstesFeld.x + 1+1) + ")";
+				}
+				if (erstesFeld.y + 1 == drittesFeld.y && erstesFeld.x + 1 == drittesFeld.x) {
+					if (erstesFeld.y == zweitesFeld.y && erstesFeld.x + 2 == zweitesFeld.x) {
+						tmp += "\n2. Geruch(" + (zweitesFeld.y+1) + "|" + (zweitesFeld.x+1) + ") && 1. => Wumpus(" + (erstesFeld.y+1) + "|" + (erstesFeld.x + 1+1) + ")";
+					} else if (erstesFeld.y + 1 == zweitesFeld.y && erstesFeld.x - 1 == zweitesFeld.x) {
+						tmp += "\n2. Geruch(" + (zweitesFeld.y+1) + "|" + (zweitesFeld.x+1) + ") && 1. => Wumpus(" + (erstesFeld.y +1+1) + "|" + (erstesFeld.x+1) + ") Wumpus (" + (erstesFeld.y+1) + "|" + (erstesFeld.x -1+1) + ")";
+						tmp += "\n3. Geruch(" + (drittesFeld.y+1) + "|" + (drittesFeld.x+1) + ") && 2. => Wumpus(" + (erstesFeld.y +1+1) + "|" + (erstesFeld.x+1) + ")";
+					}
+				} else if (erstesFeld.y + 2 == drittesFeld.y && erstesFeld.x == drittesFeld.x) {
+					if (erstesFeld.y + 1 == zweitesFeld.y && erstesFeld.x - 1 == zweitesFeld.x) {
+						tmp += "\n2. Geruch(" + (zweitesFeld.y+1) + "|" + (zweitesFeld.x+1) + ") && 1. => Wumpus(" + (erstesFeld.y +1+1) + "|" + (erstesFeld.x+1) + ") Wumpus (" + (erstesFeld.y+1) + "|" + (erstesFeld.x -1+1) + ")";
+						tmp += "\n3. Geruch(" + (drittesFeld.y+1) + "|" + (drittesFeld.x+1) + ") && 2. => Wumpus(" + (erstesFeld.y +1+1) + "|" + (erstesFeld.x+1) + ")";
+					} else if (erstesFeld.y + 1 == zweitesFeld.y && erstesFeld.x + 1 == zweitesFeld.x) {
+						tmp += "\n2. Geruch(" + (zweitesFeld.y+1) + "|" + (zweitesFeld.x+1) + ") && 1. => Wumpus(" + (erstesFeld.y +1+1) + "|" + (erstesFeld.x+1) + ") Wumpus (" + (erstesFeld.y+1) + "|" + (erstesFeld.x +1+1) + ")";
+						tmp += "\n3. Geruch(" + (drittesFeld.y+1) + "|" + (drittesFeld.x+1) + ") && 2. => Wumpus(" + (erstesFeld.y +1+1) + "|" + (erstesFeld.x+1) + ")";
+					}
+				}
+				wump.sendeSchlussfolgerung(tmp);
+			}else if (erstesFeld.glitter && zweitesFeld.glitter && drittesFeld.glitter){
+				String tmp = "1. Glitter(" + (erstesFeld.y+1) + "|" + (erstesFeld.x+1) + ") => ";
+				/* Oben */
+				if (ichBinNichtAuserhalb(erstesFeld.y - 1, erstesFeld.x)) {
+					tmp += "Gold(" + (erstesFeld.y - 1+1) + "|" + (erstesFeld.x+1) + ") ";
+				}
+				/* Unten */
+				if (ichBinNichtAuserhalb(erstesFeld.y + 1, erstesFeld.x)) {
+					tmp += "Gold(" + (erstesFeld.y + 1+1) + "|" + (erstesFeld.x+1) + ") ";
+				}
+				/* Links */
+				if (ichBinNichtAuserhalb(erstesFeld.y, erstesFeld.x - 1)) {
+					tmp += "Gold(" + (erstesFeld.y+1) + "|" + (erstesFeld.x - 1+1) + ") ";
+				}
+				/* Rechts */
+				if (ichBinNichtAuserhalb(erstesFeld.y, erstesFeld.x + 1)) {
+					tmp += "Gold(" + (erstesFeld.y+1) + "|" + (erstesFeld.x + 1+1) + ")";
+				}
+				if (erstesFeld.y + 1 == drittesFeld.y && erstesFeld.x + 1 == drittesFeld.x) {
+					if (erstesFeld.y == zweitesFeld.y && erstesFeld.x + 2 == zweitesFeld.x) {
+						tmp += "\n2. Glitter(" + (zweitesFeld.y+1) + "|" + (zweitesFeld.x+1) + ") && 1. => Gold(" + (erstesFeld.y+1) + "|" + (erstesFeld.x + 1+1) + ")";
+					} else if (erstesFeld.y + 1 == zweitesFeld.y && erstesFeld.x - 1 == zweitesFeld.x) {
+						tmp += "\n2. Glitter(" + (zweitesFeld.y+1) + "|" + (zweitesFeld.x+1) + ") && 1. => Gold(" + (erstesFeld.y +1+1) + "|" + (erstesFeld.x+1) + ") Gold (" + (erstesFeld.y+1) + "|" + (erstesFeld.x -1+1) + ")";
+						tmp += "\n3. Glitter(" + (drittesFeld.y+1) + "|" + (drittesFeld.x+1) + ") && 2. => Gold(" + (erstesFeld.y +1+1) + "|" + (erstesFeld.x+1) + ")";
+					}
+				} else if (erstesFeld.y + 2 == drittesFeld.y && erstesFeld.x == drittesFeld.x) {
+					if (erstesFeld.y + 1 == zweitesFeld.y && erstesFeld.x - 1 == zweitesFeld.x) {
+						tmp += "\n2. Glitter(" + (zweitesFeld.y +1) + "|" + (zweitesFeld.x +1) + ") && 1. => Gold(" + (erstesFeld.y +1 +1) + "|" + (erstesFeld.x +1) + ") Gold (" + (erstesFeld.y +1) + "|" + (erstesFeld.x +1 -1) + ")";
+						tmp += "\n3. Glitter(" + (drittesFeld.y +1) + "|" + (drittesFeld.x +1) + ") && 2. => Gold(" + (erstesFeld.y +1 +1) + "|" + (erstesFeld.x +1) + ")";
+					} else if (erstesFeld.y + 1 == zweitesFeld.y && erstesFeld.x + 1 == zweitesFeld.x) {
+						tmp += "\n2. Glitter(" + (zweitesFeld.y + 1) + "|" + (zweitesFeld.x + 1) + ") && 1. => Gold(" + (erstesFeld.y + 1 +1) + "|" + (erstesFeld.x + 1) + ") Gold (" + (erstesFeld.y + 1) + "|" + (erstesFeld.x + 1 +1) + ")";
+						tmp += "\n3. Glitter(" + (drittesFeld.y + 1) + "|" + (drittesFeld.x + 1) + ") && 2. => Gold(" + (erstesFeld.y + 1 +1) + "|" + (erstesFeld.x + 1) + ")";
+					}
+				}
+				wump.sendeSchlussfolgerung(tmp);
+			}
+		}
 	}
 }
