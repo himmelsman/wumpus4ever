@@ -17,7 +17,6 @@ public class WumpusBitmapComponent extends Canvas {
 	private int imageWidth;
 	private int imageHeight;
 	private String fileName;
-	private URL imageURL;
 	/**
 	 * Der Konstruktor lädt ein Image <b>fName</b> und skalliert dieses dann auf <b>height</b> und <b>width</b>.
 	 * 
@@ -30,8 +29,8 @@ public class WumpusBitmapComponent extends Canvas {
 		imageHeight = height;
 		imageWidth = width;
 		//TODO: Abfrage ob aus Jar oder nicht
-		imageURL = ClassLoader.getSystemResource(fname);
-//		img = getToolkit().getImage(imageURL);
+//		img = getToolkit().getImage(ClassLoader.getSystemResource(fname));
+		
 		img = getToolkit().getImage(fname);
 		MediaTracker mt = new MediaTracker(this);
 		mt.addImage(img, 0);
@@ -66,7 +65,7 @@ public class WumpusBitmapComponent extends Canvas {
 			imageWidth = width;
 			imageHeight = height;
 			//TODO: Abfrage ob aus Jar oder nicht
-//			img = getToolkit().getImage(imageURL);
+//			img = getToolkit().getImage(ClassLoader.getSystemResource(fileName));
 			img = getToolkit().getImage(fileName);
 			MediaTracker mt = new MediaTracker(this);
 			mt.addImage(img, 0);

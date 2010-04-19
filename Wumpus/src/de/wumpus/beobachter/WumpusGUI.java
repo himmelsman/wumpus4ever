@@ -190,7 +190,7 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 					/* WDA */
 					wissensbasis = new WDA(wump.anzahl);
 					getContentPane().add(wissensbasis, new GridBagConstraints(3, 3, 2, 3, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
-					wissensbasis.setBorder(BorderFactory.createTitledBorder("Wissenbasis des Agentes"));
+					wissensbasis.setBorder(BorderFactory.createTitledBorder("Wissenbasis des Agenten"));
 					wissensbasis.setPreferredSize(new java.awt.Dimension(100, 1));
 					// jPanel1.setLayout(jPanel1Layout);
 					// jPanel1.setBorder(BorderFactory.createTitledBorder("Wissenbasis des Agentes"));
@@ -929,6 +929,7 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 			punkteAnzahlLabel.setText(gesamtPunktenAnzahl + "");
 			agentSchrittZahler = 0;
 			schritteAnzahlLabel.setText(agentSchrittZahler + "");
+			jCheckBox1.setEnabled(true);
 			pfeil = true;
 			wump.leereListe();
 		}
