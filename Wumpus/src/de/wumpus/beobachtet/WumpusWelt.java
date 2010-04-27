@@ -331,10 +331,10 @@ public class WumpusWelt extends Observable {
 		notifyObservers(new NachrichtenObjekt(0, 0, new int[] { temp }, Bezeichnungen.SPEICHERN));
 	}
 
-	public void agetSagt(int y, int x) {
-		setChanged();
-		notifyObservers(new NachrichtenObjekt(y, x, new int[] {}, Bezeichnungen.ICH_WEISS_WO_IST_WUMPUS));
-	}
+//	public void agetSagt(int y, int x) {
+//		setChanged();
+//		notifyObservers(new NachrichtenObjekt(y, x, new int[] {}, Bezeichnungen.ICH_WEISS_WO_IST_WUMPUS));
+//	}
 
 	public void sendeSchlussfolgerung(String text) {
 		setChanged();

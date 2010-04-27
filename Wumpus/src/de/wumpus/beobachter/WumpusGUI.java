@@ -626,28 +626,16 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 				// Abfrage der Tastaturpfeile zur Verwendung des Pfeiles
 				if (arg0.getKeyCode() == KeyEvent.VK_LEFT && shiftPressed && pfeil) {
 					System.out.println("Pfeil + Left");
-					wump.bewegeAgent(Bezeichnungen.BENUTZE_PFEIL + " " + Bezeichnungen.LINKS);
-					jCheckBox1.setSelected(false);
-					jCheckBox1.setEnabled(false);
-					pfeil = false;
+					benutzePfeil(Bezeichnungen.BENUTZE_PFEIL + " " + Bezeichnungen.LINKS);
 				} else if (arg0.getKeyCode() == KeyEvent.VK_RIGHT && shiftPressed && pfeil) {
 					System.out.println("Pfeil + Right");
-					wump.bewegeAgent(Bezeichnungen.BENUTZE_PFEIL + " " + Bezeichnungen.RECHTS);
-					jCheckBox1.setSelected(false);
-					jCheckBox1.setEnabled(false);
-					pfeil = false;
+					benutzePfeil(Bezeichnungen.BENUTZE_PFEIL + " " + Bezeichnungen.RECHTS);
 				} else if (arg0.getKeyCode() == KeyEvent.VK_UP && shiftPressed && pfeil) {
 					System.out.println("Pfeil + Up");
-					wump.bewegeAgent(Bezeichnungen.BENUTZE_PFEIL + " " + Bezeichnungen.UP);
-					jCheckBox1.setSelected(false);
-					jCheckBox1.setEnabled(false);
-					pfeil = false;
+					benutzePfeil(Bezeichnungen.BENUTZE_PFEIL + " " + Bezeichnungen.UP);
 				} else if (arg0.getKeyCode() == KeyEvent.VK_DOWN && shiftPressed && pfeil) {
 					System.out.println("Pfeil + Down");
-					wump.bewegeAgent(Bezeichnungen.BENUTZE_PFEIL + " " + Bezeichnungen.DOWN);
-					jCheckBox1.setSelected(false);
-					jCheckBox1.setEnabled(false);
-					pfeil = false;
+					benutzePfeil(Bezeichnungen.BENUTZE_PFEIL + " " + Bezeichnungen.DOWN);
 				} else {
 					// TODO: Ausgabe Fenster wenn kein Pfeil mehr verwendbar
 				}
@@ -1006,7 +994,12 @@ public class WumpusGUI extends JFrame implements Observer, ActionListener {
 			wissensbasisTextArea.setText(temp);
 		}
 	}
-
+	private void benutzePfeil(String _wahrnehmung){
+		jCheckBox1.setSelected(false);
+		jCheckBox1.setEnabled(false);
+		pfeil = false;
+		wump.bewegeAgent(_wahrnehmung);
+	}
 }
 // TODO: Ablauf muss am anfang die Position des Agentes zeigen.
 // TODO: Die Listener fertig und funktionierend machen. Focus Listerner auf GUI ist vorhanden

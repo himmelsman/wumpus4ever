@@ -115,18 +115,22 @@ public class Agent implements Observer {
 			}
 			case 5: {
 				sendeSpeichern(Bezeichnungen.BENUTZE_PFEIL + " " + Bezeichnungen.UP);
+				pfeil = false;
 				break;
 			}
 			case 6: {
 				sendeSpeichern(Bezeichnungen.BENUTZE_PFEIL + " " + Bezeichnungen.DOWN);
+				pfeil = false;
 				break;
 			}
 			case 7: {
 				sendeSpeichern(Bezeichnungen.BENUTZE_PFEIL + " " + Bezeichnungen.LINKS);
+				pfeil = false;
 				break;
 			}
 			case 8: {
 				sendeSpeichern(Bezeichnungen.BENUTZE_PFEIL + " " + Bezeichnungen.RECHTS);
+				pfeil = false;
 				break;
 			}
 			}
@@ -1520,7 +1524,7 @@ public class Agent implements Observer {
 		}
 		/* Suche wumpus zu toten */
 		System.out.println("3 ziely, zielx " + zielY + " " + zielX);
-		if (zielY == -1 && zielX == -1) {
+		if (zielY == -1 && zielX == -1 && pfeil) {
 			// wump.sendeSchlussfolgerung("Der Agent konnte kein sicheres Feld finden und versucht nun seinen wertvollen Pfeil sicher in die atomare Hülle vom Wumpus zu versenken.");
 			Position woIstWumpus = istWumpusDa();
 			if (woIstWumpus == null) {
@@ -1546,6 +1550,8 @@ public class Agent implements Observer {
 		}
 		/* wenn agent nicht weiss, wohin er gehen muss */
 		System.out.println("4 ziely, zielx " + zielY + " " + zielX);
+		//TODO: Richtiges Random einbauen.
+		//TODO: Abfragen ob ein weiteres Feld vlt besonders gefährlich ist.
 		if (zielY == -1 && zielX == -1) {
 			double zielentfernung = 0;
 			for (int y = 0; y < anzahl; y++) {
